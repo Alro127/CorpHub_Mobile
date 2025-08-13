@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ticket_helpdesk/ui/core/widgets/ticket_item.dart';
 import 'package:ticket_helpdesk/ui/home_page/widgets/dashboard_stats.dart';
 
 class HomePage extends StatefulWidget {
@@ -86,11 +87,13 @@ class _HomePageState extends State<HomePage> {
           Padding(
             padding: EdgeInsetsGeometry.all(16.0),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   'Recent tickets',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
+                TicketItem(),
               ],
             ),
           ),
