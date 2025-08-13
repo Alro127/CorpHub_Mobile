@@ -5,11 +5,12 @@ class DashboardStats extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Wrap(
-        spacing: 8,
-        runSpacing: 8,
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        maxHeight: MediaQuery.of(context).size.height * 0.08,
+      ),
+      child: ListView(
+        scrollDirection: Axis.horizontal,
         children: [
           _buildStatCard(
             Icon(Icons.bar_chart, color: Colors.blue),
@@ -42,24 +43,27 @@ class DashboardStats extends StatelessWidget {
 
   Widget _buildStatCard(Icon icon, String title, String count, Color color) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      width: 120,
+      margin: EdgeInsets.symmetric(horizontal: 4),
+      padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(12),
+        color: color.withAlpha(10),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(color: color, width: 1),
       ),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Row(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               icon,
               const SizedBox(width: 4),
               Text(
-                title,
+                count,
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 20,
                   fontWeight: FontWeight.bold,
                   color: color,
                 ),
@@ -68,9 +72,9 @@ class DashboardStats extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           Text(
-            count,
+            title,
             style: TextStyle(
-              fontSize: 20,
+              fontSize: 16,
               fontWeight: FontWeight.bold,
               color: color,
             ),
