@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ticket_helpdesk/ui/add_new_ticket/widgets/add_new_ticket.dart';
 import 'package:ticket_helpdesk/ui/core/widgets/ticket_item.dart';
 import 'package:ticket_helpdesk/ui/home_page/widgets/dashboard_stats.dart';
 import 'package:ticket_helpdesk/domain/models/ticket.dart';
@@ -83,7 +84,12 @@ class _HomePageState extends State<HomePage> {
             ListTile(
               leading: const Icon(Icons.add),
               title: const Text('New ticket'),
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AddNewTicket()),
+                );
+              },
             ),
             ListTile(
               leading: const Icon(Icons.list),
