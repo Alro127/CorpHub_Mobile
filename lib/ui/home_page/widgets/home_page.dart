@@ -139,9 +139,15 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
               )
-          ),
+          )
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddNewTicket()));
+        },
+        child: Icon(Icons.add),
+      )
     );
   }
 
