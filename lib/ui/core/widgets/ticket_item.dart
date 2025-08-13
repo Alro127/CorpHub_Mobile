@@ -1,17 +1,48 @@
 import 'package:flutter/material.dart';
-
+import 'package:ticket_helpdesk/domain/models/ticket.dart';
 
 class TicketItem extends StatefulWidget {
-  const TicketItem ({super.key});
+  final Ticket ticket;
+  const TicketItem({
+    super.key,
+    required this.ticket,
+  });
 
   @override
   State<TicketItem> createState() => _State();
 }
 
 class _State extends State<TicketItem> {
+
+  Color getStatusColor() {
+    switch (widget.ticket.status.toLowerCase()) {
+      case "high":
+        return Colors.red;
+      case "medium":
+        return Colors.orange;
+      case "low":
+        return Colors.green;
+      default:
+        return Colors.grey;
+    }
+  }
+
+  Color getPriorityColor() {
+    switch (widget.ticket.priority.toLowerCase()) {
+      case "high":
+        return Colors.red;
+      case "medium":
+        return Colors.orange;
+      case "low":
+        return Colors.green;
+      default:
+        return Colors.grey;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const Card(
+    return Card(
       elevation: 4,
       margin: const EdgeInsets.symmetric(
         vertical: 8,
@@ -30,7 +61,7 @@ class _State extends State<TicketItem> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Mã ticket",
+                  widget.ticket.ticketId,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16
@@ -40,18 +71,18 @@ class _State extends State<TicketItem> {
                   children: [
                     Chip(
                       label: Text("Trạng thái"),
-                      backgroundColor: Colors.greenAccent,
+                      backgroundColor: getStatusColor().withAlpha(20),
                       labelStyle: TextStyle(
-                        color: Colors.green
+                        color: getStatusColor()
                       ),
                     ),
                     SizedBox(width: 6,),
                     Chip(
                       label: Text("Độ ưu tiên"),
-                      backgroundColor: Colors.grey,
+                      backgroundColor: getPriorityColor().withAlpha(20),
                       labelStyle:
                       TextStyle(
-                          color: Colors.white,
+                          color: getPriorityColor(),
                           fontSize: 12),
                     )
                   ],
@@ -61,7 +92,7 @@ class _State extends State<TicketItem> {
             const SizedBox(height: 6),
             const Divider(),
             Text(
-              "Tiêu đề",
+              widget.ticket.title,
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w500
@@ -70,52 +101,55 @@ class _State extends State<TicketItem> {
             const Divider(),
             // Thời gian
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  children: [
-                    Icon(
-                        Icons.calendar_month,
-                      color: Colors.blue,
-                    ),
-                    const SizedBox(width: 6,),
-                    Text(
-                      "Thời gian tạo",
-                      style: const TextStyle(
-                          fontSize: 12,
-                      ),
-                    ),
-                  ],
+                Icon(
+                  Icons.calendar_month,
+                  color: Colors.blue,
                 ),
-                Row(
-                  children: [
-                    Icon(
-                        Icons.hourglass_bottom,
-                      color: Colors.yellow,
-                    ),
-                    const SizedBox(width: 6,),
-                    Text(
-                        "Thời gian còn lại",
-                        style: const TextStyle(
-                            fontSize: 12,
-                        )
-                    )
-                  ],
+                const SizedBox(width: 6,),
+                Text(
+                  "Thời gian tạo: " + widget.ticket.createdDate,
+                  style: const TextStyle(
+                    fontSize: 12,
+                  ),
                 ),
-
               ],
             ),
-            const SizedBox(height: 6),
+            Row(
+              children: [
+                Icon(
+                  Icons.hourglass_bottom,
+                  color: Colors.yellow,
+                ),
+                const SizedBox(width: 6,),
+                Text(
+                    "Thời gian còn lại: " + widget.ticket.deadline,
+                    style: const TextStyle(
+                      fontSize: 12,
+                    )
+                )
+              ],
+            ),
             Row(
               children: [
                 Icon(Icons.person),
-                Text("Người yêu cầu")
+                Text(
+                  "Người yêu cầu: " + widget.ticket.requester,
+                  style: const TextStyle(
+                    fontSize: 12,
+                  )
+                )
               ],
             ),
             Row(
               children: [
                 Icon(Icons.engineering),
-                Text("Kỹ thuật viên")
+                Text(
+                  "Kỹ thuật viên: " + widget.ticket.technician,
+                  style: const TextStyle(
+                    fontSize: 12,
+                  )
+                )
               ],
             ),
             const Divider(),
