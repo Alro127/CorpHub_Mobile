@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ticket_helpdesk/ui/add_new_ticket/widgets/basic_dropdown_field.dart';
 import 'package:ticket_helpdesk/ui/add_new_ticket/widgets/basic_input.dart';
+import 'package:ticket_helpdesk/ui/core/widgets/head_bar.dart';
+import 'package:ticket_helpdesk/ui/core/widgets/side_bar.dart';
 
 class AddNewTicket extends StatefulWidget {
   const AddNewTicket({super.key});
@@ -18,19 +20,8 @@ class _AddNewTicketState extends State<AddNewTicket> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Add new ticket',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-        ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () {
-            Navigator.pop(context); // quay về màn hình trước
-          },
-        ),
-        backgroundColor: Colors.blueAccent,
-      ),
+      appBar: HeadBar(title: 'Add new ticket'),
+      drawer: SideBar(),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
