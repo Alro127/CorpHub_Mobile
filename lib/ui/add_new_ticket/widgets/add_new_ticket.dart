@@ -26,7 +26,7 @@ class _AddNewTicketState extends State<AddNewTicket> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
-            Navigator.pop(context); // quay về màn hình trước
+            Navigator.pop(context);
           },
         ),
         backgroundColor: Colors.blueAccent,
