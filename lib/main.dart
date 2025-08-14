@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ticket_helpdesk/ui/add_new_ticket/widgets/add_new_ticket.dart';
 import 'package:ticket_helpdesk/ui/home_page/widgets/home_page.dart';
 
 void main() {
