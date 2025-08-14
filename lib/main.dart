@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:ticket_helpdesk/ui/add_new_ticket/widgets/add_new_ticket.dart';
 import 'package:ticket_helpdesk/ui/home_page/widgets/home_page.dart';
+import 'package:ticket_helpdesk/ui/login/login_page.dart';
+import 'package:ticket_helpdesk/ui/signup/signup_page.dart';
 
 void main() {
   runApp(const MyApp());
