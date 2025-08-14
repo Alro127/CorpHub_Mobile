@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:ticket_helpdesk/ui/core/widgets/basic_dropdown_field.dart';
 import 'package:ticket_helpdesk/ui/core/widgets/basic_input.dart';
 import 'package:ticket_helpdesk/ui/core/widgets/datetime_input.dart';
+import 'package:ticket_helpdesk/ui/core/widgets/head_bar.dart';
+import 'package:ticket_helpdesk/ui/core/widgets/side_bar.dart';
 
 class AddNewTicket extends StatefulWidget {
   const AddNewTicket({super.key});
