@@ -3,16 +3,20 @@ import 'package:ticket_helpdesk/ui/core/helpers/basic_input_decoration.dart';
 
 class BasicInput extends StatelessWidget {
   final String hintText;
-  final IconData? icon;
+  final IconData? prefixIcon;
+  final IconData? suffixIcon;
   final int linesNumber;
   final TextEditingController controller;
+  final bool? obscureText;
 
   const BasicInput({
     super.key,
     required this.hintText,
-    this.icon,
+    this.prefixIcon,
+    this.suffixIcon,
     required this.linesNumber,
     required this.controller,
+    this.obscureText,
   });
 
   @override
@@ -20,9 +24,11 @@ class BasicInput extends StatelessWidget {
     return TextField(
       maxLines: linesNumber,
       controller: controller,
+      obscureText: obscureText ?? false,
       decoration: BasicInputDecorations.build(
         label: hintText,
-        icon: icon,
+        prefixIcon: prefixIcon,
+        suffixIcon: suffixIcon,
         multiline: linesNumber > 1,
       ),
     );

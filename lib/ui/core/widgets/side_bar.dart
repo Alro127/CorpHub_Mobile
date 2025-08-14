@@ -4,9 +4,7 @@ import 'package:ticket_helpdesk/ui/attendance/widgets/attendance_page.dart';
 import 'package:ticket_helpdesk/ui/home_page/widgets/home_page.dart';
 
 class SideBar extends StatelessWidget {
-  const SideBar({
-    super.key,
-  });
+  const SideBar({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -42,16 +40,6 @@ class SideBar extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => AttendancePage()),
-              );
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.add),
-            title: const Text('New ticket'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => AddNewTicket()),
               );
             },
           ),

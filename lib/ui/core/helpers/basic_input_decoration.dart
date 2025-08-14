@@ -3,14 +3,20 @@ import 'package:flutter/material.dart';
 class BasicInputDecorations {
   static InputDecoration build({
     required String label,
-    IconData? icon,
+    IconData? prefixIcon,
+    IconData? suffixIcon,
     bool multiline = false,
   }) {
     return InputDecoration(
-      prefixIcon: icon != null ? Icon(icon, color: Colors.grey[700]) : null,
+      prefixIcon: prefixIcon != null
+          ? Icon(prefixIcon, color: Colors.grey[700])
+          : null,
+
+      suffixIcon: suffixIcon != null
+          ? Icon(suffixIcon, color: Colors.grey[700])
+          : null,
       alignLabelWithHint: multiline,
       labelText: label,
-      labelStyle: const TextStyle(fontWeight: FontWeight.bold),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
         borderSide: const BorderSide(color: Colors.grey, width: 1),

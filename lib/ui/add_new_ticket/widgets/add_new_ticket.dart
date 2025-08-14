@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:ticket_helpdesk/ui/core/widgets/basic_dropdown_field.dart';
 import 'package:ticket_helpdesk/ui/core/widgets/basic_input.dart';
 import 'package:ticket_helpdesk/ui/core/widgets/datetime_input.dart';
-import 'package:ticket_helpdesk/ui/core/widgets/head_bar.dart';
-import 'package:ticket_helpdesk/ui/core/widgets/side_bar.dart';
 
 class AddNewTicket extends StatefulWidget {
   const AddNewTicket({super.key});
@@ -46,7 +44,7 @@ class _AddNewTicketState extends State<AddNewTicket> {
             children: [
               BasicInput(
                 hintText: "Ticket's name",
-                icon: Icons.title_outlined,
+                prefixIcon: Icons.title_outlined,
                 linesNumber: 1,
                 controller: _titleController,
               ),
