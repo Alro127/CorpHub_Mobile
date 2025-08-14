@@ -121,7 +121,9 @@ class _AddNewTicketState extends State<AddNewTicket> {
                   const SizedBox(width: 8),
                   Expanded(
                     child: OutlinedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
                       style: OutlinedButton.styleFrom(
                         side: const BorderSide(color: Colors.blueAccent),
                       ),

@@ -16,8 +16,8 @@ class _HomePageState extends State<HomePage> {
     Ticket(
       ticketId: "TCK-001",
       title: "Lỗi không thể kết nối VPN",
-      status: "In Progress",
-      priority: "High",
+      status: 1,
+      priority: 0,
       requester: "Nguyễn Văn A",
       technician: "Trần Thị B",
       createdDate: "12/08/2025",
@@ -27,8 +27,8 @@ class _HomePageState extends State<HomePage> {
     Ticket(
       ticketId: "TCK-002",
       title: "Máy in không hoạt động",
-      status: "New",
-      priority: "Medium",
+      status: 1,
+      priority: 2,
       requester: "Lê Văn C",
       technician: "Nguyễn Văn D",
       createdDate: "12/08/2025",
@@ -139,9 +139,18 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
               )
-          ),
+          )
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddNewTicket()));
+        },
+        child: Icon(Icons.add),
+        backgroundColor: Colors.blueAccent,
+        foregroundColor: Colors.white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadiusGeometry.all(Radius.circular(50))),
+      )
     );
   }
 

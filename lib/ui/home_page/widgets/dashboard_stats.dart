@@ -6,7 +6,9 @@ class DashboardStats extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
-      constraints: BoxConstraints(maxHeight: 80),
+      constraints: BoxConstraints(
+        maxHeight: 80,
+      ),
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: [

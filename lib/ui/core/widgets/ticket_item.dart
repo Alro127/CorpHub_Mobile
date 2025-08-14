@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ticket_helpdesk/const/constants.dart';
 import 'package:ticket_helpdesk/domain/models/ticket.dart';
 
 class TicketItem extends StatefulWidget {
@@ -15,28 +16,28 @@ class TicketItem extends StatefulWidget {
 class _State extends State<TicketItem> {
 
   Color getStatusColor() {
-    switch (widget.ticket.status.toLowerCase()) {
-      case "high":
-        return Colors.red;
-      case "medium":
+    switch (widget.ticket.status) {
+      case 1:
         return Colors.orange;
-      case "low":
+      case 2:
         return Colors.green;
+      case 3:
+        return Colors.red;
       default:
-        return Colors.grey;
+        return Colors.blue;
     }
   }
 
   Color getPriorityColor() {
-    switch (widget.ticket.priority.toLowerCase()) {
-      case "high":
+    switch (widget.ticket.priority) {
+      case 0:
         return Colors.red;
-      case "medium":
+      case 1:
         return Colors.orange;
-      case "low":
+      case 3:
         return Colors.green;
       default:
-        return Colors.grey;
+        return Colors.amber;
     }
   }
 
@@ -70,7 +71,7 @@ class _State extends State<TicketItem> {
                 Row(
                   children: [
                     Chip(
-                      label: Text("Trạng thái"),
+                      label: Text(ticketStatuses[widget.ticket.status]),
                       backgroundColor: getStatusColor().withAlpha(20),
                       labelStyle: TextStyle(
                         color: getStatusColor()
@@ -78,7 +79,7 @@ class _State extends State<TicketItem> {
                     ),
                     SizedBox(width: 6,),
                     Chip(
-                      label: Text("Độ ưu tiên"),
+                      label: Text(ticketPriorities[widget.ticket.priority]),
                       backgroundColor: getPriorityColor().withAlpha(20),
                       labelStyle:
                       TextStyle(

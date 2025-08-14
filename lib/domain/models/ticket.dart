@@ -1,8 +1,8 @@
 class Ticket {
   String ticketId;
   String title;
-  String status;
-  String priority;
+  int status;
+  int priority;
   String requester;
   String technician;
   String createdDate;
