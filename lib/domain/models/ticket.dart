@@ -1,5 +1,5 @@
 class Ticket {
-  final int ticketId;
+  final int? ticketId;
   final String title;
   final String description;
   final String priority;
@@ -12,7 +12,7 @@ class Ticket {
   final String updatedAt;
 
   Ticket({
-    required this.ticketId,
+    this.ticketId,
     required this.title,
     required this.description,
     required this.priority,
@@ -39,5 +39,21 @@ class Ticket {
       createdAt: json['created_at'],
       updatedAt: json['updated_at'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'ticket_id': ticketId,
+      'title': title,
+      'description': description,
+      'priority': priority,
+      'status': status,
+      'category_id': categoryId,
+      'requester_id': requesterId,
+      'assigned_to': assignedTo,
+      'resolved_at': resolvedAt,
+      'created_at': createdAt,
+      'updated_at': updatedAt,
+    };
   }
 }

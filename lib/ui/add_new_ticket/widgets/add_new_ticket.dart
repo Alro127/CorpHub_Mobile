@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:ticket_helpdesk/data/models/ticket_api.dart';
+import 'package:ticket_helpdesk/domain/models/ticket.dart';
 import 'package:ticket_helpdesk/ui/core/widgets/basic_dropdown_field.dart';
 import 'package:ticket_helpdesk/ui/core/widgets/basic_input.dart';
 import 'package:ticket_helpdesk/ui/core/widgets/datetime_input.dart';
@@ -14,11 +16,40 @@ class _AddNewTicketState extends State<AddNewTicket> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _dateTimeController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
-  late int _priority = 0;
-  late int _status = 0;
-  late String _category = "Software";
+  late String _priority = 'low';
+  late String _status = 'open';
+  late int _category = 0;
   late String _ticket_type = "Request";
   late int _assigned_to = 0;
+  late final DateTime _deadline = DateTime.now();
+
+  Future<void> _saveTicket() async {
+    final ticket = Ticket(
+      ticketId: null,
+      title: _titleController.text,
+      description: _descriptionController.text,
+      priority: _priority,
+      status: _status,
+      categoryId: _category,
+      requesterId: 1,
+      assignedTo: _assigned_to,
+      resolvedAt: null,
+      createdAt: DateTime.now().toIso8601String(),
+      updatedAt: DateTime.now().toIso8601String(),
+    );
+
+    bool success = await createTicket(ticket);
+    if (success) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Created ticket successfully!')));
+      Navigator.pop(context);
+    } else {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Error creating ticket')));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,14 +88,8 @@ class _AddNewTicketState extends State<AddNewTicket> {
                       icon: Icons.category,
                       value: _category,
                       items: const [
-                        DropdownMenuItem(
-                          value: "Hardware",
-                          child: Text("Hardware"),
-                        ),
-                        DropdownMenuItem(
-                          value: "Software",
-                          child: Text("Software"),
-                        ),
+                        DropdownMenuItem(value: 0, child: Text("Hardware")),
+                        DropdownMenuItem(value: 1, child: Text("Software")),
                       ],
                       onChanged: (value) {
                         setState(() {
@@ -80,10 +105,16 @@ class _AddNewTicketState extends State<AddNewTicket> {
                       icon: Icons.bar_chart,
                       value: _priority,
                       items: const [
-                        DropdownMenuItem(value: 0, child: Text("Extreme")),
-                        DropdownMenuItem(value: 1, child: Text("High")),
-                        DropdownMenuItem(value: 2, child: Text("Mediate")),
-                        DropdownMenuItem(value: 3, child: Text("Low")),
+                        DropdownMenuItem(
+                          value: "urgent",
+                          child: Text("Urgent"),
+                        ),
+                        DropdownMenuItem(value: "high", child: Text("High")),
+                        DropdownMenuItem(
+                          value: "medium",
+                          child: Text("Medium"),
+                        ),
+                        DropdownMenuItem(value: "low", child: Text("Low")),
                       ],
                       onChanged: (value) {
                         setState(() {
@@ -127,10 +158,19 @@ class _AddNewTicketState extends State<AddNewTicket> {
                       icon: Icons.circle,
                       value: _status,
                       items: const [
-                        DropdownMenuItem(value: 0, child: Text("To do")),
-                        DropdownMenuItem(value: 1, child: Text("Processing")),
-                        DropdownMenuItem(value: 2, child: Text("Completed")),
-                        DropdownMenuItem(value: 3, child: Text("Outdated")),
+                        DropdownMenuItem(value: 'open', child: Text("Open")),
+                        DropdownMenuItem(
+                          value: 'in_progress',
+                          child: Text("In progress"),
+                        ),
+                        DropdownMenuItem(
+                          value: 'closed',
+                          child: Text("Closed"),
+                        ),
+                        DropdownMenuItem(
+                          value: 'resolved',
+                          child: Text("Resolved"),
+                        ),
                       ],
                       onChanged: (value) {
                         setState(() {
@@ -165,7 +205,7 @@ class _AddNewTicketState extends State<AddNewTicket> {
                 controller: _dateTimeController,
                 onDateTimeChanged: (dateTime) {
                   if (dateTime != null) {
-                    print("DateTime thực: $dateTime"); // xử lý logic ở đây
+                    // xử lý logic ở đây
                   }
                 },
               ),
@@ -180,7 +220,7 @@ class _AddNewTicketState extends State<AddNewTicket> {
                 children: [
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: _saveTicket,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blueAccent,
                         foregroundColor: Colors.white,
