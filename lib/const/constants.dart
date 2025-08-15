@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 const List<String> ticketStatuses = [
   'To do',
   'Processing',
@@ -7,9 +5,4 @@ const List<String> ticketStatuses = [
   'Outdated',
 ];
 
-const List<String> ticketPriorities = [
-  'Extreme',
-  'High',
-  'Medium',
-  'Low',
-];
+const List<String> ticketPriorities = ['Extreme', 'High', 'Medium', 'Low'];
