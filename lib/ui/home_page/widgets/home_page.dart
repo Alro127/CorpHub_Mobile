@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ticket_helpdesk/data/models/ticket_api.dart';
 import 'package:ticket_helpdesk/ui/add_new_ticket/widgets/add_new_ticket.dart';
 import 'package:ticket_helpdesk/ui/core/widgets/head_bar.dart';
 import 'package:ticket_helpdesk/ui/core/widgets/side_bar.dart';
@@ -14,34 +15,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final List<Ticket> tickets = [
-    Ticket(
-      ticketId: "TCK-001",
-      title: "Lỗi không thể kết nối VPN",
-      status: 1,
-      priority: 0,
-      type: 'Request',
-      category: 'Software',
-      requester: "Nguyễn Văn A",
-      technician: "Trần Thị B",
-      createdDate: "12/08/2025",
-      deadline: "Còn 3h",
-      attachments: 1,
-    ),
-    Ticket(
-      ticketId: "TCK-002",
-      title: "Máy in không hoạt động",
-      status: 1,
-      priority: 2,
-      type: 'Request',
-      category: 'Hardware',
-      requester: "Lê Văn C",
-      technician: "Nguyễn Văn D",
-      createdDate: "12/08/2025",
-      deadline: "Còn 5h",
-      attachments: 0,
-    ),
-  ];
+  late Future<List<Ticket>> tickets;
+
+  @override
+  void initState() {
+    super.initState();
+    tickets = fetchTickets();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,15 +45,25 @@ class _HomePageState extends State<HomePage> {
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 8),
-                  Expanded(
-                    // 🔹 Chiếm toàn bộ không gian còn lại của màn hình
-                    child: ListView.builder(
-                      itemCount: tickets.length,
-                      scrollDirection: Axis.vertical,
-                      itemBuilder: (context, index) {
-                        return TicketItem(ticket: tickets[index]);
-                      },
-                    ),
+                  FutureBuilder<List<Ticket>>(
+                    future: tickets,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(child: CircularProgressIndicator());
+                      } else if (snapshot.hasError) {
+                        return Center(child: Text('Error: ${snapshot.error}'));
+                      } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                        return Center(child: Text('No tickets found.'));
+                      } else {
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: snapshot.data!.length,
+                          itemBuilder: (context, index) {
+                            return TicketItem(ticket: snapshot.data![index]);
+                          },
+                        );
+                      }
+                    },
                   ),
                 ],
               ),
@@ -116,5 +106,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
-

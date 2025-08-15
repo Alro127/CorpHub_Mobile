@@ -13,11 +13,11 @@ class TicketItem extends StatefulWidget {
 class _State extends State<TicketItem> {
   Color getStatusColor() {
     switch (widget.ticket.status) {
-      case 1:
+      case 'in_progress':
         return Colors.orange;
-      case 2:
+      case 'resolved':
         return Colors.green;
-      case 3:
+      case 'closed':
         return Colors.red;
       default:
         return Colors.blue;
@@ -26,11 +26,11 @@ class _State extends State<TicketItem> {
 
   Color getPriorityColor() {
     switch (widget.ticket.priority) {
-      case 0:
+      case 'urgent':
         return Colors.red;
-      case 1:
+      case 'high':
         return Colors.orange;
-      case 3:
+      case 'low':
         return Colors.green;
       default:
         return Colors.amber;
@@ -55,7 +55,7 @@ class _State extends State<TicketItem> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  widget.ticket.ticketId,
+                  widget.ticket.ticketId.toString(),
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
@@ -64,7 +64,7 @@ class _State extends State<TicketItem> {
                 Row(
                   children: [
                     Chip(
-                      label: Text(ticketStatuses[widget.ticket.status]),
+                      label: Text(widget.ticket.status),
                       backgroundColor: getStatusColor().withAlpha(20),
                       labelStyle: TextStyle(color: getStatusColor()),
                     ),
@@ -85,7 +85,7 @@ class _State extends State<TicketItem> {
                 Icon(Icons.calendar_month, color: Colors.blue),
                 const SizedBox(width: 6),
                 Text(
-                  "Thời gian tạo: ${widget.ticket.createdDate}",
+                  "Created at: ${widget.ticket.createdAt}",
                   style: const TextStyle(fontSize: 12),
                 ),
               ],
@@ -95,7 +95,7 @@ class _State extends State<TicketItem> {
                 Icon(Icons.hourglass_bottom, color: Colors.yellow),
                 const SizedBox(width: 6),
                 Text(
-                  "Thời gian còn lại: ${widget.ticket.deadline}",
+                  "Updated at: ${widget.ticket.updatedAt}",
                   style: const TextStyle(fontSize: 12),
                 ),
               ],
@@ -104,7 +104,7 @@ class _State extends State<TicketItem> {
               children: [
                 Icon(Icons.person),
                 Text(
-                  "Người yêu cầu: ${widget.ticket.requester}",
+                  "Requester: ${widget.ticket.requesterId}",
                   style: const TextStyle(fontSize: 12),
                 ),
               ],
@@ -113,7 +113,7 @@ class _State extends State<TicketItem> {
               children: [
                 Icon(Icons.engineering),
                 Text(
-                  "Kỹ thuật viên: ${widget.ticket.technician}",
+                  "Assigned to: ${widget.ticket.assignedTo ?? 'Chưa phân công'}",
                   style: const TextStyle(fontSize: 12),
                 ),
               ],
@@ -125,23 +125,14 @@ class _State extends State<TicketItem> {
                 Row(
                   children: [
                     Chip(
-                      label: Text(widget.ticket.type),
-                      backgroundColor: getStatusColor().withAlpha(20),
+                      label: Text(widget.ticket.priority),
+                      backgroundColor: getPriorityColor().withAlpha(20),
                       labelStyle: TextStyle(color: getStatusColor()),
                     ),
                     SizedBox(width: 6),
                     Chip(
-                      label: Text(ticketPriorities[widget.ticket.priority]),
-                      backgroundColor: getPriorityColor().withAlpha(20),
-                      labelStyle: TextStyle(
-                        color: getPriorityColor(),
-                        fontSize: 12,
-                      ),
-                    ),
-                    SizedBox(width: 6),
-                    Chip(
-                      label: Text(ticketPriorities[widget.ticket.priority]),
-                      backgroundColor: getPriorityColor().withAlpha(20),
+                      label: Text(widget.ticket.categoryId.toString()),
+                      backgroundColor: Colors.pinkAccent.withAlpha(20),
                       labelStyle: TextStyle(
                         color: getPriorityColor(),
                         fontSize: 12,
