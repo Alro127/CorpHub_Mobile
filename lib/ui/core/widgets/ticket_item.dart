@@ -42,21 +42,17 @@ class _State extends State<TicketItem> {
     return InkWell(
       borderRadius: BorderRadius.circular(20),
       onTap: () {
-        showGeneralDialog(
-          context: context,
-          barrierDismissible: true,
-          barrierLabel: "Ticket Detail",
-          barrierColor: Colors.black.withOpacity(0.5),
-          transitionDuration: const Duration(milliseconds: 300),
-          pageBuilder: (context, anim1, anim2) {
-            return Center(
-              child: ViewUpdateTicket(ticket: widget.ticket),
-            );
-          },
+        Navigator.of(context).push(
+          PageRouteBuilder(
+            opaque: false,
+            barrierColor: Colors.black54,
+            pageBuilder: (_, __, ___) => ViewUpdateTicket(ticket: widget.ticket),
+            transitionDuration: const Duration(milliseconds: 300),
+          ),
         );
       },
       child: Hero(
-        tag: widget.ticket.title,
+        tag: "ticket_${widget.ticket.ticketId}",
         child: Card(
           elevation: 3,
           margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
