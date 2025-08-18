@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ticket_helpdesk/data/models/ticket_api.dart';
+import 'package:ticket_helpdesk/data/models/ticket_category_api.dart';
 import 'package:ticket_helpdesk/domain/models/ticket.dart';
+import 'package:ticket_helpdesk/domain/models/ticket_category.dart';
 import 'package:ticket_helpdesk/ui/core/widgets/basic_dropdown_field.dart';
 import 'package:ticket_helpdesk/ui/core/widgets/basic_input.dart';
 import 'package:ticket_helpdesk/ui/core/widgets/datetime_input.dart';
@@ -18,10 +20,12 @@ class _AddNewTicketState extends State<AddNewTicket> {
   final TextEditingController _descriptionController = TextEditingController();
   late String _priority = 'low';
   late String _status = 'open';
-  late int _category = 0;
   late String _ticket_type = "Request";
   late int _assigned_to = 0;
   late final DateTime _deadline = DateTime.now();
+
+  List<TicketCategory> _categories = [];
+  TicketCategory? _selectedCategory;
 
   Future<void> _saveTicket() async {
     final ticket = Ticket(
@@ -30,7 +34,7 @@ class _AddNewTicketState extends State<AddNewTicket> {
       description: _descriptionController.text,
       priority: _priority,
       status: _status,
-      categoryId: _category,
+      categoryId: _selectedCategory?.id ?? 0,
       requesterId: 1,
       assignedTo: _assigned_to,
       resolvedAt: null,
@@ -48,6 +52,22 @@ class _AddNewTicketState extends State<AddNewTicket> {
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text('Error creating ticket')));
+    }
+  }
+
+  Future<void> _loadCategories() async {
+    try {
+      final categories = await fetchTicketCategories();
+      setState(() {
+        _categories = categories;
+        if (_categories.isNotEmpty) {
+          _selectedCategory = _categories.first;
+        }
+      });
+    } catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Failed to load categories')));
     }
   }
 
@@ -83,18 +103,40 @@ class _AddNewTicketState extends State<AddNewTicket> {
               Row(
                 children: [
                   Expanded(
-                    child: BasicDropdownField(
-                      label: "Category",
-                      icon: Icons.category,
-                      value: _category,
-                      items: const [
-                        DropdownMenuItem(value: 0, child: Text("Hardware")),
-                        DropdownMenuItem(value: 1, child: Text("Software")),
-                      ],
-                      onChanged: (value) {
-                        setState(() {
-                          _category = value!;
-                        });
+                    child: FutureBuilder(
+                      future: fetchTicketCategories(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Center(child: CircularProgressIndicator());
+                        } else if (snapshot.hasError) {
+                          return Center(
+                            child: Text('Error: ${snapshot.error}'),
+                          );
+                        } else if (!snapshot.hasData ||
+                            snapshot.data!.isEmpty) {
+                          return Center(child: Text('No categories found.'));
+                        } else {
+                          _categories = snapshot.data as List<TicketCategory>;
+                          return BasicDropdownField(
+                            label: "Ticket category",
+                            icon: Icons.category,
+                            value: _selectedCategory?.name ?? '',
+                            items: _categories.map((category) {
+                              return DropdownMenuItem(
+                                value: category.name,
+                                child: Text(category.name),
+                              );
+                            }).toList(),
+                            onChanged: (value) {
+                              setState(() {
+                                _selectedCategory = _categories.firstWhere(
+                                  (cat) => cat.name == value,
+                                );
+                              });
+                            },
+                          );
+                        }
                       },
                     ),
                   ),
