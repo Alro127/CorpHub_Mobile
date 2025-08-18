@@ -46,26 +46,7 @@ class _HeadBarState extends State<HeadBar>
             return Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                    colors: [
-                      HSLColor.fromAHSL(
-                        1,
-                        (_rotation.value * 180 / pi) % 360,
-                        0.6,
-                        0.6,
-                      ).toColor(),
-                      HSLColor.fromAHSL(
-                        1,
-                        ((_rotation.value * 180 / pi) + 120) % 360,
-                        0.6,
-                        0.6,
-                      ).toColor(),
-                      HSLColor.fromAHSL(
-                        1,
-                        ((_rotation.value * 180 / pi) + 240) % 360,
-                        0.6,
-                        0.6,
-                      ).toColor(),
-                    ],
+                  colors: [Colors.blueAccent, Colors.purpleAccent],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   transform: GradientRotation(_controller.value * 2 * 3.1416),
