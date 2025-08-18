@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:ticket_helpdesk/ui/core/widgets/aurora_background.dart';
 import 'package:ticket_helpdesk/ui/core/widgets/head_bar.dart';
 import 'package:ticket_helpdesk/ui/core/widgets/side_bar.dart';
 import 'package:geolocator/geolocator.dart';
@@ -85,21 +86,44 @@ class _AttendancePageState extends State<AttendancePage> {
   }
 
   Widget _buildCheckButton() {
+    double size = 180;
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        padding: EdgeInsets.all(90),
         shape: CircleBorder(),
+        padding: EdgeInsets.zero, // để background chiếm hết button
+        backgroundColor: Colors.transparent,
         elevation: 4,
-        backgroundColor: Colors.blueAccent,
-        foregroundColor: Colors.white,
       ),
       onPressed: check,
-      child: Text(
-        _checkin ? "Checkout" : "Checkin",
-        style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
+      child: Ink(
+        width: size,
+        height: size,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+        ),
+        child: ClipOval(
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              AuroraBackground(
+                width: size,
+                height: size,
+              ),
+              Text(
+                _checkin ? "Checkout" : "Checkin",
+                style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
+                textAlign: TextAlign.center,
+              )
+            ],
+          ),
+        ),
       ),
     );
   }
+
 
   Widget _buildMileStone(IconData icon, String time, String message) {
     return Padding(
