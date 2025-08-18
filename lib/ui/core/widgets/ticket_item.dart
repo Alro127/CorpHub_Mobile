@@ -55,7 +55,7 @@ class _State extends State<TicketItem> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  widget.ticket.ticketId.toString(),
+                  "#" + widget.ticket.ticketId.toString(),
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
@@ -72,11 +72,13 @@ class _State extends State<TicketItem> {
                 ),
               ],
             ),
-            const SizedBox(height: 6),
             const Divider(),
             Text(
               widget.ticket.title,
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+              style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500
+              ),
             ),
             const Divider(),
             // Thời gian
