@@ -116,7 +116,7 @@ class _State extends State<TicketItem> {
                     const Icon(Icons.calendar_month, color: Colors.blue, size: 18),
                     const SizedBox(width: 8),
                     Text(
-                      "Created: ${widget.ticket.createdAt}",
+                      "Created: ${widget.ticket.createdAtFormatted}",
                       style: const TextStyle(fontSize: 13, color: Colors.black54),
                     ),
                   ],
@@ -127,7 +127,7 @@ class _State extends State<TicketItem> {
                     const Icon(Icons.update, color: Colors.amber, size: 18),
                     const SizedBox(width: 8),
                     Text(
-                      "Updated: ${widget.ticket.updatedAt}",
+                      "Updated: ${widget.ticket.updatedAtFormatted}",
                       style: const TextStyle(fontSize: 13, color: Colors.black54),
                     ),
                   ],

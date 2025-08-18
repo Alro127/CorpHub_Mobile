@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class Ticket {
   final int ticketId;
   final String title;
@@ -40,4 +42,10 @@ class Ticket {
       updatedAt: json['updated_at'],
     );
   }
+
+  String get createdAtFormatted =>
+      DateFormat("dd/MM/yyyy HH:mm").format(DateTime.parse(createdAt));
+
+  String get updatedAtFormatted =>
+      DateFormat("dd/MM/yyyy HH:mm").format(DateTime.parse(updatedAt));
 }
