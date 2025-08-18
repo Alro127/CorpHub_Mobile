@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ticket_helpdesk/ui/attendance/widgets/attendance_page.dart';
 import 'package:ticket_helpdesk/ui/home_page/widgets/home_page.dart';
+import 'package:ticket_helpdesk/ui/profile/profile_page.dart';
 
 class SideBar extends StatelessWidget {
   const SideBar({super.key});
@@ -12,15 +13,28 @@ class SideBar extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: [
           UserAccountsDrawerHeader(
-            accountName: Text(
+            accountName: const Text(
               'Account Name',
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            accountEmail: Text('accountEmail@gmail.com'),
-            currentAccountPicture: const CircleAvatar(
-              backgroundImage: AssetImage('images/support-ticket.png'),
+            accountEmail: const Text('accountEmail@gmail.com'),
+            currentAccountPicture: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ProfilePage(),
+                  ),
+                );
+              },
+              child: Hero(
+                tag: "profileAvatar",
+                child: const CircleAvatar(
+                  backgroundImage: AssetImage('images/support-ticket.png'),
+                ),
+              ),
             ),
-            decoration: BoxDecoration(color: Colors.blueAccent),
+            decoration: const BoxDecoration(color: Colors.blueAccent),
           ),
           ListTile(
             leading: Icon(Icons.home),

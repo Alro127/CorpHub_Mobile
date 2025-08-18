@@ -47,7 +47,7 @@ class _State extends State<TicketItem> {
             opaque: false,
             barrierColor: Colors.black54,
             pageBuilder: (_, __, ___) => ViewUpdateTicket(ticket: widget.ticket),
-            transitionDuration: const Duration(milliseconds: 300),
+            transitionDuration: const Duration(milliseconds: 500),
           ),
         );
       },
