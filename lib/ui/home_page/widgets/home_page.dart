@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:ticket_helpdesk/data/models/ticket_api.dart';
-import 'package:ticket_helpdesk/ui/add_new_ticket/widgets/add_new_ticket.dart';
 import 'package:ticket_helpdesk/ui/core/widgets/head_bar.dart';
 import 'package:ticket_helpdesk/ui/core/widgets/side_bar.dart';
 import 'package:ticket_helpdesk/ui/core/widgets/ticket_item.dart';
 import 'package:ticket_helpdesk/ui/home_page/widgets/dashboard_stats.dart';
 import 'package:ticket_helpdesk/domain/models/ticket.dart';
+import 'package:ticket_helpdesk/ui/ticket/widgets/add_new_ticket.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

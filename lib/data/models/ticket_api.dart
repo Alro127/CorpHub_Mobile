@@ -6,7 +6,7 @@ import 'package:ticket_helpdesk/domain/models/ticket.dart';
 Future<List<Ticket>> fetchTickets() async {
   final response = await http.get(
     Uri.parse(
-      'http://10.0.2.2:3000/api/tickets',
+      'http://10.0.2.2:3000/api/tickets/get-all-tickets',
     ), // Thay <IP_BACKEND> bằng IP backend của bạn
   );
 

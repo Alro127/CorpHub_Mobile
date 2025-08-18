@@ -128,9 +128,12 @@ class _AddNewTicketState extends State<AddNewTicket> {
                       value: _status,
                       items: const [
                         DropdownMenuItem(value: 0, child: Text("To do")),
+//                      Mặc điịnh là To do
+                        /*
                         DropdownMenuItem(value: 1, child: Text("Processing")),
                         DropdownMenuItem(value: 2, child: Text("Completed")),
                         DropdownMenuItem(value: 3, child: Text("Outdated")),
+                        */
                       ],
                       onChanged: (value) {
                         setState(() {
