@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ticket_helpdesk/ui/attendance/widgets/attendance_page.dart';
+import 'package:ticket_helpdesk/ui/core/widgets/aurora_background.dart';
 import 'package:ticket_helpdesk/ui/home_page/widgets/home_page.dart';
+import 'package:ticket_helpdesk/ui/profile/profile_page.dart';
 
 class SideBar extends StatelessWidget {
   const SideBar({super.key});
@@ -11,16 +13,34 @@ class SideBar extends StatelessWidget {
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
-          UserAccountsDrawerHeader(
-            accountName: Text(
-              'Account Name',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            accountEmail: Text('accountEmail@gmail.com'),
-            currentAccountPicture: const CircleAvatar(
-              backgroundImage: AssetImage('images/support-ticket.png'),
-            ),
-            decoration: BoxDecoration(color: Colors.blueAccent),
+          Stack(
+            children: [
+              AuroraBackground(width: double.infinity, height: 200),
+              UserAccountsDrawerHeader(
+                accountName: const Text(
+                  'Account Name',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                accountEmail: const Text('accountEmail@gmail.com'),
+                currentAccountPicture: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ProfilePage(),
+                      ),
+                    );
+                  },
+                  child: Hero(
+                    tag: "profileAvatar",
+                    child: const CircleAvatar(
+                      backgroundImage: AssetImage('images/support-ticket.png'),
+                    ),
+                  ),
+                ),
+                decoration: const BoxDecoration(color: Colors.transparent),
+              ),
+            ],
           ),
           ListTile(
             leading: Icon(Icons.home),
