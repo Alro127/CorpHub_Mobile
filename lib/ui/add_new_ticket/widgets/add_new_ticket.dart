@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:ticket_helpdesk/data/models/ticket_api.dart';
 import 'package:ticket_helpdesk/data/models/ticket_category_api.dart';
-import 'package:ticket_helpdesk/domain/models/ticket.dart';
+import 'package:ticket_helpdesk/data/models/user_api.dart';
+import 'package:ticket_helpdesk/domain/dto/ticket_request.dart';
+import 'package:ticket_helpdesk/domain/models/name_info.dart';
 import 'package:ticket_helpdesk/domain/models/ticket_category.dart';
 import 'package:ticket_helpdesk/ui/core/widgets/basic_dropdown_field.dart';
 import 'package:ticket_helpdesk/ui/core/widgets/basic_input.dart';
@@ -21,26 +23,26 @@ class _AddNewTicketState extends State<AddNewTicket> {
   late String _priority = 'low';
   late String _status = 'open';
   late String _ticket_type = "Request";
-  late int _assigned_to = 0;
   late final DateTime _deadline = DateTime.now();
 
   List<TicketCategory> _categories = [];
-  TicketCategory? _selectedCategory;
+  List<NameInfo> _users = [];
+  int? _selectedCategoryId;
+  int? _assigned_toId;
 
   Future<void> _saveTicket() async {
-    final ticket = Ticket(
-      ticketId: null,
+    final ticket = TicketRequest(
+      id: -1,
       title: _titleController.text,
       description: _descriptionController.text,
       priority: _priority,
       status: _status,
-      categoryId: _selectedCategory?.id ?? 0,
+      categoryId: _selectedCategoryId ?? 0,
       requesterId: 1,
-      assignedTo: _assigned_to,
-      resolvedAt: null,
-      createdAt: DateTime.now().toIso8601String(),
-      updatedAt: DateTime.now().toIso8601String(),
+      assignedToId: _assigned_toId,
     );
+
+    print(ticket.toJson());
 
     bool success = await createTicket(ticket);
     if (success) {
@@ -52,22 +54,6 @@ class _AddNewTicketState extends State<AddNewTicket> {
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text('Error creating ticket')));
-    }
-  }
-
-  Future<void> _loadCategories() async {
-    try {
-      final categories = await fetchTicketCategories();
-      setState(() {
-        _categories = categories;
-        if (_categories.isNotEmpty) {
-          _selectedCategory = _categories.first;
-        }
-      });
-    } catch (e) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Failed to load categories')));
     }
   }
 
@@ -121,18 +107,16 @@ class _AddNewTicketState extends State<AddNewTicket> {
                           return BasicDropdownField(
                             label: "Ticket category",
                             icon: Icons.category,
-                            value: _selectedCategory?.name ?? '',
+                            value: _selectedCategoryId,
                             items: _categories.map((category) {
                               return DropdownMenuItem(
-                                value: category.name,
-                                child: Text(category.name),
+                                value: category.id,
+                                child: Text(category.categoryName),
                               );
                             }).toList(),
                             onChanged: (value) {
                               setState(() {
-                                _selectedCategory = _categories.firstWhere(
-                                  (cat) => cat.name == value,
-                                );
+                                _selectedCategoryId = value as int;
                               });
                             },
                           );
@@ -224,20 +208,34 @@ class _AddNewTicketState extends State<AddNewTicket> {
                 ],
               ),
               SizedBox(height: 16),
-              BasicDropdownField(
-                label: "Assigned to",
-                icon: Icons.person,
-                value: _assigned_to,
-                items: const [
-                  DropdownMenuItem(value: 0, child: Text("Chọn")),
-                  DropdownMenuItem(value: 1, child: Text("Nhân viên 1")),
-                  DropdownMenuItem(value: 2, child: Text("Nhân viên 2")),
-                  DropdownMenuItem(value: 3, child: Text("Nhân viên 3")),
-                ],
-                onChanged: (value) {
-                  setState(() {
-                    _assigned_to = value!;
-                  });
+              FutureBuilder(
+                future: fetchUsersNameInfo(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return Center(child: Text('No categories found.'));
+                  } else {
+                    _users = snapshot.data as List<NameInfo>;
+                    return BasicDropdownField(
+                      label: "Assigned to",
+                      icon: Icons.person,
+                      value: _assigned_toId,
+                      items: _users.map((user) {
+                        return DropdownMenuItem(
+                          value: user.id,
+                          child: Text(user.fullName),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          _assigned_toId = value;
+                        });
+                      },
+                    );
+                  }
                 },
               ),
               SizedBox(height: 16),

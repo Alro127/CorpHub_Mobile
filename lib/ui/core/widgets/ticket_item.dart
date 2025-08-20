@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:ticket_helpdesk/const/constants.dart';
-import 'package:ticket_helpdesk/domain/models/ticket.dart';
+import 'package:ticket_helpdesk/domain/dto/ticket_response.dart';
 
 class TicketItem extends StatefulWidget {
-  final Ticket ticket;
+  final TicketResponse ticket;
   const TicketItem({super.key, required this.ticket});
 
   @override
@@ -55,7 +54,7 @@ class _State extends State<TicketItem> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  widget.ticket.ticketId.toString(),
+                  widget.ticket.id.toString(),
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
@@ -104,7 +103,7 @@ class _State extends State<TicketItem> {
               children: [
                 Icon(Icons.person),
                 Text(
-                  "Requester: ${widget.ticket.requesterId}",
+                  "Requester: ${widget.ticket.requester.fullName}",
                   style: const TextStyle(fontSize: 12),
                 ),
               ],
@@ -113,7 +112,7 @@ class _State extends State<TicketItem> {
               children: [
                 Icon(Icons.engineering),
                 Text(
-                  "Assigned to: ${widget.ticket.assignedTo ?? 'Chưa phân công'}",
+                  "Assigned to: ${widget.ticket.assignedTo?.fullName ?? 'Chưa phân công'}",
                   style: const TextStyle(fontSize: 12),
                 ),
               ],
@@ -131,7 +130,7 @@ class _State extends State<TicketItem> {
                     ),
                     SizedBox(width: 6),
                     Chip(
-                      label: Text(widget.ticket.categoryId.toString()),
+                      label: Text(widget.ticket.category.categoryName),
                       backgroundColor: Colors.pinkAccent.withAlpha(20),
                       labelStyle: TextStyle(
                         color: getPriorityColor(),

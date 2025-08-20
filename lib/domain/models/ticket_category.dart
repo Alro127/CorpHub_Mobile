@@ -1,14 +1,14 @@
 class TicketCategory {
   final int id;
-  final String name;
+  final String categoryName;
 
-  TicketCategory({required this.id, required this.name});
+  TicketCategory({required this.id, required this.categoryName});
 
   factory TicketCategory.fromJson(Map<String, dynamic> json) {
-    return TicketCategory(id: json['id'], name: json['name']);
+    return TicketCategory(id: json['id'], categoryName: json['categoryName']);
   }
 
   Map<String, dynamic> toJson() {
-    return {'id': id, 'name': name};
+    return {'id': id, 'categoryName': categoryName};
   }
 }
