@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:ticket_helpdesk/data/models/ticket_api.dart';
 import 'package:ticket_helpdesk/domain/dto/ticket_response.dart';
 import 'package:ticket_helpdesk/ui/core/widgets/head_bar.dart';
@@ -64,7 +65,89 @@ class _HomePageState extends State<HomePage> {
                             shrinkWrap: true,
                             itemCount: snapshot.data!.length,
                             itemBuilder: (context, index) {
-                              return TicketItem(ticket: snapshot.data![index]);
+                              final ticket = snapshot.data![index];
+
+                              return Slidable(
+                                key: ValueKey(ticket.id),
+                                endActionPane: ActionPane(
+                                  motion: const ScrollMotion(),
+                                  extentRatio:
+                                      0.25, // chỉ kéo ra 25% chiều rộng
+                                  children: [
+                                    SlidableAction(
+                                      onPressed: (context) async {
+                                        final confirm = await showDialog<bool>(
+                                          context: context,
+                                          builder: (context) => AlertDialog(
+                                            title: Text("Xác nhận"),
+                                            content: Text(
+                                              "Bạn có chắc muốn xoá ticket '${ticket.title}'?",
+                                            ),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () => Navigator.of(
+                                                  context,
+                                                ).pop(false),
+                                                child: Text("Hủy"),
+                                              ),
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(
+                                                    context,
+                                                  ).pop(true);
+                                                },
+                                                child: Text(
+                                                  "Xóa",
+                                                  style: TextStyle(
+                                                    color: Colors.red,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+
+                                        if (confirm == true) {
+                                          final isDeleted = await deleteTicket(
+                                            ticket.id,
+                                          );
+
+                                          if (isDeleted) {
+                                            setState(() {
+                                              snapshot.data!.removeAt(index);
+                                            });
+
+                                            ScaffoldMessenger.of(
+                                              context,
+                                            ).showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                  "Đã xoá '${ticket.title}'",
+                                                ),
+                                              ),
+                                            );
+                                          } else {
+                                            ScaffoldMessenger.of(
+                                              context,
+                                            ).showSnackBar(
+                                              const SnackBar(
+                                                content: Text(
+                                                  "Xoá thất bại, vui lòng thử lại",
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                        }
+                                      },
+                                      backgroundColor: Colors.red,
+                                      foregroundColor: Colors.white,
+                                      icon: Icons.delete,
+                                      label: 'Xóa',
+                                    ),
+                                  ],
+                                ),
+                                child: TicketItem(ticket: ticket),
+                              );
                             },
                           );
                         }

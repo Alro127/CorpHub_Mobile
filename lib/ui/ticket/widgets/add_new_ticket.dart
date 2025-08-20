@@ -44,7 +44,7 @@ class _AddNewTicketState extends State<AddNewTicket> {
 
     print(ticket.toJson());
 
-    bool success = await createTicket(ticket);
+    bool success = await saveTicket(ticket);
     if (success) {
       ScaffoldMessenger.of(
         context,

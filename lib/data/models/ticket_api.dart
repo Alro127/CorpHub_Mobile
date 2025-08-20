@@ -27,7 +27,7 @@ Future<List<TicketResponse>> fetchTickets() async {
   }
 }
 
-Future<bool> createTicket(TicketRequest ticket) async {
+Future<bool> saveTicket(TicketRequest ticket) async {
   final response = await http.post(
     Uri.parse('${ApiConfig.baseUrl}/tickets/save'),
     headers: ApiConfig.headers,
@@ -35,6 +35,19 @@ Future<bool> createTicket(TicketRequest ticket) async {
   );
 
   if (response.statusCode == 200) {
+    return true;
+  } else {
+    print('Status code: ${response.statusCode}');
+    print('Body: ${response.body}');
+    return false;
+  }
+}
+
+Future<bool> deleteTicket(int id) async {
+  final url = Uri.parse('${ApiConfig.baseUrl}/tickets/delete/$id');
+  final response = await http.delete(url, headers: ApiConfig.headers);
+
+  if (response.statusCode == 204) {
     return true;
   } else {
     print('Status code: ${response.statusCode}');
