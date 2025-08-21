@@ -30,6 +30,9 @@ class _AddNewTicketState extends State<AddNewTicket> {
   int? _selectedCategoryId;
   int? _assigned_toId;
 
+  bool _loadingCategories = true;
+  bool _loadingUsers = true;
+
   Future<void> _saveTicket() async {
     final ticket = TicketRequest(
       id: -1,
@@ -54,6 +57,31 @@ class _AddNewTicketState extends State<AddNewTicket> {
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text('Error creating ticket')));
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadInitialData();
+  }
+
+  Future<void> _loadInitialData() async {
+    try {
+      final categories = await fetchTicketCategories();
+      final users = await fetchUsersNameInfo();
+      setState(() {
+        _categories = categories;
+        _users = users;
+        _loadingCategories = false;
+        _loadingUsers = false;
+      });
+    } catch (e) {
+      print(e);
+      setState(() {
+        _loadingCategories = false;
+        _loadingUsers = false;
+      });
     }
   }
 
@@ -89,22 +117,9 @@ class _AddNewTicketState extends State<AddNewTicket> {
               Row(
                 children: [
                   Expanded(
-                    child: FutureBuilder(
-                      future: fetchTicketCategories(),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return Center(child: CircularProgressIndicator());
-                        } else if (snapshot.hasError) {
-                          return Center(
-                            child: Text('Error: ${snapshot.error}'),
-                          );
-                        } else if (!snapshot.hasData ||
-                            snapshot.data!.isEmpty) {
-                          return Center(child: Text('No categories found.'));
-                        } else {
-                          _categories = snapshot.data as List<TicketCategory>;
-                          return BasicDropdownField(
+                    child: _loadingCategories
+                        ? Center(child: CircularProgressIndicator())
+                        : BasicDropdownField(
                             label: "Ticket category",
                             icon: Icons.category,
                             value: _selectedCategoryId,
@@ -119,10 +134,7 @@ class _AddNewTicketState extends State<AddNewTicket> {
                                 _selectedCategoryId = value as int;
                               });
                             },
-                          );
-                        }
-                      },
-                    ),
+                          ),
                   ),
                   SizedBox(width: 16),
                   Expanded(
@@ -208,18 +220,9 @@ class _AddNewTicketState extends State<AddNewTicket> {
                 ],
               ),
               SizedBox(height: 16),
-              FutureBuilder(
-                future: fetchUsersNameInfo(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
-                  } else if (snapshot.hasError) {
-                    return Center(child: Text('Error: ${snapshot.error}'));
-                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                    return Center(child: Text('No categories found.'));
-                  } else {
-                    _users = snapshot.data as List<NameInfo>;
-                    return BasicDropdownField(
+              _loadingUsers
+                  ? Center(child: CircularProgressIndicator())
+                  : BasicDropdownField(
                       label: "Assigned to",
                       icon: Icons.person,
                       value: _assigned_toId,
@@ -231,13 +234,11 @@ class _AddNewTicketState extends State<AddNewTicket> {
                       }).toList(),
                       onChanged: (value) {
                         setState(() {
-                          _assigned_toId = value;
+                          _assigned_toId = value as int;
                         });
                       },
-                    );
-                  }
-                },
-              ),
+                    ),
+
               SizedBox(height: 16),
               DateTimeInput(
                 hintText: "Deadline",

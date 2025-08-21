@@ -116,11 +116,11 @@ class _HomePageState extends State<HomePage> {
                                             setState(() {
                                               snapshot.data!.removeAt(index);
                                             });
-
                                             ScaffoldMessenger.of(
                                               context,
                                             ).showSnackBar(
                                               SnackBar(
+                                                elevation: 8,
                                                 content: Text(
                                                   "Đã xoá '${ticket.title}'",
                                                 ),
