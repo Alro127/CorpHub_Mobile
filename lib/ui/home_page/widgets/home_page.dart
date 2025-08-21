@@ -6,7 +6,7 @@ import 'package:ticket_helpdesk/ui/core/widgets/head_bar.dart';
 import 'package:ticket_helpdesk/ui/core/widgets/side_bar.dart';
 import 'package:ticket_helpdesk/ui/core/widgets/ticket_item.dart';
 import 'package:ticket_helpdesk/ui/home_page/widgets/dashboard_stats.dart';
-import 'package:ticket_helpdesk/ui/ticket/widgets/add_new_ticket.dart';
+import 'package:ticket_helpdesk/ui/ticket/view/add_ticket_screen.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

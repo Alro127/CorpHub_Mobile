@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:ticket_helpdesk/config/service_locator.dart';
 import 'package:ticket_helpdesk/ui/home_page/widgets/home_page.dart';
 import 'package:ticket_helpdesk/ui/login/login_page.dart';
 import 'package:ticket_helpdesk/ui/signup/signup_page.dart';
 
 void main() {
+  setupLocator();
   runApp(const MyApp());
 }
 
