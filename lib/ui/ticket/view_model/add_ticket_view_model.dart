@@ -1,21 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:ticket_helpdesk/config/service_locator.dart';
-import 'package:ticket_helpdesk/data/models/ticket_api.dart';
-import 'package:ticket_helpdesk/data/repositories/ticket_repository.dart';
-import 'package:ticket_helpdesk/data/repositories/user_repository.dart';
 import 'package:ticket_helpdesk/domain/dto/ticket_request.dart';
 import 'package:ticket_helpdesk/domain/models/name_info.dart';
 import 'package:ticket_helpdesk/domain/models/ticket_category.dart';
+import 'package:ticket_helpdesk/data/repositories/ticket_repository.dart';
+import 'package:ticket_helpdesk/data/repositories/user_repository.dart';
+import 'package:ticket_helpdesk/domain/usecases/ticket_usecases.dart';
+import 'package:ticket_helpdesk/domain/usecases/user_usecases.dart';
 
 class AddTicketViewModel extends ChangeNotifier {
+  final TicketUseCase _ticketUseCase;
+  final UserUseCases _userUseCases;
 
-  final UserRepository _userRepository = getIt<UserRepository>();
-  final TicketRepository _ticketRepository = getIt<TicketRepository>();
+  AddTicketViewModel({
+    required TicketUseCase ticketUseCase,
+    required UserUseCases userUseCases,
+  })  : _ticketUseCase = ticketUseCase,
+        _userUseCases = userUseCases {
+    loadInitialData();
+  }
 
+  // Controllers
   final TextEditingController titleController = TextEditingController();
   final TextEditingController dateTimeController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
 
+  // Ticket properties
   String priority = 'low';
   String status = 'open';
   String ticketType = "Request";
@@ -30,16 +39,11 @@ class AddTicketViewModel extends ChangeNotifier {
   bool loadingUsers = true;
   String? errorMessage;
 
-  /// Constructor: load dữ liệu ngay khi khởi tạo
-  AddTicketViewModel() {
-    loadInitialData();
-  }
-
   /// Load category và user list
   Future<void> loadInitialData() async {
     try {
-      categories = await _ticketRepository.fetchCategories();
-      users = await _userRepository.fetchUsersNameInfo();
+      categories = await _ticketUseCase.fetchCategories();
+      users = await _userUseCases.fetchUsersNameInfo();
     } catch (e) {
       errorMessage = e.toString();
     } finally {
@@ -49,7 +53,7 @@ class AddTicketViewModel extends ChangeNotifier {
     }
   }
 
-  /// Cập nhật dropdown
+  // Dropdown setters
   void setCategory(int? id) {
     selectedCategoryId = id;
     notifyListeners();
@@ -87,20 +91,27 @@ class AddTicketViewModel extends ChangeNotifier {
       assignedToId: assignedToId,
     );
 
-    print(ticket.toJson());
-
-    bool success = await saveTicket(ticket);
+    bool success = await _saveTicket(ticket);
     if (success) {
-      ScaffoldMessenger.of(context,).showSnackBar(
-          const SnackBar(content: Text('Created ticket successfully!'))
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Created ticket successfully!')),
       );
     } else {
-      ScaffoldMessenger.of(context,).showSnackBar(
-          SnackBar(content: Text('Error creating ticket'))
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Error creating ticket')),
       );
     }
     return success;
   }
+
+  Future<bool> _saveTicket(TicketRequest ticket) async {
+    try {
+      return await _ticketUseCase.saveTicket(ticket);
+    } catch (e) {
+      return false;
+    }
+  }
+
   @override
   void dispose() {
     titleController.dispose();

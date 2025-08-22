@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:ticket_helpdesk/config/service_locator.dart';
 import 'package:ticket_helpdesk/ui/core/widgets/basic_dropdown_field.dart';
 import 'package:ticket_helpdesk/ui/core/widgets/basic_input.dart';
 import 'package:ticket_helpdesk/ui/core/widgets/datetime_input.dart';
@@ -20,7 +21,10 @@ class _AddNewTicketState extends State<AddNewTicket> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => AddTicketViewModel(),
+      create: (_) => AddTicketViewModel(
+        ticketUseCase: getIt(),
+        userUseCases: getIt(),
+      ),
       child: Consumer<AddTicketViewModel>(builder: (context, vm, _) {
         return Scaffold(
           appBar: HeadBar(title: "Add ticket"),
