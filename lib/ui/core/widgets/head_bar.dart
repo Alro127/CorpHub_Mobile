@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 
+import 'package:ticket_helpdesk/ui/core/widgets/rotating_gradient_background.dart';
+
 class HeadBar extends StatefulWidget implements PreferredSizeWidget {
   final String title;
   const HeadBar({super.key, required this.title});
@@ -15,46 +17,13 @@ class HeadBar extends StatefulWidget implements PreferredSizeWidget {
 class _HeadBarState extends State<HeadBar>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
-  late Animation<double> _rotation;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 10), // chỉnh tốc độ xoay
-    )..repeat();
-    _rotation = Tween<double>(begin: 0, end: 2 * pi).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.linear),
-    );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         // Nền gradient xoay
-        AnimatedBuilder(
-          animation: _controller,
-          builder: (context, child) {
-            return Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Colors.blueAccent, Colors.purpleAccent],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  transform: GradientRotation(_controller.value * 2 * 3.1416),
-                ),
-              ),
-            );
-          },
-        ),
+        RotatingGradient(),
         // AppBar chính (trong suốt)
         AppBar(
           backgroundColor: Colors.transparent,

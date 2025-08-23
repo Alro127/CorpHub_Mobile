@@ -1,8 +1,8 @@
 // lib/data/repositories/ticket_repository.dart
 
 import 'package:ticket_helpdesk/data/api_service.dart';
-import 'package:ticket_helpdesk/domain/dto/ticket_request.dart';
-import 'package:ticket_helpdesk/domain/dto/ticket_response.dart';
+import 'package:ticket_helpdesk/data/dto/ticket_request.dart';
+import 'package:ticket_helpdesk/data/dto/ticket_response.dart';
 import 'package:ticket_helpdesk/domain/models/ticket_category.dart';
 
 class TicketRepository {

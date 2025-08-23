@@ -1,3 +1,4 @@
+import 'package:ticket_helpdesk/domain/models/department_basic_info.dart';
 import 'package:ticket_helpdesk/domain/models/name_info.dart';
 import 'package:ticket_helpdesk/domain/models/ticket_category.dart';
 
@@ -13,6 +14,9 @@ class TicketResponse {
   final String createdAt;
   final String updatedAt;
   final String? resolvedAt;
+  final DepartmentBasicInfoDto department;
+  final DateTime assignedAt;
+  final bool active;
 
   TicketResponse({
     required this.id,
@@ -26,6 +30,9 @@ class TicketResponse {
     required this.createdAt,
     required this.updatedAt,
     this.resolvedAt,
+    required this.department,
+    required this.assignedAt,
+    required this.active
   });
 
   factory TicketResponse.fromJson(Map<String, dynamic> json) {
@@ -43,6 +50,9 @@ class TicketResponse {
       createdAt: json['createdAt'],
       updatedAt: json['updatedAt'],
       resolvedAt: json['resolvedAt'],
+      department: json['department'],
+      assignedAt: json['assignedAt'],
+      active: json['active']
     );
   }
 
@@ -59,6 +69,9 @@ class TicketResponse {
       'createdAt': createdAt,
       'updatedAt': updatedAt,
       'resolvedAt': resolvedAt,
+      'department': department,
+      'assignedAt': assignedAt,
+      'active': active
     };
   }
 }

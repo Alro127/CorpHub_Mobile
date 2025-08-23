@@ -23,7 +23,7 @@ class _AddNewTicketState extends State<AddNewTicket> {
     return ChangeNotifierProvider(
       create: (_) => AddTicketViewModel(
         ticketUseCase: getIt(),
-        userUseCases: getIt(),
+        departmentUsecase: getIt(),
       ),
       child: Consumer<AddTicketViewModel>(builder: (context, vm, _) {
         return Scaffold(
@@ -47,13 +47,13 @@ class _AddNewTicketState extends State<AddNewTicket> {
                   vm.loadingUsers
                       ? const Center(child: CircularProgressIndicator())
                       : BasicDropdownField(
-                    label: "Assigned to",
-                    icon: Icons.person,
+                    label: "Department",
+                    icon: Icons.apartment,
                     value: vm.assignedToId,
-                    items: vm.users.map((user) {
+                    items: vm.departments.map((department) {
                       return DropdownMenuItem(
-                        value: user.id,
-                        child: Text(user.fullName),
+                        value: department.id,
+                        child: Text(department.departmentName),
                       );
                     }).toList(),
                     onChanged: (value) => vm.setAssignedTo(value as int?),

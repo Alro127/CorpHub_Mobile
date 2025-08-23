@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:ticket_helpdesk/domain/dto/ticket_response.dart';
+import 'package:ticket_helpdesk/data/dto/ticket_response.dart';
 
-class ViewUpdateTicket extends StatefulWidget {
+class ViewUpdateTicket extends StatelessWidget {
   final TicketResponse ticket;
   const ViewUpdateTicket({super.key, required this.ticket});
 
-  @override
-  State<ViewUpdateTicket> createState() => _ViewUpdateTicketState();
-}
-
-class _ViewUpdateTicketState extends State<ViewUpdateTicket> {
   Color getStatusColor() {
-    switch (widget.ticket.status) {
+    switch (ticket.status) {
       case 'in_progress':
         return Colors.orange;
       case 'resolved':
@@ -24,7 +19,7 @@ class _ViewUpdateTicketState extends State<ViewUpdateTicket> {
   }
 
   Color getPriorityColor() {
-    switch (widget.ticket.priority) {
+    switch (ticket.priority) {
       case 'urgent':
         return Colors.red;
       case 'high':
@@ -42,12 +37,12 @@ class _ViewUpdateTicketState extends State<ViewUpdateTicket> {
       backgroundColor: Colors.black.withValues(alpha: 0.1),
       body: Center(
         child: Hero(
-          tag: "ticket_${widget.ticket.id}",
+          tag: "ticket_${ticket.id}",
           child: Material(
             color: Colors.transparent,
             child: Card(
               elevation: 8,
-              margin: const EdgeInsets.symmetric(vertical: 60, horizontal: 24),
+              margin: const EdgeInsets.symmetric(vertical: 60, horizontal: 20),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
@@ -72,7 +67,7 @@ class _ViewUpdateTicketState extends State<ViewUpdateTicket> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "#${widget.ticket.id}",
+                "#${ticket.id}",
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                   color: Colors.black87,
@@ -82,7 +77,7 @@ class _ViewUpdateTicketState extends State<ViewUpdateTicket> {
               Row(
                 children: [
                   Chip(
-                    label: Text(widget.ticket.status),
+                    label: Text(ticket.status),
                     backgroundColor: getStatusColor().withOpacity(0.1),
                     labelStyle: TextStyle(
                       color: getStatusColor(),
@@ -102,7 +97,7 @@ class _ViewUpdateTicketState extends State<ViewUpdateTicket> {
 
           // Tiêu đề
           Text(
-            widget.ticket.title,
+            ticket.title,
             style: Theme.of(
               context,
             ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
@@ -116,7 +111,7 @@ class _ViewUpdateTicketState extends State<ViewUpdateTicket> {
               const Icon(Icons.calendar_month, color: Colors.blue, size: 18),
               const SizedBox(width: 8),
               Text(
-                "Created: ${widget.ticket.createdAt}",
+                "Created: ${ticket.createdAt}",
                 style: const TextStyle(fontSize: 13, color: Colors.black54),
               ),
             ],
@@ -127,7 +122,7 @@ class _ViewUpdateTicketState extends State<ViewUpdateTicket> {
               const Icon(Icons.update, color: Colors.amber, size: 18),
               const SizedBox(width: 8),
               Text(
-                "Updated: ${widget.ticket.updatedAt}",
+                "Updated: ${ticket.updatedAt}",
                 style: const TextStyle(fontSize: 13, color: Colors.black54),
               ),
             ],
@@ -138,7 +133,7 @@ class _ViewUpdateTicketState extends State<ViewUpdateTicket> {
               const Icon(Icons.person, color: Colors.grey, size: 18),
               const SizedBox(width: 8),
               Text(
-                "Requester: ${widget.ticket.requester.fullName}",
+                "Requester: ${ticket.requester.fullName}",
                 style: const TextStyle(fontSize: 13, color: Colors.black87),
               ),
             ],
@@ -149,7 +144,7 @@ class _ViewUpdateTicketState extends State<ViewUpdateTicket> {
               const Icon(Icons.engineering, color: Colors.teal, size: 18),
               const SizedBox(width: 8),
               Text(
-                "Assigned: ${widget.ticket.assignedTo?.fullName ?? 'Chưa phân công'}",
+                "Assigned: ${ticket.assignedTo?.fullName ?? 'Chưa phân công'}",
                 style: const TextStyle(fontSize: 13, color: Colors.black87),
               ),
             ],
@@ -161,7 +156,7 @@ class _ViewUpdateTicketState extends State<ViewUpdateTicket> {
           Row(
             children: [
               Chip(
-                label: Text("Priority: ${widget.ticket.priority}"),
+                label: Text("Priority: ${ticket.priority}"),
                 backgroundColor: getPriorityColor().withValues(alpha: 0.1),
                 labelStyle: TextStyle(
                   color: getPriorityColor(),
@@ -170,7 +165,7 @@ class _ViewUpdateTicketState extends State<ViewUpdateTicket> {
               ),
               const SizedBox(width: 8),
               Chip(
-                label: Text("Category: ${widget.ticket.category.categoryName}"),
+                label: Text("Category: ${ticket.category.categoryName}"),
                 backgroundColor: Colors.pink.withValues(alpha: 0.1),
                 labelStyle: const TextStyle(
                   color: Colors.pink,
@@ -192,7 +187,7 @@ class _ViewUpdateTicketState extends State<ViewUpdateTicket> {
           ),
           const SizedBox(height: 4),
           Text(
-            widget.ticket.description,
+            ticket.description,
             maxLines: 3, // Giới hạn hiển thị 3 dòng
             overflow: TextOverflow.ellipsis, // Nếu dài thì hiển thị ...
             style: Theme.of(

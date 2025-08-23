@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:ticket_helpdesk/ui/attendance/widgets/attendance_page.dart';
 import 'package:ticket_helpdesk/ui/core/widgets/aurora_background.dart';
-import 'package:ticket_helpdesk/ui/home_page/widgets/home_page.dart';
+import 'package:ticket_helpdesk/ui/core/widgets/rotating_gradient_background.dart';
+import 'package:ticket_helpdesk/ui/home_page/view/home_screen.dart';
+import 'package:ticket_helpdesk/ui/login/view/login_page.dart';
 import 'package:ticket_helpdesk/ui/profile/profile_page.dart';
 
 class SideBar extends StatelessWidget {
@@ -15,7 +17,9 @@ class SideBar extends StatelessWidget {
         children: [
           Stack(
             children: [
-              AuroraBackground(width: double.infinity, height: 200),
+              const Positioned.fill( // bắt RotatingGradient full size
+                child: RotatingGradient(),
+              ),
               UserAccountsDrawerHeader(
                 accountName: const Text(
                   'Account Name',
@@ -76,7 +80,9 @@ class SideBar extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.logout),
             title: const Text('Logout'),
-            onTap: () {},
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage(),));
+            },
           ),
         ],
       ),

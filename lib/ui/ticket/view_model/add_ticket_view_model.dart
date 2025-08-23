@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:ticket_helpdesk/domain/dto/ticket_request.dart';
-import 'package:ticket_helpdesk/domain/models/name_info.dart';
+import 'package:ticket_helpdesk/data/dto/ticket_request.dart';
+import 'package:ticket_helpdesk/domain/models/department_basic_info.dart';
 import 'package:ticket_helpdesk/domain/models/ticket_category.dart';
-import 'package:ticket_helpdesk/data/repositories/ticket_repository.dart';
-import 'package:ticket_helpdesk/data/repositories/user_repository.dart';
+import 'package:ticket_helpdesk/domain/usecases/department_usecase.dart';
 import 'package:ticket_helpdesk/domain/usecases/ticket_usecases.dart';
-import 'package:ticket_helpdesk/domain/usecases/user_usecases.dart';
+
 
 class AddTicketViewModel extends ChangeNotifier {
   final TicketUseCase _ticketUseCase;
-  final UserUseCases _userUseCases;
+  final DepartmentUsecase _departmentUsecase;
 
   AddTicketViewModel({
     required TicketUseCase ticketUseCase,
-    required UserUseCases userUseCases,
+    required DepartmentUsecase departmentUsecase,
   })  : _ticketUseCase = ticketUseCase,
-        _userUseCases = userUseCases {
+        _departmentUsecase = departmentUsecase {
     loadInitialData();
   }
 
@@ -31,9 +30,10 @@ class AddTicketViewModel extends ChangeNotifier {
   DateTime deadline = DateTime.now();
 
   List<TicketCategory> categories = [];
-  List<NameInfo> users = [];
+  List<DepartmentBasicInfoDto> departments = [];
   int? selectedCategoryId;
   int? assignedToId;
+  late int departmentId;
 
   bool loadingCategories = true;
   bool loadingUsers = true;
@@ -43,7 +43,7 @@ class AddTicketViewModel extends ChangeNotifier {
   Future<void> loadInitialData() async {
     try {
       categories = await _ticketUseCase.fetchCategories();
-      users = await _userUseCases.fetchUsersNameInfo();
+      departments = await _departmentUsecase.fetchDepartment();
     } catch (e) {
       errorMessage = e.toString();
     } finally {
@@ -85,10 +85,10 @@ class AddTicketViewModel extends ChangeNotifier {
       title: titleController.text,
       description: descriptionController.text,
       priority: priority,
-      status: status,
       categoryId: selectedCategoryId ?? 0,
       requesterId: 1,
-      assignedToId: assignedToId,
+//      assignedToId: assignedToId,
+      departmentId: departmentId
     );
 
     bool success = await _saveTicket(ticket);

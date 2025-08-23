@@ -3,20 +3,20 @@ class TicketRequest {
   final String title;
   final String description;
   final String priority;
-  final String status;
   final int categoryId;
   final int requesterId;
   final int? assignedToId;
+  final int departmentId;
 
   TicketRequest({
     this.id,
     required this.title,
     required this.description,
     required this.priority,
-    required this.status,
     required this.categoryId,
     required this.requesterId,
     this.assignedToId,
+    required this.departmentId
   });
 
   Map<String, dynamic> toJson() {
@@ -25,10 +25,10 @@ class TicketRequest {
       'title': title,
       'description': description,
       'priority': priority,
-      'status': status,
       'categoryId': categoryId,
       'requesterId': requesterId,
       'assignedToId': assignedToId,
+      'departmentId': departmentId
     };
   }
 }
