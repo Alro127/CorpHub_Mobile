@@ -14,8 +14,8 @@ class TicketResponse {
   final String createdAt;
   final String updatedAt;
   final String? resolvedAt;
-  final DepartmentBasicInfoDto department;
-  final DateTime assignedAt;
+  final DepartmentBasicInfoDto? department;
+  final DateTime? assignedAt;
   final bool active;
 
   TicketResponse({
@@ -30,29 +30,33 @@ class TicketResponse {
     required this.createdAt,
     required this.updatedAt,
     this.resolvedAt,
-    required this.department,
-    required this.assignedAt,
-    required this.active
+    this.department,
+    this.assignedAt,
+    required this.active,
   });
 
   factory TicketResponse.fromJson(Map<String, dynamic> json) {
     return TicketResponse(
       id: json['id'],
-      title: json['title'],
-      description: json['description'],
-      priority: json['priority'],
-      status: json['status'],
+      title: json['title'] ?? '',
+      description: json['description'] ?? '',
+      priority: json['priority'] ?? '',
+      status: json['status'] ?? '',
       category: TicketCategory.fromJson(json['category']),
       requester: NameInfo.fromJson(json['requester']),
       assignedTo: json['assignedTo'] != null
           ? NameInfo.fromJson(json['assignedTo'])
           : null,
-      createdAt: json['createdAt'],
-      updatedAt: json['updatedAt'],
+      createdAt: json['createdAt'] ?? '',
+      updatedAt: json['updatedAt'] ?? '',
       resolvedAt: json['resolvedAt'],
-      department: json['department'],
-      assignedAt: json['assignedAt'],
-      active: json['active']
+      department: json['department'] != null
+          ? DepartmentBasicInfoDto.fromJson(json['department'])
+          : null,
+      assignedAt: json['assignedAt'] != null
+          ? DateTime.tryParse(json['assignedAt'])
+          : null,
+      active: json['active'] ?? true,
     );
   }
 
@@ -69,9 +73,9 @@ class TicketResponse {
       'createdAt': createdAt,
       'updatedAt': updatedAt,
       'resolvedAt': resolvedAt,
-      'department': department,
-      'assignedAt': assignedAt,
-      'active': active
+      'department': department?.toJson(),
+      'assignedAt': assignedAt?.toIso8601String(),
+      'active': active,
     };
   }
 }

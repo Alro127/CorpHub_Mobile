@@ -3,12 +3,16 @@ import 'package:ticket_helpdesk/data/dto/ticket_response.dart';
 import 'package:ticket_helpdesk/data/repositories/ticket_repository.dart';
 import 'package:ticket_helpdesk/domain/models/ticket_category.dart';
 
-
 class TicketUseCase {
   final TicketRepository repository;
   TicketUseCase(this.repository);
 
-  Future<List<TicketResponse>> fetchTickets() => repository.fetchTickets();
+  Future<List<TicketResponse>> fetchTickets() async {
+    print("Usecase fetch tickets");
+    final tickets = await repository.fetchTickets();
+    print(tickets);
+    return tickets;
+  }
 
   Future<bool> saveTicket(TicketRequest ticket) {
     // validation / business rule đơn giản có thể đặt ở đây
@@ -16,10 +20,10 @@ class TicketUseCase {
     return repository.saveTicket(ticket);
   }
 
-
   Future<bool> deleteTicket(int id) => repository.deleteTicket(id);
 
-  Future<List<TicketCategory>> fetchCategories() => repository.fetchCategories();
+  Future<List<TicketCategory>> fetchCategories() =>
+      repository.fetchCategories();
 
-/*  Future<List<Ticket>> searchTickets(String q) => repository.searchTickets(q);*/
+  /*  Future<List<Ticket>> searchTickets(String q) => repository.searchTickets(q);*/
 }

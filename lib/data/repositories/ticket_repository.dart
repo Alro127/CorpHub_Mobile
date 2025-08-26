@@ -12,9 +12,21 @@ class TicketRepository {
 
   Future<List<TicketResponse>> fetchTickets() async {
     try {
-      final jsonResponse = await api.get('/tickets/get-all');
-      final List<dynamic> data = jsonResponse?['data'] ?? [];
-      return data.map((json) => TicketResponse.fromJson(json)).toList();
+      final jsonResponse = await api.get('/api/tickets/get-all');
+      final List<dynamic> data = (jsonResponse?['data'] ?? []) as List<dynamic>;
+      final tickets = data.map((json) {
+        try {
+          final ticket = TicketResponse.fromJson(json);
+          print("Parsed ticket: $ticket");
+          return ticket;
+        } catch (e, s) {
+          print("Error parsing ticket: $e");
+          print("JSON caused error: $json");
+          print(s);
+          rethrow;
+        }
+      }).toList();
+      return tickets;
     } catch (e) {
       // Log hoặc throw tiếp nếu muốn ViewModel xử lý
       rethrow;
@@ -23,7 +35,7 @@ class TicketRepository {
 
   Future<bool> saveTicket(TicketRequest ticket) async {
     try {
-      await api.post('/tickets/save', ticket.toJson());
+      await api.post('api/tickets/save', ticket.toJson());
       return true;
     } catch (e) {
       // Log hoặc xử lý lỗi
@@ -33,7 +45,7 @@ class TicketRepository {
 
   Future<bool> deleteTicket(int id) async {
     try {
-      await api.delete('/tickets/delete/$id');
+      await api.delete('api/tickets/delete/$id');
       return true;
     } catch (e) {
       return false;
@@ -42,7 +54,7 @@ class TicketRepository {
 
   Future<List<TicketCategory>> fetchCategories() async {
     try {
-      final response = await api.get('/tickets/categories');
+      final response = await api.get('api/tickets/categories');
       final List<dynamic> data = response?['data'] ?? [];
       return data.map((json) => TicketCategory.fromJson(json)).toList();
     } catch (e) {

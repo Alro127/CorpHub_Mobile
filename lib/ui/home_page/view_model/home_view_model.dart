@@ -5,7 +5,8 @@ import 'package:ticket_helpdesk/domain/usecases/ticket_usecases.dart';
 class HomeViewModel extends ChangeNotifier {
   final TicketUseCase _ticketUseCase;
 
-  HomeViewModel({required TicketUseCase ticketUseCase}) :_ticketUseCase = ticketUseCase {
+  HomeViewModel({required TicketUseCase ticketUseCase})
+    : _ticketUseCase = ticketUseCase {
     fetchTickets();
   }
 
@@ -20,7 +21,9 @@ class HomeViewModel extends ChangeNotifier {
     isLoading = true;
     notifyListeners();
     try {
+      print("Fetching tickets...");
       tickets = await _ticketUseCase.fetchTickets();
+      print(" Fetched ${tickets.length} tickets.");
     } catch (e) {
       errorMessage = e.toString();
     } finally {
@@ -52,8 +55,7 @@ class HomeViewModel extends ChangeNotifier {
   List<TicketResponse> get filteredTickets {
     if (searchText.isEmpty) return tickets;
     return tickets
-        .where((t) =>
-        t.title.toLowerCase().contains(searchText.toLowerCase()))
+        .where((t) => t.title.toLowerCase().contains(searchText.toLowerCase()))
         .toList();
   }
 }

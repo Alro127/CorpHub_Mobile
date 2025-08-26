@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:ticket_helpdesk/data/dto/login_request.dart';
+import 'package:ticket_helpdesk/data/dto/login_response.dart';
 import 'package:ticket_helpdesk/domain/usecases/login_usecase.dart';
 
 class LoginViewModel extends ChangeNotifier {
   final LoginUseCase _loginUseCase;
 
-  LoginViewModel({
-    required LoginUseCase loginUseCase
-  }) : _loginUseCase = loginUseCase;
+  LoginViewModel({required LoginUseCase loginUseCase})
+    : _loginUseCase = loginUseCase;
 
+  LoginResponse? user;
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   bool rememberMe = false;
@@ -22,18 +23,20 @@ class LoginViewModel extends ChangeNotifier {
 
   Future<bool> login() async {
     final LoginRequest loginRequest = LoginRequest(
-        email: emailController.text,
-        password: passwordController.text
+      email: emailController.text,
+      password: passwordController.text,
     );
-    await _loginUseCase.login(loginRequest);
-    // Đoạn dưới đang để tạm
-    if (emailController.text == "test" && passwordController.text == "1234") {
-      if (rememberMe) {
-        await storage.write(key: 'is_logged_in', value: 'true');
-      }
+    try {
+      user = await _loginUseCase.login(loginRequest);
 
-      return true;
+      if (user != null) {
+        return true;
+      }
+      return false;
+    } catch (e) {
+      // có thể log lỗi hoặc throw lại
+      print(e);
+      return false;
     }
-    return false;
   }
 }
