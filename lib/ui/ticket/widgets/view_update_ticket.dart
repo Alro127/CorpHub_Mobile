@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ticket_helpdesk/const/ticket_status.dart';
 import 'package:ticket_helpdesk/data/dto/ticket_response.dart';
 
 class ViewUpdateTicket extends StatelessWidget {
@@ -7,11 +8,11 @@ class ViewUpdateTicket extends StatelessWidget {
 
   Color getStatusColor() {
     switch (ticket.status) {
-      case 'in_progress':
+      case TicketStatus.TODO:
         return Colors.orange;
-      case 'resolved':
+      case TicketStatus.IN_PROGRESS:
         return Colors.green;
-      case 'closed':
+      case TicketStatus.REJECTED:
         return Colors.red;
       default:
         return Colors.blue;
@@ -77,7 +78,7 @@ class ViewUpdateTicket extends StatelessWidget {
               Row(
                 children: [
                   Chip(
-                    label: Text(ticket.status),
+                    label: Text(ticket.status.name),
                     backgroundColor: getStatusColor().withOpacity(0.1),
                     labelStyle: TextStyle(
                       color: getStatusColor(),
@@ -156,7 +157,7 @@ class ViewUpdateTicket extends StatelessWidget {
           Row(
             children: [
               Chip(
-                label: Text("Priority: ${ticket.priority}"),
+                label: Text("Priority: ${ticket.priority.name}"),
                 backgroundColor: getPriorityColor().withValues(alpha: 0.1),
                 labelStyle: TextStyle(
                   color: getPriorityColor(),

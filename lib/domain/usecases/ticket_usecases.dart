@@ -8,9 +8,7 @@ class TicketUseCase {
   TicketUseCase(this.repository);
 
   Future<List<TicketResponse>> fetchTickets() async {
-    print("Usecase fetch tickets");
     final tickets = await repository.fetchTickets();
-    print(tickets);
     return tickets;
   }
 

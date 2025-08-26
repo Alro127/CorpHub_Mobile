@@ -49,10 +49,7 @@ class TicketItem extends StatelessWidget {
       child: Hero(
         tag: "ticket_${ticket.id}",
         child: Container(
-          constraints: BoxConstraints(
-            minHeight: 270,
-            maxWidth: 400
-          ),
+          constraints: BoxConstraints(minHeight: 270, maxWidth: 400),
           child: Card(
             elevation: 3,
             margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
@@ -71,10 +68,12 @@ class TicketItem extends StatelessWidget {
                       Text(
                         "#${ticket.id}",
                         style: const TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 16),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
                       ),
                       Chip(
-                        label: Text(ticket.status),
+                        label: Text(ticket.status.name),
                         backgroundColor: getStatusColor().withOpacity(0.15),
                         labelStyle: TextStyle(
                           color: getStatusColor(),
@@ -91,7 +90,9 @@ class TicketItem extends StatelessWidget {
                   Text(
                     ticket.title,
                     style: const TextStyle(
-                        fontSize: 15, fontWeight: FontWeight.w600),
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                    ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -99,12 +100,19 @@ class TicketItem extends StatelessWidget {
                   const SizedBox(height: 10),
 
                   // Info section
-                  _infoItem(Icons.calendar_month, "Created: ${ticket.createdAt}"),
+                  _infoItem(
+                    Icons.calendar_month,
+                    "Created: ${ticket.createdAt}",
+                  ),
                   _infoItem(Icons.update, "Updated: ${ticket.updatedAt}"),
-                  _infoItem(Icons.person,
-                      "Requester: ${ticket.requester.fullName}"),
-                  _infoItem(Icons.engineering,
-                      "Assigned to: ${ticket.assignedTo?.fullName ?? 'Chưa phân công'}"),
+                  _infoItem(
+                    Icons.person,
+                    "Requester: ${ticket.requester.fullName}",
+                  ),
+                  _infoItem(
+                    Icons.engineering,
+                    "Assigned to: ${ticket.assignedTo?.fullName ?? 'Chưa phân công'}",
+                  ),
 
                   const Divider(),
 
@@ -112,7 +120,7 @@ class TicketItem extends StatelessWidget {
                   Row(
                     children: [
                       Chip(
-                        label: Text(ticket.priority),
+                        label: Text(ticket.priority.name),
                         backgroundColor: getPriorityColor().withOpacity(0.15),
                         labelStyle: TextStyle(
                           color: getPriorityColor(),

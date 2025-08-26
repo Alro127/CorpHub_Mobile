@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:ticket_helpdesk/const/ticket_prioriry.dart';
+import 'package:ticket_helpdesk/const/ticket_status.dart';
 import 'package:ticket_helpdesk/data/dto/ticket_request.dart';
 import 'package:ticket_helpdesk/domain/models/department_basic_info.dart';
 import 'package:ticket_helpdesk/domain/models/ticket_category.dart';
 import 'package:ticket_helpdesk/domain/usecases/department_usecase.dart';
 import 'package:ticket_helpdesk/domain/usecases/ticket_usecases.dart';
-
 
 class AddTicketViewModel extends ChangeNotifier {
   final TicketUseCase _ticketUseCase;
@@ -13,8 +14,8 @@ class AddTicketViewModel extends ChangeNotifier {
   AddTicketViewModel({
     required TicketUseCase ticketUseCase,
     required DepartmentUsecase departmentUsecase,
-  })  : _ticketUseCase = ticketUseCase,
-        _departmentUsecase = departmentUsecase {
+  }) : _ticketUseCase = ticketUseCase,
+       _departmentUsecase = departmentUsecase {
     loadInitialData();
   }
 
@@ -24,8 +25,8 @@ class AddTicketViewModel extends ChangeNotifier {
   final TextEditingController descriptionController = TextEditingController();
 
   // Ticket properties
-  String priority = 'low';
-  String status = 'open';
+  TicketPriority priority = TicketPriority.MEDIUM;
+  TicketStatus status = TicketStatus.WAITING;
   String ticketType = "Request";
   DateTime deadline = DateTime.now();
 
@@ -64,12 +65,12 @@ class AddTicketViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setPriority(String value) {
+  void setPriority(TicketPriority value) {
     priority = value;
     notifyListeners();
   }
 
-  void setStatus(String value) {
+  void setStatus(TicketStatus value) {
     status = value;
     notifyListeners();
   }
@@ -81,14 +82,14 @@ class AddTicketViewModel extends ChangeNotifier {
 
   Future<bool> saveTicketAction(BuildContext context) async {
     final ticket = TicketRequest(
-      id: -1,
+      id: null,
       title: titleController.text,
       description: descriptionController.text,
-      priority: priority,
+      priority: priority.name,
       categoryId: selectedCategoryId ?? 0,
       requesterId: 1,
-//      assignedToId: assignedToId,
-      departmentId: departmentId
+      //      assignedToId: assignedToId,
+      departmentId: departmentId,
     );
 
     bool success = await _saveTicket(ticket);
@@ -97,9 +98,9 @@ class AddTicketViewModel extends ChangeNotifier {
         const SnackBar(content: Text('Created ticket successfully!')),
       );
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Error creating ticket')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Error creating ticket')));
     }
     return success;
   }

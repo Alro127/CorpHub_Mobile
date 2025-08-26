@@ -35,7 +35,7 @@ class TicketRepository {
 
   Future<bool> saveTicket(TicketRequest ticket) async {
     try {
-      await api.post('api/tickets/save', ticket.toJson());
+      await api.post('/api/tickets/save', ticket.toJson());
       return true;
     } catch (e) {
       // Log hoặc xử lý lỗi
@@ -45,7 +45,7 @@ class TicketRepository {
 
   Future<bool> deleteTicket(int id) async {
     try {
-      await api.delete('api/tickets/delete/$id');
+      await api.delete('/api/tickets/delete/$id');
       return true;
     } catch (e) {
       return false;
@@ -54,8 +54,9 @@ class TicketRepository {
 
   Future<List<TicketCategory>> fetchCategories() async {
     try {
-      final response = await api.get('api/tickets/categories');
+      final response = await api.get('/api/tickets/categories');
       final List<dynamic> data = response?['data'] ?? [];
+      print(data);
       return data.map((json) => TicketCategory.fromJson(json)).toList();
     } catch (e) {
       // Log hoặc return list rỗng để tránh crash

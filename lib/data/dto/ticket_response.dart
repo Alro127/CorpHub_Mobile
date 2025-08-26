@@ -1,3 +1,5 @@
+import 'package:ticket_helpdesk/const/ticket_prioriry.dart';
+import 'package:ticket_helpdesk/const/ticket_status.dart';
 import 'package:ticket_helpdesk/domain/models/department_basic_info.dart';
 import 'package:ticket_helpdesk/domain/models/name_info.dart';
 import 'package:ticket_helpdesk/domain/models/ticket_category.dart';
@@ -6,8 +8,8 @@ class TicketResponse {
   final int id;
   final String title;
   final String description;
-  final String priority;
-  final String status;
+  final TicketPriority priority;
+  final TicketStatus status;
   final TicketCategory category;
   final NameInfo requester;
   final NameInfo? assignedTo;
@@ -40,8 +42,14 @@ class TicketResponse {
       id: json['id'],
       title: json['title'] ?? '',
       description: json['description'] ?? '',
-      priority: json['priority'] ?? '',
-      status: json['status'] ?? '',
+      priority: TicketPriority.values.firstWhere(
+        (e) => e.name == json['priority'],
+        orElse: () => TicketPriority.LOW,
+      ),
+      status: TicketStatus.values.firstWhere(
+        (e) => e.name == json['status'],
+        orElse: () => TicketStatus.WAITING,
+      ),
       category: TicketCategory.fromJson(json['category']),
       requester: NameInfo.fromJson(json['requester']),
       assignedTo: json['assignedTo'] != null

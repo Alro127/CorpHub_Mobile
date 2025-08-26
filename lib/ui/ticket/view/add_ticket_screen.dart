@@ -25,60 +25,52 @@ class _AddNewTicketState extends State<AddNewTicket> {
         ticketUseCase: getIt(),
         departmentUsecase: getIt(),
       ),
-      child: Consumer<AddTicketViewModel>(builder: (context, vm, _) {
-        return Scaffold(
-          appBar: HeadBar(title: "Add ticket"),
-          body: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  BasicInput(
-                    hintText: "Ticket's name",
-                    prefixIcon: Icons.title_outlined,
-                    linesNumber: 1,
-                    controller: vm.titleController,
-                  ),
-                  const SizedBox(height: 16),
-                  TicketCategoryAndPriority(vm: vm),
-                  const SizedBox(height: 16),
-                  TicketTypeAndStatus(vm: vm),
-                  const SizedBox(height: 16),
-                  vm.loadingUsers
-                      ? const Center(child: CircularProgressIndicator())
-                      : BasicDropdownField(
-                    label: "Department",
-                    icon: Icons.apartment,
-                    value: vm.assignedToId,
-                    items: vm.departments.map((department) {
-                      return DropdownMenuItem(
-                        value: department.id,
-                        child: Text(department.departmentName),
-                      );
-                    }).toList(),
-                    onChanged: (value) => vm.setAssignedTo(value as int?),
-                  ),
-                  const SizedBox(height: 16),
-                  DateTimeInput(
-                    hintText: "Deadline",
-                    icon: Icons.access_time,
-                    controller: vm.dateTimeController,
-                    onDateTimeChanged: (dateTime) {},
-                  ),
-                  const SizedBox(height: 16),
-                  BasicInput(
-                    hintText: "Description",
-                    linesNumber: 5,
-                    controller: vm.descriptionController,
-                  ),
-                  const SizedBox(height: 16),
-                  TicketActionButtons(vm: vm),
-                ],
+      child: Consumer<AddTicketViewModel>(
+        builder: (context, vm, _) {
+          return Scaffold(
+            appBar: HeadBar(title: "Add ticket"),
+            body: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  children: [
+                    BasicInput(
+                      hintText: "Ticket's name",
+                      prefixIcon: Icons.title_outlined,
+                      linesNumber: 1,
+                      controller: vm.titleController,
+                    ),
+                    const SizedBox(height: 16),
+                    TicketCategoryAndPriority(vm: vm),
+                    const SizedBox(height: 16),
+                    vm.loadingUsers
+                        ? const Center(child: CircularProgressIndicator())
+                        : BasicDropdownField(
+                            label: "Department",
+                            icon: Icons.apartment,
+                            value: vm.assignedToId,
+                            items: vm.departments.map((department) {
+                              return DropdownMenuItem(
+                                value: department.id,
+                                child: Text(department.departmentName),
+                              );
+                            }).toList(),
+                            onChanged: (value) => vm.setAssignedTo(value),
+                          ),
+                    const SizedBox(height: 16),
+                    BasicInput(
+                      hintText: "Description",
+                      linesNumber: 5,
+                      controller: vm.descriptionController,
+                    ),
+                    const SizedBox(height: 16),
+                    TicketActionButtons(vm: vm),
+                  ],
+                ),
               ),
             ),
-          ),
-        );
-      }
+          );
+        },
       ),
     );
   }

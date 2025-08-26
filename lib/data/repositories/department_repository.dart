@@ -8,7 +8,7 @@ class DepartmentRepository {
 
   Future<List<DepartmentBasicInfoDto>> fetchDepartment() async {
     try {
-      final response = await api.get("/department/get-all");
+      final response = await api.get("/api/department/get-all");
       final List<dynamic> data = response?['data'] ?? [];
 
       return data.map((json) => DepartmentBasicInfoDto.fromJson(json)).toList();

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ticket_helpdesk/const/ticket_prioriry.dart';
 import 'package:ticket_helpdesk/ui/core/widgets/basic_dropdown_field.dart';
 import 'package:ticket_helpdesk/ui/ticket/view_model/add_ticket_view_model.dart';
 
@@ -15,29 +16,35 @@ class TicketCategoryAndPriority extends StatelessWidget {
           child: vm.loadingCategories
               ? const Center(child: CircularProgressIndicator())
               : BasicDropdownField(
-            label: "Ticket category",
-            icon: Icons.category,
-            value: vm.selectedCategoryId,
-            items: vm.categories.map((category) {
-              return DropdownMenuItem(
-                value: category.id,
-                child: Text(category.categoryName),
-              );
-            }).toList(),
-            onChanged: (value) => vm.setCategory(value as int?),
-          ),
+                  label: "Ticket category",
+                  icon: Icons.category,
+                  value: vm.selectedCategoryId,
+                  items: vm.categories.map((category) {
+                    return DropdownMenuItem(
+                      value: category.id,
+                      child: Text(category.categoryName),
+                    );
+                  }).toList(),
+                  onChanged: (value) => vm.setCategory(value),
+                ),
         ),
         const SizedBox(width: 16),
         Expanded(
-          child: BasicDropdownField(
+          child: BasicDropdownField<TicketPriority>(
             label: "Priority",
             icon: Icons.bar_chart,
-            value: vm.priority,
+            value: vm.priority, // kiểu TicketPriority
             items: const [
-              DropdownMenuItem(value: "urgent", child: Text("Urgent")),
-              DropdownMenuItem(value: "high", child: Text("High")),
-              DropdownMenuItem(value: "medium", child: Text("Medium")),
-              DropdownMenuItem(value: "low", child: Text("Low")),
+              DropdownMenuItem(
+                value: TicketPriority.URGENT,
+                child: Text("Urgent"),
+              ),
+              DropdownMenuItem(value: TicketPriority.HIGH, child: Text("High")),
+              DropdownMenuItem(
+                value: TicketPriority.MEDIUM,
+                child: Text("Medium"),
+              ),
+              DropdownMenuItem(value: TicketPriority.LOW, child: Text("Low")),
             ],
             onChanged: (value) => vm.setPriority(value!),
           ),
@@ -46,4 +53,3 @@ class TicketCategoryAndPriority extends StatelessWidget {
     );
   }
 }
-
