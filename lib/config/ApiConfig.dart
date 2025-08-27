@@ -1,15 +1,21 @@
 import 'dart:convert';
 
+import 'package:ticket_helpdesk/data/local/secure_storage_service.dart';
+
 class ApiConfig {
   static const String baseUrl = 'http://10.0.2.2:8080';
   //static const String baseUrl = 'http://localhost:8080/api';
 
-  static String? jwtToken; // Lưu token sau khi login
+  final SecureStorageService secureStorageService;
 
-  static Map<String, String> get headers {
+  ApiConfig(this.secureStorageService);
+
+  Future<Map<String, String>> getHeaders(isAuth) async {
+    final token = await secureStorageService.getToken();
+
     return {
       'Content-Type': 'application/json',
-      if (jwtToken != null) 'Authorization': 'Bearer $jwtToken',
+      if (isAuth) 'Authorization': 'Bearer $token',
     };
   }
 }

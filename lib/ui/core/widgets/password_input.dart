@@ -23,10 +23,17 @@ class _PasswordInputState extends State<PasswordInput> {
       controller: widget.controller,
       obscureText: _obscureText,
       decoration: InputDecoration(
+        contentPadding: const EdgeInsets.symmetric(
+          vertical: 16,
+          horizontal: 12,
+        ),
         labelText: widget.hintText,
-        prefixIcon: const Icon(Icons.lock),
+        prefixIcon: Icon(Icons.lock, color: Colors.grey[500]),
         suffixIcon: IconButton(
-          icon: Icon(_obscureText ? Icons.visibility_off : Icons.visibility),
+          icon: Icon(
+            _obscureText ? Icons.visibility_off : Icons.visibility,
+            color: Colors.grey[500],
+          ),
           onPressed: () {
             setState(() {
               _obscureText = !_obscureText;

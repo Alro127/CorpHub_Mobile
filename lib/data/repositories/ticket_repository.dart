@@ -35,7 +35,7 @@ class TicketRepository {
 
   Future<bool> saveTicket(TicketRequest ticket) async {
     try {
-      await api.post('/api/tickets/save', ticket.toJson());
+      await api.post('/api/tickets/save', ticket.toJson(), false);
       return true;
     } catch (e) {
       // Log hoặc xử lý lỗi

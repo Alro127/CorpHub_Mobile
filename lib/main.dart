@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:ticket_helpdesk/config/service_locator.dart';
-import 'package:ticket_helpdesk/ui/home_page/view/home_screen.dart';
+import 'package:ticket_helpdesk/ui/core/view_model/user_view_model.dart';
+import 'package:ticket_helpdesk/ui/my_tickets/view/my_tickets_page.dart';
 import 'package:ticket_helpdesk/ui/login/view/login_page.dart';
 import 'package:ticket_helpdesk/ui/signup/signup_page.dart';
 
 void main() {
   setupLocator();
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => getIt<UserViewModel>()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

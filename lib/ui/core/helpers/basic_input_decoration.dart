@@ -9,11 +9,11 @@ class BasicInputDecorations {
   }) {
     return InputDecoration(
       prefixIcon: prefixIcon != null
-          ? Icon(prefixIcon, color: Colors.grey[700])
+          ? Icon(prefixIcon, color: Colors.grey[500])
           : null,
 
       suffixIcon: suffixIcon != null
-          ? Icon(suffixIcon, color: Colors.grey[700])
+          ? Icon(suffixIcon, color: Colors.grey[500])
           : null,
       alignLabelWithHint: multiline,
       labelText: label,
@@ -23,10 +23,10 @@ class BasicInputDecorations {
       ),
       filled: true,
       fillColor: Colors.white,
-      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: Colors.grey, width: 1),
+        borderSide: BorderSide(color: Colors.grey, width: 1),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),

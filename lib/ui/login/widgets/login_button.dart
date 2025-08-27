@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ticket_helpdesk/ui/home_page/view/home_screen.dart';
+import 'package:ticket_helpdesk/ui/my_tickets/view/my_tickets_page.dart';
 import 'package:ticket_helpdesk/ui/login/view_model/login_view_model.dart';
 
 class LoginButton extends StatelessWidget {
@@ -19,17 +19,14 @@ class LoginButton extends StatelessWidget {
           ),
           elevation: 4,
           shadowColor: Colors.blueAccent.withOpacity(0.4),
-          textStyle: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
+          textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
         onPressed: () async {
           final success = await vm.login(); // gọi hàm login trong ViewModel
           if (success) {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (_) => const HomePage()),
+              MaterialPageRoute(builder: (_) => const MyTicketsPage()),
             );
           } else {
             ScaffoldMessenger.of(context).showSnackBar(

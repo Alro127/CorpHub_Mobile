@@ -1,36 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:ticket_helpdesk/data/dto/ticket_response.dart';
+import 'package:ticket_helpdesk/ui/core/helpers/ticket_color_helper.dart';
 import 'package:ticket_helpdesk/ui/ticket/widgets/view_update_ticket.dart';
 
 class TicketItem extends StatelessWidget {
   final TicketResponse ticket;
   const TicketItem({super.key, required this.ticket});
-
-  Color getStatusColor() {
-    switch (ticket.status) {
-      case 'in_progress':
-        return Colors.orange;
-      case 'resolved':
-        return Colors.green;
-      case 'closed':
-        return Colors.red;
-      default:
-        return Colors.blue;
-    }
-  }
-
-  Color getPriorityColor() {
-    switch (ticket.priority) {
-      case 'urgent':
-        return Colors.red;
-      case 'high':
-        return Colors.orange;
-      case 'low':
-        return Colors.green;
-      default:
-        return Colors.amber;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,9 +49,13 @@ class TicketItem extends StatelessWidget {
                       ),
                       Chip(
                         label: Text(ticket.status.name),
-                        backgroundColor: getStatusColor().withOpacity(0.15),
+                        backgroundColor: TicketColorHelper.getStatusColor(
+                          ticket.status,
+                        ).withOpacity(0.15),
                         labelStyle: TextStyle(
-                          color: getStatusColor(),
+                          color: TicketColorHelper.getStatusColor(
+                            ticket.status,
+                          ),
                           fontWeight: FontWeight.w500,
                         ),
                         visualDensity: VisualDensity.compact,
@@ -121,9 +100,13 @@ class TicketItem extends StatelessWidget {
                     children: [
                       Chip(
                         label: Text(ticket.priority.name),
-                        backgroundColor: getPriorityColor().withOpacity(0.15),
+                        backgroundColor: TicketColorHelper.getPriorityColor(
+                          ticket.priority,
+                        ).withOpacity(0.15),
                         labelStyle: TextStyle(
-                          color: getPriorityColor(),
+                          color: TicketColorHelper.getPriorityColor(
+                            ticket.priority,
+                          ),
                           fontWeight: FontWeight.w500,
                         ),
                         visualDensity: VisualDensity.compact,

@@ -5,22 +5,23 @@ import 'package:ticket_helpdesk/config/ApiConfig.dart';
 
 class ApiService {
   final String baseUrl;
+  final ApiConfig api;
 
-  ApiService({String? baseUrlOverride})
+  ApiService(this.api, {String? baseUrlOverride})
     : baseUrl = baseUrlOverride ?? ApiConfig.baseUrl;
 
   Future<dynamic> get(String endpoint) async {
     final response = await http.get(
       Uri.parse('$baseUrl$endpoint'),
-      headers: ApiConfig.headers,
+      headers: await api.getHeaders(true),
     );
     return _processResponse(response);
   }
 
-  Future<dynamic> post(String endpoint, dynamic body) async {
+  Future<dynamic> post(String endpoint, dynamic body, bool isAuth) async {
     final response = await http.post(
       Uri.parse('$baseUrl$endpoint'),
-      headers: ApiConfig.headers,
+      headers: await api.getHeaders(isAuth),
       body: json.encode(body),
     );
     return _processResponse(response);
@@ -29,7 +30,7 @@ class ApiService {
   Future<dynamic> delete(String endpoint) async {
     final response = await http.delete(
       Uri.parse('$baseUrl$endpoint'),
-      headers: ApiConfig.headers,
+      headers: await api.getHeaders(false),
     );
     return _processResponse(response);
   }

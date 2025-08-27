@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:ticket_helpdesk/ui/attendance/widgets/attendance_page.dart';
-import 'package:ticket_helpdesk/ui/core/widgets/aurora_background.dart';
+import 'package:ticket_helpdesk/ui/core/view_model/user_view_model.dart';
 import 'package:ticket_helpdesk/ui/core/widgets/rotating_gradient_background.dart';
-import 'package:ticket_helpdesk/ui/home_page/view/home_screen.dart';
+import 'package:ticket_helpdesk/ui/my_tickets/view/my_tickets_page.dart';
 import 'package:ticket_helpdesk/ui/login/view/login_page.dart';
 import 'package:ticket_helpdesk/ui/profile/profile_page.dart';
 
@@ -11,80 +12,98 @@ class SideBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: [
-          Stack(
-            children: [
-              const Positioned.fill( // bắt RotatingGradient full size
-                child: RotatingGradient(),
-              ),
-              UserAccountsDrawerHeader(
-                accountName: const Text(
-                  'Account Name',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+    return Consumer<UserViewModel>(
+      builder: (context, vm, _) => Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            Stack(
+              children: [
+                const Positioned.fill(
+                  // bắt RotatingGradient full size
+                  child: RotatingGradient(),
                 ),
-                accountEmail: const Text('accountEmail@gmail.com'),
-                currentAccountPicture: GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const ProfilePage(),
+                UserAccountsDrawerHeader(
+                  accountName: Text(
+                    vm.fullname ?? 'User Name',
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  accountEmail: Text(vm.email ?? 'Email'),
+                  currentAccountPicture: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ProfilePage(),
+                        ),
+                      );
+                    },
+                    child: Hero(
+                      tag: "profileAvatar",
+                      child: const CircleAvatar(
+                        backgroundImage: AssetImage(
+                          'images/support-ticket.png',
+                        ),
                       ),
-                    );
-                  },
-                  child: Hero(
-                    tag: "profileAvatar",
-                    child: const CircleAvatar(
-                      backgroundImage: AssetImage('images/support-ticket.png'),
                     ),
                   ),
+                  decoration: const BoxDecoration(color: Colors.transparent),
                 ),
-                decoration: const BoxDecoration(color: Colors.transparent),
-              ),
-            ],
-          ),
-          ListTile(
-            leading: Icon(Icons.home),
-            title: Text('Home Page'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => HomePage()),
-              );
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.people),
-            title: const Text('Attendance'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => AttendancePage()),
-              );
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.list),
-            title: const Text('My tickets'),
-            onTap: () {},
-          ),
-          const Divider(),
-          ListTile(
-            leading: const Icon(Icons.settings),
-            title: const Text('Setting'),
-            onTap: () {},
-          ),
-          ListTile(
-            leading: const Icon(Icons.logout),
-            title: const Text('Logout'),
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage(),));
-            },
-          ),
-        ],
+              ],
+            ),
+            ListTile(
+              leading: Icon(Icons.confirmation_num),
+              title: Text('My Tickets'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MyTicketsPage()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.people),
+              title: const Text('Attendance'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AttendancePage()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.task),
+              title: const Text('Tasks'),
+              onTap: () {},
+            ),
+            ListTile(
+              leading: const Icon(Icons.calendar_month),
+              title: const Text('Calendar'),
+              onTap: () {},
+            ),
+            ListTile(
+              leading: const Icon(Icons.chat),
+              title: const Text('Chat'),
+              onTap: () {},
+            ),
+            const Divider(),
+            ListTile(
+              leading: const Icon(Icons.settings),
+              title: const Text('Setting'),
+              onTap: () {},
+            ),
+            ListTile(
+              leading: const Icon(Icons.logout),
+              title: const Text('Logout'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginPage()),
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

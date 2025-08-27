@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:ticket_helpdesk/data/dto/ticket_response.dart';
 import 'package:ticket_helpdesk/domain/usecases/ticket_usecases.dart';
 
-class HomeViewModel extends ChangeNotifier {
+class MyTicketsViewModel extends ChangeNotifier {
   final TicketUseCase _ticketUseCase;
 
-  HomeViewModel({required TicketUseCase ticketUseCase})
+  MyTicketsViewModel({required TicketUseCase ticketUseCase})
     : _ticketUseCase = ticketUseCase {
     fetchTickets();
   }
@@ -13,6 +13,9 @@ class HomeViewModel extends ChangeNotifier {
   List<TicketResponse> tickets = [];
   bool isLoading = true;
   String? errorMessage;
+  final int _currentUserId = 1; // Giả sử user hiện tại có ID là 1
+
+  int get currentUserId => _currentUserId;
 
   /// Search
   String searchText = '';

@@ -5,6 +5,8 @@ class UserUseCases {
   final UserRepository repository;
   UserUseCases(this.repository);
 
-  Future<List<NameInfo>> fetchUsersNameInfo () => repository.fetchUsersNameInfo();
+  Future<List<NameInfo>> fetchUsersNameInfo() =>
+      repository.fetchUsersNameInfo();
 
+  Future fetchMyUser() => repository.fetchMyUser();
 }
