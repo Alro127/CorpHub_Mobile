@@ -24,14 +24,16 @@ class ApiService {
       headers: await api.getHeaders(isAuth),
       body: json.encode(body),
     );
+    print(response.body);
     return _processResponse(response);
   }
 
   Future<dynamic> delete(String endpoint) async {
     final response = await http.delete(
       Uri.parse('$baseUrl$endpoint'),
-      headers: await api.getHeaders(false),
+      headers: await api.getHeaders(true),
     );
+    print(response.body);
     return _processResponse(response);
   }
 

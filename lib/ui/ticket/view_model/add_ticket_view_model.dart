@@ -34,7 +34,7 @@ class AddTicketViewModel extends ChangeNotifier {
   List<DepartmentBasicInfoDto> departments = [];
   int? selectedCategoryId;
   int? assignedToId;
-  late int departmentId;
+  int departmentId = 1;
 
   bool loadingCategories = true;
   bool loadingUsers = true;

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:ticket_helpdesk/config/service_locator.dart';
+import 'package:ticket_helpdesk/ui/my_tickets/view_model/my_tickets_view_model.dart';
 import 'package:ticket_helpdesk/ui/ticket/view_model/add_ticket_view_model.dart';
 
 class TicketActionButtons extends StatelessWidget {
@@ -14,7 +16,19 @@ class TicketActionButtons extends StatelessWidget {
           child: ElevatedButton(
             onPressed: () async {
               final success = await vm.saveTicketAction(context);
-              if (success) Navigator.pop(context);
+              if (success) {
+                final MyTicketsViewModel myTicketsViewModel =
+                    getIt<MyTicketsViewModel>();
+                showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (_) =>
+                      const Center(child: CircularProgressIndicator()),
+                );
+                await myTicketsViewModel.fetchTickets();
+                Navigator.pop(context);
+                Navigator.pop(context);
+              }
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.blueAccent,

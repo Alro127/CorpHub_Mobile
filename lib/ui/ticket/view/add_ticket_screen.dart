@@ -3,12 +3,10 @@ import 'package:provider/provider.dart';
 import 'package:ticket_helpdesk/config/service_locator.dart';
 import 'package:ticket_helpdesk/ui/core/widgets/basic_dropdown_field.dart';
 import 'package:ticket_helpdesk/ui/core/widgets/basic_input.dart';
-import 'package:ticket_helpdesk/ui/core/widgets/datetime_input.dart';
 import 'package:ticket_helpdesk/ui/core/widgets/head_bar.dart';
 import 'package:ticket_helpdesk/ui/ticket/view_model/add_ticket_view_model.dart';
 import 'package:ticket_helpdesk/ui/ticket/widgets/ticket_action_buttons.dart';
 import 'package:ticket_helpdesk/ui/ticket/widgets/ticket_category_and_priority.dart';
-import 'package:ticket_helpdesk/ui/ticket/widgets/ticket_type_and_status.dart';
 
 class AddNewTicket extends StatefulWidget {
   const AddNewTicket({super.key});
@@ -48,7 +46,7 @@ class _AddNewTicketState extends State<AddNewTicket> {
                         : BasicDropdownField(
                             label: "Department",
                             icon: Icons.apartment,
-                            value: vm.assignedToId,
+                            value: vm.departmentId,
                             items: vm.departments.map((department) {
                               return DropdownMenuItem(
                                 value: department.id,

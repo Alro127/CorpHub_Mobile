@@ -18,8 +18,9 @@ class TicketList extends StatelessWidget {
     return ListView.builder(
       padding: const EdgeInsets.all(8.0),
       itemCount: tickets.length,
-      itemBuilder: (context, index) {
+      itemBuilder: (itemContext, index) {
         final ticket = tickets[index];
+
         return Slidable(
           key: ValueKey(ticket.id),
           endActionPane: ActionPane(
@@ -27,21 +28,26 @@ class TicketList extends StatelessWidget {
             extentRatio: 0.25,
             children: [
               SlidableAction(
-                onPressed: (context) async {
+                onPressed: (_) async {
+                  // Lấy context của AlertDialog để pop
                   final confirm = await showDialog<bool>(
-                    context: context,
-                    builder: (_) => AlertDialog(
-                      title: Text("Xác nhận"),
+                    context: context, // context an toàn của parent
+                    builder: (dialogContext) => AlertDialog(
+                      title: const Text("Xác nhận"),
                       content: Text(
-                          "Bạn có chắc muốn xoá ticket '${ticket.title}'?"),
+                        "Bạn có chắc muốn xoá ticket '${ticket.title}'?",
+                      ),
                       actions: [
                         TextButton(
-                          onPressed: () => Navigator.pop(context, false),
-                          child: Text("Hủy"),
+                          onPressed: () => Navigator.pop(dialogContext, false),
+                          child: const Text("Hủy"),
                         ),
                         TextButton(
-                          onPressed: () => Navigator.pop(context, true),
-                          child: Text("Xóa", style: TextStyle(color: Colors.red)),
+                          onPressed: () => Navigator.pop(dialogContext, true),
+                          child: const Text(
+                            "Xóa",
+                            style: TextStyle(color: Colors.red),
+                          ),
                         ),
                       ],
                     ),
@@ -49,11 +55,14 @@ class TicketList extends StatelessWidget {
 
                   if (confirm == true) {
                     final success = await onDelete(ticket.id);
+                    if (!context.mounted) return; // kiểm tra context còn active
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text(success
-                            ? "Đã xoá '${ticket.title}'"
-                            : "Xoá thất bại, vui lòng thử lại"),
+                        content: Text(
+                          success
+                              ? "Đã xoá '${ticket.title}'"
+                              : "Xoá thất bại, vui lòng thử lại",
+                        ),
                       ),
                     );
                   }

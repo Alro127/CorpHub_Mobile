@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:math';
 
 import 'package:ticket_helpdesk/ui/core/widgets/rotating_gradient_background.dart';
 
@@ -14,10 +13,7 @@ class HeadBar extends StatefulWidget implements PreferredSizeWidget {
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
 
-class _HeadBarState extends State<HeadBar>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-
+class _HeadBarState extends State<HeadBar> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -29,9 +25,7 @@ class _HeadBarState extends State<HeadBar>
           backgroundColor: Colors.transparent,
           elevation: 4,
           shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(
-              bottom: Radius.circular(20),
-            ),
+            borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
           ),
           leading: Builder(
             builder: (context) => IconButton(
@@ -42,15 +36,18 @@ class _HeadBarState extends State<HeadBar>
           title: Text(
             widget.title,
             style: const TextStyle(
-                fontWeight: FontWeight.bold, color: Colors.white),
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
           ),
           actions: [
             IconButton(
               icon: const Icon(Icons.notifications, color: Colors.white),
               onPressed: () async {
-                final RenderBox button = context.findRenderObject() as RenderBox;
+                final RenderBox button =
+                    context.findRenderObject() as RenderBox;
                 final RenderBox overlay =
-                Overlay.of(context).context.findRenderObject() as RenderBox;
+                    Overlay.of(context).context.findRenderObject() as RenderBox;
 
                 final Offset bottomRight = button.localToGlobal(
                   Offset(button.size.width, button.size.height),
@@ -69,7 +66,8 @@ class _HeadBarState extends State<HeadBar>
                   position: position,
                   items: [
                     const PopupMenuItem(
-                        child: Text('🔔 Bạn có 1 thông báo mới!')),
+                      child: Text('🔔 Bạn có 1 thông báo mới!'),
+                    ),
                   ],
                 );
               },
