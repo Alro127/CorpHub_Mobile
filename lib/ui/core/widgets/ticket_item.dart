@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ticket_helpdesk/data/dto/ticket_response.dart';
+import 'package:ticket_helpdesk/ui/core/helpers/datetime_helper.dart';
 import 'package:ticket_helpdesk/ui/core/helpers/ticket_color_helper.dart';
 import 'package:ticket_helpdesk/ui/ticket/widgets/view_update_ticket.dart';
 
@@ -9,125 +10,112 @@ class TicketItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+
     return InkWell(
-      borderRadius: BorderRadius.circular(20),
+      borderRadius: BorderRadius.circular(16),
       onTap: () {
         Navigator.of(context).push(
           PageRouteBuilder(
             opaque: false,
             barrierColor: Colors.black54,
             pageBuilder: (_, __, ___) => ViewUpdateTicket(ticket: ticket),
-            transitionDuration: const Duration(milliseconds: 500),
+            transitionDuration: const Duration(milliseconds: 300),
           ),
         );
       },
       child: Hero(
         tag: "ticket_${ticket.id}",
-        child: Container(
-          constraints: BoxConstraints(minHeight: 270, maxWidth: 400),
-          child: Card(
-            elevation: 3,
-            margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(14),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Header
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "#Ticket",
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
+        child: Card(
+          elevation: 3,
+          color: Colors.grey[50],
+          margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(14),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Header
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "#${ticket.id.substring(0, 6)}",
+                      style: textTheme.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: Colors.grey[800],
                       ),
-                      Chip(
-                        label: Text(ticket.status.name),
-                        backgroundColor: TicketColorHelper.getStatusColor(
-                          ticket.status,
-                        ).withValues(alpha: 0.15),
-                        labelStyle: TextStyle(
-                          color: TicketColorHelper.getStatusColor(
-                            ticket.status,
-                          ),
-                          fontWeight: FontWeight.w500,
-                        ),
-                        visualDensity: VisualDensity.compact,
-                      ),
-                    ],
-                  ),
-
-                  const SizedBox(height: 6),
-
-                  // Title
-                  Text(
-                    ticket.title,
-                    style: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w600,
                     ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
+                    _statusChip(ticket, textTheme),
+                  ],
+                ),
 
-                  const SizedBox(height: 10),
+                Divider(),
+                const SizedBox(height: 8),
 
-                  // Info section
-                  _infoItem(
-                    Icons.calendar_month,
-                    "Created: ${ticket.createdAt}",
+                // Title
+                Text(
+                  ticket.title,
+                  style: textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w700,
+                    color: Colors.black87,
                   ),
-                  _infoItem(Icons.update, "Updated: ${ticket.updatedAt}"),
-                  _infoItem(
-                    Icons.person,
-                    "Requester: ${ticket.requester.fullName}",
-                  ),
-                  _infoItem(
-                    Icons.engineering,
-                    "Assigned to: ${ticket.assignee?.fullName ?? 'Chưa phân công'}",
-                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
 
-                  const Divider(),
+                const SizedBox(height: 12),
 
-                  // Footer chips
-                  Row(
-                    children: [
-                      Chip(
-                        label: Text(ticket.priority.name),
-                        backgroundColor: TicketColorHelper.getPriorityColor(
-                          ticket.priority,
-                        ).withValues(alpha: 0.15),
-                        labelStyle: TextStyle(
-                          color: TicketColorHelper.getPriorityColor(
-                            ticket.priority,
+                _highlightInfo(
+                  Icons.person,
+                  "Requester: ${ticket.requester.fullName}",
+                  textTheme,
+                ),
+
+                _highlightInfo(
+                  Icons.engineering,
+                  "Assignee: ${ticket.assignee?.fullName ?? 'Chưa phân công'}",
+                  textTheme,
+                ),
+
+                const SizedBox(height: 14),
+
+                Divider(),
+                // Footer row: Priority + Category | Updated
+                Row(
+                  children: [
+                    _iconTagChip(
+                      Icons.flag,
+                      ticket.priority.name,
+                      TicketColorHelper.getPriorityColor(ticket.priority),
+                      textTheme,
+                    ),
+                    const SizedBox(width: 8),
+                    _iconTagChip(
+                      Icons.category,
+                      ticket.category.categoryName,
+                      Colors.pinkAccent,
+                      textTheme,
+                    ),
+                    const Spacer(),
+                    Row(
+                      children: [
+                        Icon(Icons.update, size: 16, color: Colors.grey[600]),
+                        const SizedBox(width: 4),
+                        Text(
+                          DateTimeHelper.format(ticket.updatedAt),
+                          style: textTheme.bodySmall?.copyWith(
+                            color: Colors.black87,
                           ),
-                          fontWeight: FontWeight.w500,
                         ),
-                        visualDensity: VisualDensity.compact,
-                      ),
-                      const SizedBox(width: 8),
-                      Chip(
-                        label: Text(ticket.category.categoryName),
-                        backgroundColor: Colors.pinkAccent.withValues(
-                          alpha: 0.15,
-                        ),
-                        labelStyle: const TextStyle(
-                          color: Colors.pinkAccent,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 12,
-                        ),
-                        visualDensity: VisualDensity.compact,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
         ),
@@ -135,16 +123,69 @@ class TicketItem extends StatelessWidget {
     );
   }
 
-  Widget _infoItem(IconData icon, String text) {
+  Widget _statusChip(TicketResponse ticket, TextTheme textTheme) {
+    final color = TicketColorHelper.getStatusColor(ticket.status);
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 8),
+      decoration: BoxDecoration(
+        color: color.withOpacity(0.12),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Text(
+        ticket.status.name,
+        style: textTheme.labelSmall?.copyWith(
+          color: color,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    );
+  }
+
+  Widget _highlightInfo(IconData icon, String text, TextTheme textTheme) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 4),
+      padding: const EdgeInsets.symmetric(vertical: 2), // giảm khoảng cách
       child: Row(
         children: [
-          Icon(icon, size: 18, color: Colors.grey[700]),
-          const SizedBox(width: 8),
+          Icon(icon, size: 16, color: Colors.grey[700]), // đổi màu icon nhẹ hơn
+          const SizedBox(width: 6),
+          Expanded(
+            child: Text(
+              text,
+              style: textTheme.bodySmall?.copyWith(
+                // giảm size xuống bodySmall
+                fontWeight: FontWeight.w500, // hạ từ w600 -> w500
+                color: Colors.grey[800], // đổi màu chữ thành xám đậm vừa phải
+              ),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _iconTagChip(
+    IconData icon,
+    String label,
+    Color color,
+    TextTheme textTheme,
+  ) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 8),
+      decoration: BoxDecoration(
+        color: color.withOpacity(0.12),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Row(
+        children: [
+          Icon(icon, size: 14, color: color),
+          const SizedBox(width: 4),
           Text(
-            text,
-            style: const TextStyle(fontSize: 13, color: Colors.black87),
+            label,
+            style: textTheme.labelSmall?.copyWith(
+              fontWeight: FontWeight.w600,
+              color: color,
+            ),
           ),
         ],
       ),

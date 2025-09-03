@@ -13,8 +13,8 @@ class TicketResponse {
   final TicketCategory category;
   final NameInfo requester;
   final NameInfo? assignee;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
+  final DateTime createdAt;
+  final DateTime updatedAt;
   final DateTime? resolvedAt;
   final DepartmentDto? department;
   final DateTime? assignedAt;
@@ -28,8 +28,8 @@ class TicketResponse {
     required this.category,
     required this.requester,
     this.assignee,
-    this.createdAt,
-    this.updatedAt,
+    required this.createdAt,
+    required this.updatedAt,
     this.resolvedAt,
     this.department,
     this.assignedAt,
@@ -53,18 +53,8 @@ class TicketResponse {
       assignee: json['assignee'] != null
           ? NameInfo.fromJson(json['assignee'])
           : null,
-      createdAt: json['createdAt'] != null
-          ? (json['createdAt'] is String
-                ? DateTime.parse(json['createdAt'])
-                : DateTime.tryParse(json['createdAt'].toString()))
-          : null,
-
-      updatedAt: json['updatedAt'] != null
-          ? (json['updatedAt'] is String
-                ? DateTime.parse(json['updatedAt'])
-                : DateTime.tryParse(json['updatedAt'].toString()))
-          : null,
-
+      createdAt: DateTime.parse(json['createdAt']),
+      updatedAt: DateTime.parse(json['updatedAt']),
       resolvedAt: json['resolvedAt'] != null
           ? (json['resolvedAt'] is String
                 ? DateTime.parse(json['resolvedAt'])

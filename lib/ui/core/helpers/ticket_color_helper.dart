@@ -6,15 +6,15 @@ class TicketColorHelper {
   static Color getStatusColor(TicketStatus status) {
     switch (status) {
       case TicketStatus.WAITING:
-        return Colors.orange; // đang chờ xử lý
+        return Colors.orange; // đang xác nhận của phòng ban yêu cầu
       case TicketStatus.ACCEPTED:
         return Colors.blue; // đã chấp nhận
       case TicketStatus.REJECTED:
         return Colors.red; // bị từ chối
-      case TicketStatus.TODO:
-        return Colors.grey; // việc cần làm
+      case TicketStatus.OPEN:
+        return Colors.grey; // chờ xác nhận từ phòng ban của requester
       case TicketStatus.IN_PROGRESS:
-        return Colors.teal; // đang thực hiện
+        return Colors.teal; // assignee chấp nhận
       case TicketStatus.DONE:
         return Colors.green; // hoàn thành
     }

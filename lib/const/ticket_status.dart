@@ -1,2 +1,2 @@
 // ignore: constant_identifier_names
-enum TicketStatus { WAITING, ACCEPTED, REJECTED, TODO, IN_PROGRESS, DONE }
+enum TicketStatus { OPEN, WAITING, ACCEPTED, REJECTED, IN_PROGRESS, DONE }
