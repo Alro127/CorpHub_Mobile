@@ -45,7 +45,7 @@ class TicketRepository {
     }
   }
 
-  Future<bool> deleteTicket(int id) async {
+  Future<bool> deleteTicket(String id) async {
     try {
       await api.delete('/api/tickets/delete/$id');
       return true;

@@ -5,6 +5,7 @@ class SecureStorageService {
 
   static const _keyToken = "auth_token";
   static const _keyFullName = "user_fullname";
+  static const _keyMyId = "my_id";
   static const _keyEmail = "user_email";
   static const _keyPassword = "user_password";
   static const _keyRememberMe = "remember_me";
@@ -68,5 +69,17 @@ class SecureStorageService {
 
   Future<void> deleteFullName() async {
     await _storage.delete(key: _keyFullName);
+  }
+
+  Future<void> saveMyId(String id) async {
+    await _storage.write(key: _keyMyId, value: id);
+  }
+
+  Future<String?> getMyId() async {
+    return await _storage.read(key: _keyMyId);
+  }
+
+  Future<void> deleteMyId() async {
+    await _storage.delete(key: _keyMyId);
   }
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ticket_helpdesk/const/ticket_status.dart';
 import 'package:ticket_helpdesk/data/dto/ticket_response.dart';
 import 'package:ticket_helpdesk/ui/core/helpers/ticket_color_helper.dart';
 
@@ -43,20 +42,19 @@ class ViewUpdateTicket extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "#${ticket.id}",
+                "#Mã Ticket",
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                   color: Colors.black87,
                 ),
               ),
-              // 🔹 Bên phải: Chip + Nút đóng
               Row(
                 children: [
                   Chip(
                     label: Text(ticket.status.name),
                     backgroundColor: TicketColorHelper.getStatusColor(
                       ticket.status,
-                    ).withOpacity(0.1),
+                    ).withValues(alpha: 0.1),
                     labelStyle: TextStyle(
                       color: TicketColorHelper.getStatusColor(ticket.status),
                       fontWeight: FontWeight.w600,
@@ -122,7 +120,7 @@ class ViewUpdateTicket extends StatelessWidget {
               const Icon(Icons.engineering, color: Colors.teal, size: 18),
               const SizedBox(width: 8),
               Text(
-                "Assigned: ${ticket.assignedTo?.fullName ?? 'Chưa phân công'}",
+                "Assigned: ${ticket.assignee?.fullName ?? 'Chưa phân công'}",
                 style: const TextStyle(fontSize: 13, color: Colors.black87),
               ),
             ],

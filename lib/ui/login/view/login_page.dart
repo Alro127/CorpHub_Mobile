@@ -76,15 +76,12 @@ class LoginPage extends StatelessWidget {
                                 Expanded(
                                   child: Text(
                                     "Ghi nhớ đăng nhập",
-
                                     overflow:
                                         TextOverflow.ellipsis, // tránh tràn
                                   ),
                                 ),
                                 GestureDetector(
-                                  onTap: () {
-                                    // TODO: Navigate tới SignupPage
-                                  },
+                                  onTap: () {},
                                   child: const Text(
                                     'Forgot Password?',
                                     style: TextStyle(

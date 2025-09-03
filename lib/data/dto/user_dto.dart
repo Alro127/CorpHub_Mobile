@@ -1,8 +1,8 @@
-import 'package:ticket_helpdesk/domain/models/department_basic_info.dart';
+import 'package:ticket_helpdesk/data/dto/department_dto.dart';
 
 class UserDto {
-  final int id;
-  final DepartmentBasicInfoDto department;
+  final String id;
+  final DepartmentDto department;
   final String fullName;
   final String role;
   final String email;
@@ -23,7 +23,7 @@ class UserDto {
   factory UserDto.fromJson(Map<String, dynamic> json) {
     return UserDto(
       id: json['id'],
-      department: DepartmentBasicInfoDto.fromJson(json['department']),
+      department: DepartmentDto.fromJson(json['department']),
       fullName: json['fullName'],
       role: json['role'],
       email: json['email'],

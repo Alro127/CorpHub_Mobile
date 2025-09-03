@@ -50,16 +50,17 @@ class LoginViewModel extends ChangeNotifier {
     );
     try {
       userResponse = await _loginUseCase.login(loginRequest);
+      if (rememberMe) {
+        await _storageService.saveEmail(emailController.text);
+        await _storageService.savePassword(passwordController.text);
+      } else {
+        await _storageService.deleteEmail();
+        await _storageService.deletePassword();
+      }
+      await _storageService.saveRememberMe(rememberMe);
 
       if (userResponse != null) {
-        if (rememberMe) {
-          await _storageService.saveEmail(emailController.text);
-          await _storageService.savePassword(passwordController.text);
-        } else {
-          await _storageService.deleteEmail();
-          await _storageService.deletePassword();
-        }
-        await _storageService.saveRememberMe(rememberMe);
+        await _storageService.saveMyId(userResponse!.id);
         await _storageService.saveToken(userResponse!.token);
         await _storageService.saveFullName(userResponse!.fullName);
         return true;

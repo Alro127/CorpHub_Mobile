@@ -6,7 +6,6 @@ import 'package:ticket_helpdesk/ui/core/widgets/side_bar.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter/foundation.dart';
 
 class AttendancePage extends StatefulWidget {
   const AttendancePage({super.key});
@@ -16,14 +15,11 @@ class AttendancePage extends StatefulWidget {
 }
 
 class _AttendancePageState extends State<AttendancePage> {
-  bool _attendance = false;
   bool _checkin = false;
   bool _checkout = false;
 
   String _address = "Đang lấy địa chỉ...";
   String _currentTime = "Đang lấy thời gian";
-  String _beginTime = "10:05:37";
-  String _endTime = "";
 
   final String thoiGianVaoCa = "08:30:00";
   final String thoiGianKetCa = "17:30:00";
@@ -73,10 +69,10 @@ class _AttendancePageState extends State<AttendancePage> {
               const SizedBox(height: 4),
               const Divider(color: Colors.blueAccent),
               const SizedBox(height: 4),
-/*              const Text("Lộ trình"),*/
+              /*              const Text("Lộ trình"),*/
               ..._mileStones,
               const SizedBox(height: 8),
-/*              const Text("Giờ checkin"),
+              /*              const Text("Giờ checkin"),
               const Text("Giờ checkout"),*/
             ],
           ),
@@ -98,32 +94,27 @@ class _AttendancePageState extends State<AttendancePage> {
       child: Ink(
         width: size,
         height: size,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-        ),
+        decoration: BoxDecoration(shape: BoxShape.circle),
         child: ClipOval(
           child: Stack(
             alignment: Alignment.center,
             children: [
-              AuroraBackground(
-                width: size,
-                height: size,
-              ),
+              AuroraBackground(width: size, height: size),
               Text(
                 _checkin ? "Checkout" : "Checkin",
                 style: const TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
                 textAlign: TextAlign.center,
-              )
+              ),
             ],
           ),
         ),
       ),
     );
   }
-
 
   Widget _buildMileStone(IconData icon, String time, String message) {
     return Padding(
@@ -141,10 +132,7 @@ class _AttendancePageState extends State<AttendancePage> {
           Expanded(
             child: Text(
               message,
-              style: TextStyle(
-                fontSize: 18,
-                color: Colors.grey[900],
-              ),
+              style: TextStyle(fontSize: 18, color: Colors.grey[900]),
             ),
           ),
         ],
@@ -185,18 +173,18 @@ class _AttendancePageState extends State<AttendancePage> {
     Position? lastPos = await Geolocator.getLastKnownPosition();
     if (lastPos != null) {
       setState(() {
-        _address = "Lat: ${lastPos.latitude}, Lng: ${lastPos.longitude}\n(Đang cập nhật...)";
+        _address =
+            "Lat: ${lastPos.latitude}, Lng: ${lastPos.longitude}\n(Đang cập nhật...)";
       });
     }
 
     try {
       Position pos = await Geolocator.getCurrentPosition(
-        locationSettings: LocationSettings(
-          accuracy: LocationAccuracy.low,
-        ),
+        locationSettings: LocationSettings(accuracy: LocationAccuracy.low),
       );
       setState(() {
-        _address = "Lat: ${pos.latitude}, Lng: ${pos.longitude}\nĐang dịch địa chỉ...";
+        _address =
+            "Lat: ${pos.latitude}, Lng: ${pos.longitude}\nĐang dịch địa chỉ...";
       });
 
       String addr = await _getAddress(pos);
@@ -214,7 +202,7 @@ class _AttendancePageState extends State<AttendancePage> {
       // Hiển thị tọa độ ngay
       setState(() {
         _address =
-        "Lat: ${position.latitude}, Lng: ${position.longitude}\nĐang dịch địa chỉ...";
+            "Lat: ${position.latitude}, Lng: ${position.longitude}\nĐang dịch địa chỉ...";
       });
 
       // Lấy địa chỉ
@@ -266,14 +254,9 @@ class _AttendancePageState extends State<AttendancePage> {
       );
       _mileStones.insert(0, _buildConnector());
       if (_checkin && _checkout) {
-        _attendance = true;
         _mileStones.insert(
           0,
-          _buildMileStone(
-            Icons.done_all,
-            _currentTime,
-            "Completed",
-          ),
+          _buildMileStone(Icons.done_all, _currentTime, "Completed"),
         );
       }
     }

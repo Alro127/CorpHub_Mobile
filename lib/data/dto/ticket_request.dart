@@ -1,12 +1,12 @@
 class TicketRequest {
-  final int? id;
+  final String? id;
   final String title;
   final String description;
   final String priority;
-  final int categoryId;
-  final int requesterId;
-  final int? assignedToId;
-  final int departmentId;
+  final String categoryId;
+  final String requesterId;
+  final String? assigneeId;
+  final String departmentId;
 
   TicketRequest({
     this.id,
@@ -15,20 +15,25 @@ class TicketRequest {
     required this.priority,
     required this.categoryId,
     required this.requesterId,
-    this.assignedToId,
-    required this.departmentId
+    this.assigneeId,
+    required this.departmentId,
   });
 
   Map<String, dynamic> toJson() {
-    return {
-      'id': id,
+    final data = {
       'title': title,
       'description': description,
       'priority': priority,
       'categoryId': categoryId,
       'requesterId': requesterId,
-      'assignedToId': assignedToId,
-      'departmentId': departmentId
+      'assigneeId': assigneeId,
+      'departmentId': departmentId,
     };
+
+    if (id != null) {
+      data['id'] = id;
+    }
+
+    return data;
   }
 }

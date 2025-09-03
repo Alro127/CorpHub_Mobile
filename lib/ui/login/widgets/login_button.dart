@@ -18,7 +18,7 @@ class LoginButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
           ),
           elevation: 4,
-          shadowColor: Colors.blueAccent.withOpacity(0.4),
+          shadowColor: Colors.blueAccent.withValues(alpha: 0.4),
           textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
         onPressed: () async {

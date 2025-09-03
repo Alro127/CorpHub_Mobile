@@ -1,5 +1,5 @@
 import 'package:get_it/get_it.dart';
-import 'package:ticket_helpdesk/config/ApiConfig.dart';
+import 'package:ticket_helpdesk/config/api_config.dart';
 import 'package:ticket_helpdesk/data/api_service.dart';
 import 'package:ticket_helpdesk/data/local/secure_storage_service.dart';
 import 'package:ticket_helpdesk/data/repositories/auth_repository.dart';
@@ -64,7 +64,10 @@ void setupLocator() {
     ),
   );
   getIt.registerFactory<MyTicketsViewModel>(
-    () => MyTicketsViewModel(ticketUseCase: getIt<TicketUseCase>()),
+    () => MyTicketsViewModel(
+      ticketUseCase: getIt<TicketUseCase>(),
+      secureStorageService: getIt<SecureStorageService>(),
+    ),
   );
   getIt.registerFactory<LoginViewModel>(
     () => LoginViewModel(

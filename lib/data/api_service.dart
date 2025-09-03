@@ -1,7 +1,7 @@
 // lib/data/services/api_service.dart
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:ticket_helpdesk/config/ApiConfig.dart';
+import 'package:ticket_helpdesk/config/api_config.dart';
 
 class ApiService {
   final String baseUrl;

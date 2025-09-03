@@ -41,7 +41,7 @@ class TicketItem extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "#${ticket.id}",
+                        "#Ticket",
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
@@ -51,7 +51,7 @@ class TicketItem extends StatelessWidget {
                         label: Text(ticket.status.name),
                         backgroundColor: TicketColorHelper.getStatusColor(
                           ticket.status,
-                        ).withOpacity(0.15),
+                        ).withValues(alpha: 0.15),
                         labelStyle: TextStyle(
                           color: TicketColorHelper.getStatusColor(
                             ticket.status,
@@ -90,7 +90,7 @@ class TicketItem extends StatelessWidget {
                   ),
                   _infoItem(
                     Icons.engineering,
-                    "Assigned to: ${ticket.assignedTo?.fullName ?? 'Chưa phân công'}",
+                    "Assigned to: ${ticket.assignee?.fullName ?? 'Chưa phân công'}",
                   ),
 
                   const Divider(),
@@ -102,7 +102,7 @@ class TicketItem extends StatelessWidget {
                         label: Text(ticket.priority.name),
                         backgroundColor: TicketColorHelper.getPriorityColor(
                           ticket.priority,
-                        ).withOpacity(0.15),
+                        ).withValues(alpha: 0.15),
                         labelStyle: TextStyle(
                           color: TicketColorHelper.getPriorityColor(
                             ticket.priority,
@@ -114,7 +114,9 @@ class TicketItem extends StatelessWidget {
                       const SizedBox(width: 8),
                       Chip(
                         label: Text(ticket.category.categoryName),
-                        backgroundColor: Colors.pinkAccent.withOpacity(0.15),
+                        backgroundColor: Colors.pinkAccent.withValues(
+                          alpha: 0.15,
+                        ),
                         labelStyle: const TextStyle(
                           color: Colors.pinkAccent,
                           fontWeight: FontWeight.w500,

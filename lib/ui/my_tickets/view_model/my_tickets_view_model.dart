@@ -1,21 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:ticket_helpdesk/data/dto/ticket_response.dart';
+import 'package:ticket_helpdesk/data/local/secure_storage_service.dart';
 import 'package:ticket_helpdesk/domain/usecases/ticket_usecases.dart';
 
 class MyTicketsViewModel extends ChangeNotifier {
   final TicketUseCase _ticketUseCase;
+  final SecureStorageService _secureStorageService;
 
-  MyTicketsViewModel({required TicketUseCase ticketUseCase})
-    : _ticketUseCase = ticketUseCase {
+  MyTicketsViewModel({
+    required TicketUseCase ticketUseCase,
+    required SecureStorageService secureStorageService,
+  }) : _ticketUseCase = ticketUseCase,
+       _secureStorageService = secureStorageService {
+    loadCurrentUserId();
     fetchTickets();
   }
 
   List<TicketResponse> tickets = [];
   bool isLoading = true;
   String? errorMessage;
-  final int _currentUserId = 1; // Giả sử user hiện tại có ID là 1
+  String? _currentUserId;
+  String? get currentUserId => _currentUserId;
 
-  int get currentUserId => _currentUserId;
+  Future<void> loadCurrentUserId() async {
+    _currentUserId = await _secureStorageService.getMyId();
+    notifyListeners();
+  }
 
   /// Search
   String searchText = '';
@@ -35,7 +45,7 @@ class MyTicketsViewModel extends ChangeNotifier {
     }
   }
 
-  Future<bool> deleteTicket(int ticketId) async {
+  Future<bool> deleteTicket(String ticketId) async {
     try {
       final success = await _ticketUseCase.deleteTicket(ticketId);
       if (success) {

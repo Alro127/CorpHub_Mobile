@@ -10,16 +10,21 @@ class ProfilePage extends StatefulWidget {
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
-class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStateMixin{
+class _ProfilePageState extends State<ProfilePage>
+    with SingleTickerProviderStateMixin {
   // 🔹 Controller cho các field
-  final TextEditingController _nameController =
-  TextEditingController(text: "John Doe");
-  final TextEditingController _emailController =
-  TextEditingController(text: "johndoe@example.com");
-  final TextEditingController _phoneController =
-  TextEditingController(text: "+84 123 456 789");
-  final TextEditingController _addressController =
-  TextEditingController(text: "Hà Nội, Việt Nam");
+  final TextEditingController _nameController = TextEditingController(
+    text: "John Doe",
+  );
+  final TextEditingController _emailController = TextEditingController(
+    text: "johndoe@example.com",
+  );
+  final TextEditingController _phoneController = TextEditingController(
+    text: "+84 123 456 789",
+  );
+  final TextEditingController _addressController = TextEditingController(
+    text: "Hà Nội, Việt Nam",
+  );
 
   bool _isEditing = false; // chế độ xem / chỉnh sửa
 
@@ -31,7 +36,7 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 20)
+      duration: const Duration(seconds: 20),
     )..repeat();
   }
 
@@ -49,13 +54,13 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
       body: Stack(
         children: [
           AnimatedBuilder(
-              animation: _controller,
-              builder: (context, child) {
-                return CustomPaint(
-                  painter: AuroraPainter(_controller.value),
-                  child: Container(),
-                );
-              }
+            animation: _controller,
+            builder: (context, child) {
+              return CustomPaint(
+                painter: AuroraPainter(_controller.value),
+                child: Container(),
+              );
+            },
           ),
           SingleChildScrollView(
             padding: const EdgeInsets.all(20),
@@ -77,7 +82,10 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                 // Tên & Email hiển thị ngắn gọn
                 Text(
                   _nameController.text,
-                  style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 const SizedBox(height: 6),
                 Text(
@@ -87,52 +95,72 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
                 const SizedBox(height: 30),
 
                 // 🔹 Thông tin có thể chỉnh sửa
-                _buildEditableField(Icons.person, "Tên người dùng", _nameController),
+                _buildEditableField(
+                  Icons.person,
+                  "Tên người dùng",
+                  _nameController,
+                ),
                 _buildEditableField(Icons.email, "Email", _emailController),
-                _buildEditableField(Icons.phone, "Số điện thoại", _phoneController),
-                _buildEditableField(Icons.location_on, "Địa chỉ", _addressController),
+                _buildEditableField(
+                  Icons.phone,
+                  "Số điện thoại",
+                  _phoneController,
+                ),
+                _buildEditableField(
+                  Icons.location_on,
+                  "Địa chỉ",
+                  _addressController,
+                ),
 
                 const SizedBox(height: 30),
 
                 // Nút hành động
                 _isEditing
                     ? ElevatedButton.icon(
-                  icon: const Icon(Icons.save),
-                  label: const Text("Lưu thay đổi"),
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 12),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12)),
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      _isEditing = false;
-                    });
+                        icon: const Icon(Icons.save),
+                        label: const Text("Lưu thay đổi"),
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 12,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _isEditing = false;
+                          });
 
-                    // TODO: Gửi dữ liệu lên backend để update
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text("Thông tin cá nhân đã được cập nhật"),
-                      ),
-                    );
-                  },
-                )
+                          // TODO: Gửi dữ liệu lên backend để update
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                "Thông tin cá nhân đã được cập nhật",
+                              ),
+                            ),
+                          );
+                        },
+                      )
                     : ElevatedButton.icon(
-                  icon: const Icon(Icons.edit),
-                  label: const Text("Chỉnh sửa"),
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 12),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12)),
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      _isEditing = true;
-                    });
-                  },
-                )
+                        icon: const Icon(Icons.edit),
+                        label: const Text("Chỉnh sửa"),
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 12,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _isEditing = true;
+                          });
+                        },
+                      ),
               ],
             ),
           ),
@@ -143,7 +171,10 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
 
   // Hàm dựng một field thông tin
   Widget _buildEditableField(
-      IconData icon, String label, TextEditingController controller) {
+    IconData icon,
+    String label,
+    TextEditingController controller,
+  ) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
       child: Row(
@@ -153,33 +184,41 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
           Expanded(
             child: _isEditing
                 ? TextField(
-              controller: controller,
-              decoration: InputDecoration(
-                labelText: label,
-                border: const OutlineInputBorder(),
-                isDense: true,
-              ),
-            )
+                    controller: controller,
+                    decoration: InputDecoration(
+                      labelText: label,
+                      border: const OutlineInputBorder(),
+                      isDense: true,
+                    ),
+                  )
                 : Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(label,
-                    style: const TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey,
-                        fontWeight: FontWeight.w500)),
-                const SizedBox(height: 4),
-                Text(controller.text,
-                    style: const TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.bold)),
-              ],
-            ),
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        label,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        controller.text,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
           ),
         ],
       ),
     );
   }
 }
+
 /// 🔹 Aurora Painter - vẽ bong bóng gradient di chuyển
 class AuroraPainter extends CustomPainter {
   final double progress;
@@ -194,7 +233,7 @@ class AuroraPainter extends CustomPainter {
       canvas,
       size,
       paint,
-      Colors.purpleAccent.withOpacity(0.3),
+      Colors.purpleAccent.withValues(alpha: 0.3),
       offset(progress, size, 100, 0.2),
       200,
     );
@@ -202,7 +241,7 @@ class AuroraPainter extends CustomPainter {
       canvas,
       size,
       paint,
-      Colors.blueAccent.withOpacity(0.25),
+      Colors.blueAccent.withValues(alpha: 0.25),
       offset(progress, size, 150, 0.5),
       250,
     );
@@ -210,14 +249,20 @@ class AuroraPainter extends CustomPainter {
       canvas,
       size,
       paint,
-      Colors.tealAccent.withOpacity(0.2),
+      Colors.tealAccent.withValues(alpha: 0.2),
       offset(progress, size, 200, 0.8),
       220,
     );
   }
 
-  void _drawAuroraBlob(Canvas canvas, Size size, Paint paint, Color color,
-      Offset center, double radius) {
+  void _drawAuroraBlob(
+    Canvas canvas,
+    Size size,
+    Paint paint,
+    Color color,
+    Offset center,
+    double radius,
+  ) {
     final Rect rect = Rect.fromCircle(center: center, radius: radius);
     paint.shader = RadialGradient(
       colors: [color, Colors.transparent],
@@ -227,9 +272,11 @@ class AuroraPainter extends CustomPainter {
 
   /// Tính vị trí bong bóng theo progress animation
   Offset offset(double progress, Size size, double radius, double speed) {
-    final double dx = size.width / 2 +
+    final double dx =
+        size.width / 2 +
         cos(progress * 2 * pi * speed) * (size.width / 3 - radius);
-    final double dy = size.height / 2 +
+    final double dy =
+        size.height / 2 +
         sin(progress * 2 * pi * speed) * (size.height / 3 - radius);
     return Offset(dx, dy);
   }

@@ -1,5 +1,5 @@
 class TicketCategory {
-  final int id;
+  final String id;
   final String categoryName;
 
   TicketCategory({required this.id, required this.categoryName});

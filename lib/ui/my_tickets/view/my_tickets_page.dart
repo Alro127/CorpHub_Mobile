@@ -77,7 +77,7 @@ class MyTicketsPage extends StatelessWidget {
                                       tickets: vm.filteredTickets
                                           .where(
                                             (t) =>
-                                                t.assignedTo?.id ==
+                                                t.assignee?.id ==
                                                 vm.currentUserId,
                                           )
                                           .toList(),

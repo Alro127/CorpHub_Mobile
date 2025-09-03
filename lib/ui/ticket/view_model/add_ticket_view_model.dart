@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ticket_helpdesk/const/ticket_prioriry.dart';
 import 'package:ticket_helpdesk/const/ticket_status.dart';
 import 'package:ticket_helpdesk/data/dto/ticket_request.dart';
-import 'package:ticket_helpdesk/domain/models/department_basic_info.dart';
+import 'package:ticket_helpdesk/data/dto/department_dto.dart';
 import 'package:ticket_helpdesk/domain/models/ticket_category.dart';
 import 'package:ticket_helpdesk/domain/usecases/department_usecase.dart';
 import 'package:ticket_helpdesk/domain/usecases/ticket_usecases.dart';
@@ -31,10 +31,10 @@ class AddTicketViewModel extends ChangeNotifier {
   DateTime deadline = DateTime.now();
 
   List<TicketCategory> categories = [];
-  List<DepartmentBasicInfoDto> departments = [];
-  int? selectedCategoryId;
-  int? assignedToId;
-  int departmentId = 1;
+  List<DepartmentDto> departments = [];
+  String? selectedCategoryId;
+  String? assignedToId;
+  String? departmentId;
 
   bool loadingCategories = true;
   bool loadingUsers = true;
@@ -55,12 +55,12 @@ class AddTicketViewModel extends ChangeNotifier {
   }
 
   // Dropdown setters
-  void setCategory(int? id) {
+  void setCategory(String? id) {
     selectedCategoryId = id;
     notifyListeners();
   }
 
-  void setAssignedTo(int? id) {
+  void setAssignedTo(String? id) {
     assignedToId = id;
     notifyListeners();
   }
@@ -86,10 +86,10 @@ class AddTicketViewModel extends ChangeNotifier {
       title: titleController.text,
       description: descriptionController.text,
       priority: priority.name,
-      categoryId: selectedCategoryId ?? 0,
-      requesterId: 1,
+      categoryId: selectedCategoryId ?? '',
+      requesterId: '71B24444-9F8E-433B-96D6-C84075DAE77A',
       //      assignedToId: assignedToId,
-      departmentId: departmentId,
+      departmentId: departmentId ?? 'D7BD4065-165E-48D9-85D7-7E7EEC8BD820',
     );
 
     bool success = await _saveTicket(ticket);

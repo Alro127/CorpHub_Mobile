@@ -50,7 +50,7 @@ class _AddNewTicketState extends State<AddNewTicket> {
                             items: vm.departments.map((department) {
                               return DropdownMenuItem(
                                 value: department.id,
-                                child: Text(department.departmentName),
+                                child: Text(department.name),
                               );
                             }).toList(),
                             onChanged: (value) => vm.setAssignedTo(value),

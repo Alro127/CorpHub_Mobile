@@ -1,5 +1,5 @@
 class NameInfo {
-  final int id;
+  final String id;
   final String fullName;
 
   NameInfo({required this.id, required this.fullName});

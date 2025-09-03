@@ -1,24 +1,23 @@
 import 'package:ticket_helpdesk/const/ticket_prioriry.dart';
 import 'package:ticket_helpdesk/const/ticket_status.dart';
-import 'package:ticket_helpdesk/domain/models/department_basic_info.dart';
+import 'package:ticket_helpdesk/data/dto/department_dto.dart';
 import 'package:ticket_helpdesk/domain/models/name_info.dart';
 import 'package:ticket_helpdesk/domain/models/ticket_category.dart';
 
 class TicketResponse {
-  final int id;
+  final String id;
   final String title;
   final String description;
   final TicketPriority priority;
   final TicketStatus status;
   final TicketCategory category;
   final NameInfo requester;
-  final NameInfo? assignedTo;
-  final String createdAt;
-  final String updatedAt;
-  final String? resolvedAt;
-  final DepartmentBasicInfoDto? department;
+  final NameInfo? assignee;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+  final DateTime? resolvedAt;
+  final DepartmentDto? department;
   final DateTime? assignedAt;
-  final bool active;
 
   TicketResponse({
     required this.id,
@@ -28,13 +27,12 @@ class TicketResponse {
     required this.status,
     required this.category,
     required this.requester,
-    this.assignedTo,
-    required this.createdAt,
-    required this.updatedAt,
+    this.assignee,
+    this.createdAt,
+    this.updatedAt,
     this.resolvedAt,
     this.department,
     this.assignedAt,
-    required this.active,
   });
 
   factory TicketResponse.fromJson(Map<String, dynamic> json) {
@@ -52,38 +50,33 @@ class TicketResponse {
       ),
       category: TicketCategory.fromJson(json['category']),
       requester: NameInfo.fromJson(json['requester']),
-      assignedTo: json['assignedTo'] != null
-          ? NameInfo.fromJson(json['assignedTo'])
+      assignee: json['assignee'] != null
+          ? NameInfo.fromJson(json['assignee'])
           : null,
-      createdAt: json['createdAt'] ?? '',
-      updatedAt: json['updatedAt'] ?? '',
-      resolvedAt: json['resolvedAt'],
+      createdAt: json['createdAt'] != null
+          ? (json['createdAt'] is String
+                ? DateTime.parse(json['createdAt'])
+                : DateTime.tryParse(json['createdAt'].toString()))
+          : null,
+
+      updatedAt: json['updatedAt'] != null
+          ? (json['updatedAt'] is String
+                ? DateTime.parse(json['updatedAt'])
+                : DateTime.tryParse(json['updatedAt'].toString()))
+          : null,
+
+      resolvedAt: json['resolvedAt'] != null
+          ? (json['resolvedAt'] is String
+                ? DateTime.parse(json['resolvedAt'])
+                : DateTime.tryParse(json['resolvedAt'].toString()))
+          : null,
+
       department: json['department'] != null
-          ? DepartmentBasicInfoDto.fromJson(json['department'])
+          ? DepartmentDto.fromJson(json['department'])
           : null,
       assignedAt: json['assignedAt'] != null
           ? DateTime.tryParse(json['assignedAt'])
           : null,
-      active: json['active'] ?? true,
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'title': title,
-      'description': description,
-      'priority': priority,
-      'status': status,
-      'category': category.toJson(),
-      'requester': requester.toJson(),
-      'assignedTo': assignedTo?.toJson(),
-      'createdAt': createdAt,
-      'updatedAt': updatedAt,
-      'resolvedAt': resolvedAt,
-      'department': department?.toJson(),
-      'assignedAt': assignedAt?.toIso8601String(),
-      'active': active,
-    };
   }
 }

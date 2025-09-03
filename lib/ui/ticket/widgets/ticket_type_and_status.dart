@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ticket_helpdesk/const/ticket_status.dart';
 import 'package:ticket_helpdesk/ui/core/widgets/basic_dropdown_field.dart';
 import 'package:ticket_helpdesk/ui/ticket/view_model/add_ticket_view_model.dart';
 

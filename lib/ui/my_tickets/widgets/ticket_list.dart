@@ -5,7 +5,7 @@ import 'package:ticket_helpdesk/ui/core/widgets/ticket_item.dart';
 
 class TicketList extends StatelessWidget {
   final List<TicketResponse> tickets;
-  final Future<bool> Function(int) onDelete;
+  final Future<bool> Function(String) onDelete;
 
   const TicketList({required this.tickets, required this.onDelete, super.key});
 

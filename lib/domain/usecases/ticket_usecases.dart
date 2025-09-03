@@ -18,7 +18,7 @@ class TicketUseCase {
     return repository.saveTicket(ticket);
   }
 
-  Future<bool> deleteTicket(int id) => repository.deleteTicket(id);
+  Future<bool> deleteTicket(String id) => repository.deleteTicket(id);
 
   Future<List<TicketCategory>> fetchCategories() =>
       repository.fetchCategories();

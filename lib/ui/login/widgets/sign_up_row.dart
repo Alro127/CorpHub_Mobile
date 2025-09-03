@@ -14,9 +14,7 @@ class SignUpRow extends StatelessWidget {
         ),
         const SizedBox(width: 5),
         GestureDetector(
-          onTap: () {
-            // TODO: Navigate tới SignupPage
-          },
+          onTap: () {},
           child: const Text(
             'Sign up',
             style: TextStyle(
