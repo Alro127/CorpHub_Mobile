@@ -11,6 +11,7 @@ class ApiService {
     : baseUrl = baseUrlOverride ?? ApiConfig.baseUrl;
 
   Future<dynamic> get(String endpoint) async {
+    print(Uri.parse('$baseUrl$endpoint'));
     final response = await http.get(
       Uri.parse('$baseUrl$endpoint'),
       headers: await api.getHeaders(true),

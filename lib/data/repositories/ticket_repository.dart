@@ -58,7 +58,6 @@ class TicketRepository {
     try {
       final response = await api.get('/api/tickets/categories');
       final List<dynamic> data = response?['data'] ?? [];
-      print(data);
       return data.map((json) => TicketCategory.fromJson(json)).toList();
     } catch (e) {
       // Log hoặc return list rỗng để tránh crash

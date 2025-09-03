@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ticket_helpdesk/config/service_locator.dart';
-import 'package:ticket_helpdesk/domain/usecases/user_usecases.dart';
 import 'package:ticket_helpdesk/ui/core/widgets/basic_input.dart';
 import 'package:ticket_helpdesk/ui/core/widgets/password_input.dart';
 import 'package:ticket_helpdesk/ui/core/widgets/rotating_gradient_background.dart';
