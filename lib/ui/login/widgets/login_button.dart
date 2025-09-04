@@ -23,6 +23,9 @@ class LoginButton extends StatelessWidget {
         ),
         onPressed: () async {
           final success = await vm.login(); // gọi hàm login trong ViewModel
+
+          if (!context.mounted) return;
+
           if (success) {
             Navigator.pushReplacement(
               context,

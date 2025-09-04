@@ -132,8 +132,6 @@ class _ProfilePageState extends State<ProfilePage>
                           setState(() {
                             _isEditing = false;
                           });
-
-                          // TODO: Gửi dữ liệu lên backend để update
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content: Text(

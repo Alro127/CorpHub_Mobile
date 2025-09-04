@@ -55,9 +55,7 @@ class _SignupPageState extends State<SignupPage> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  onPressed: () {
-                    // TODO: handle login action
-                  },
+                  onPressed: () {},
                   child: const Text("Sign Up"),
                 ),
               ),

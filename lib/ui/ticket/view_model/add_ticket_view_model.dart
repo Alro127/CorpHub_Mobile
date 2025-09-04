@@ -93,6 +93,9 @@ class AddTicketViewModel extends ChangeNotifier {
     );
 
     bool success = await _saveTicket(ticket);
+
+    if (!context.mounted) return false;
+
     if (success) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Created ticket successfully!')),

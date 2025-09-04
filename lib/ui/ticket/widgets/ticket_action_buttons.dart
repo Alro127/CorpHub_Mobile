@@ -16,6 +16,9 @@ class TicketActionButtons extends StatelessWidget {
           child: ElevatedButton(
             onPressed: () async {
               final success = await vm.saveTicketAction(context);
+
+              if (!context.mounted) return;
+
               if (success) {
                 final MyTicketsViewModel myTicketsViewModel =
                     getIt<MyTicketsViewModel>();
@@ -26,6 +29,8 @@ class TicketActionButtons extends StatelessWidget {
                       const Center(child: CircularProgressIndicator()),
                 );
                 await myTicketsViewModel.fetchTickets();
+
+                if (!context.mounted) return;
                 Navigator.pop(context);
                 Navigator.pop(context);
               }

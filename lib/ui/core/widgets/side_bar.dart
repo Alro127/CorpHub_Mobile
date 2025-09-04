@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:ticket_helpdesk/ui/attendance/widgets/attendance_page.dart';
 import 'package:ticket_helpdesk/ui/core/view_model/user_view_model.dart';
 import 'package:ticket_helpdesk/ui/core/widgets/rotating_gradient_background.dart';
+import 'package:ticket_helpdesk/ui/my_projects/view/my_projects_page.dart';
 import 'package:ticket_helpdesk/ui/my_tickets/view/my_tickets_page.dart';
 import 'package:ticket_helpdesk/ui/login/view/login_page.dart';
 import 'package:ticket_helpdesk/ui/profile/profile_page.dart';
@@ -58,6 +59,16 @@ class SideBar extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => MyTicketsPage()),
+                );
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.work_outline),
+              title: Text('My Projects'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MyProjectsPage()),
                 );
               },
             ),
