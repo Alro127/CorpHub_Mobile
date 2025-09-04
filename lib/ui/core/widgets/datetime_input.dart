@@ -72,6 +72,7 @@ class _DateTimeInputState extends State<DateTimeInput> {
       readOnly: true,
       onTap: _pickDateTime,
       decoration: BasicInputDecorations.build(
+        context: context,
         label: widget.hintText,
         prefixIcon: widget.icon,
       ),

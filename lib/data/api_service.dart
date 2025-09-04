@@ -2,6 +2,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:ticket_helpdesk/config/api_config.dart';
+import 'package:ticket_helpdesk/data/dto/api_response.dart';
 
 class ApiService {
   final String baseUrl;
@@ -42,17 +43,20 @@ class ApiService {
     if (response.statusCode >= 200 && response.statusCode < 300) {
       return response.body.isNotEmpty ? json.decode(response.body) : null;
     } else {
-      throw ApiException(response.statusCode, response.body);
+      final Map<String, dynamic> jsonBody = json.decode(response.body);
+      final apiResponse = ApiResponse.fromJson(jsonBody);
+      throw ApiException(response.statusCode, apiResponse);
     }
   }
 }
 
 class ApiException implements Exception {
   final int statusCode;
-  final String body;
+  final ApiResponse body;
 
   ApiException(this.statusCode, this.body);
+  String get message => body.message ?? 'Lỗi không xác định';
 
   @override
-  String toString() => 'ApiException($statusCode): $body';
+  String toString() => message;
 }

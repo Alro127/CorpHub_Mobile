@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ticket_helpdesk/config/service_locator.dart';
 import 'package:ticket_helpdesk/ui/core/widgets/basic_input.dart';
+import 'package:ticket_helpdesk/ui/core/widgets/error_text.dart';
 import 'package:ticket_helpdesk/ui/core/widgets/password_input.dart';
 import 'package:ticket_helpdesk/ui/core/widgets/rotating_gradient_background.dart';
 import 'package:ticket_helpdesk/ui/login/view_model/login_view_model.dart';
@@ -47,7 +48,7 @@ class LoginPage extends StatelessWidget {
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Text(
+                            const Text(
                               "Login",
                               style: TextStyle(
                                 fontSize: 40,
@@ -61,9 +62,17 @@ class LoginPage extends StatelessWidget {
                               linesNumber: 1,
                               prefixIcon: Icons.email,
                               controller: vm.emailController,
+                              hasError:
+                                  vm.error != null && vm.error!.isNotEmpty,
+                              focusNode: vm.focusNodeEmail,
                             ),
                             const SizedBox(height: 16),
-                            PasswordInput(controller: vm.passwordController),
+                            PasswordInput(
+                              controller: vm.passwordController,
+                              hasError:
+                                  vm.error != null && vm.error!.isNotEmpty,
+                              focusNode: vm.focusNodePassword,
+                            ),
                             const SizedBox(height: 8),
                             Row(
                               children: [
@@ -74,7 +83,7 @@ class LoginPage extends StatelessWidget {
                                       MaterialTapTargetSize.shrinkWrap,
                                 ),
                                 Expanded(
-                                  child: Text(
+                                  child: const Text(
                                     "Ghi nhớ đăng nhập",
                                     overflow:
                                         TextOverflow.ellipsis, // tránh tràn
@@ -82,10 +91,12 @@ class LoginPage extends StatelessWidget {
                                 ),
                                 GestureDetector(
                                   onTap: () {},
-                                  child: const Text(
+                                  child: Text(
                                     'Forgot Password?',
                                     style: TextStyle(
-                                      color: Colors.blueAccent,
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.primary,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 14,
                                     ),
@@ -97,6 +108,7 @@ class LoginPage extends StatelessWidget {
                             const SizedBox(height: 8),
 
                             LoginButton(vm),
+                            ErrorText(error: vm.error ?? ''),
                             const SizedBox(height: 16),
                           ],
                         ),

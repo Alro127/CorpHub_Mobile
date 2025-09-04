@@ -21,7 +21,11 @@ class BasicDropdownField<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return DropdownButtonFormField<T>(
       value: value,
-      decoration: BasicInputDecorations.build(label: label, prefixIcon: icon),
+      decoration: BasicInputDecorations.build(
+        context: context,
+        label: label,
+        prefixIcon: icon,
+      ),
       items: items,
       onChanged: onChanged,
       isExpanded: true,

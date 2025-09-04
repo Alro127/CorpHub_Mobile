@@ -15,10 +15,10 @@ class SignUpRow extends StatelessWidget {
         const SizedBox(width: 5),
         GestureDetector(
           onTap: () {},
-          child: const Text(
+          child: Text(
             'Sign up',
             style: TextStyle(
-              color: Colors.blueAccent,
+              color: Theme.of(context).colorScheme.primary,
               fontWeight: FontWeight.bold,
               fontSize: 14,
             ),

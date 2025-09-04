@@ -98,7 +98,7 @@ class MyTicketsPage extends StatelessWidget {
                   context,
                 ).push(MaterialPageRoute(builder: (context) => AddNewTicket()));
               },
-              backgroundColor: Colors.blueAccent,
+              backgroundColor: Theme.of(context).colorScheme.primary,
               foregroundColor: Colors.white,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(50),

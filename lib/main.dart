@@ -25,8 +25,25 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.light(
+          primary: Colors.blueAccent,
+          primaryContainer: Color(0xFF4C4CBF), // xanh tím
+          secondary: Color(0xFF7F4CBF), // tím
+          secondaryContainer: Color(0xFFB04CBF), // tím hồng
+          surface: Colors.white, // card, dialog
+          onPrimary: Colors.white,
+          onSecondary: Colors.white,
+          onSurface: Color(0xFF1E1E1E),
+          error: Color(0xFFF44336),
+          onError: Colors.white,
+          outline: Colors.grey.shade400,
+          outlineVariant: Colors.grey.shade300,
+        ),
+
+        scaffoldBackgroundColor: Color(0xFFF9FAFB), // nền chính của app
+        useMaterial3: true,
       ),
+
       home: const LoginPage(),
     );
   }
