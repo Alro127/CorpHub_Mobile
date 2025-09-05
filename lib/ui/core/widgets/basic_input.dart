@@ -35,6 +35,7 @@ class _BasicInputState extends State<BasicInput> {
   }
 
   void _onFocusChange() {
+    if (!mounted) return;
     setState(() {}); // rebuild khi focus thay đổi
   }
 
@@ -58,7 +59,7 @@ class _BasicInputState extends State<BasicInput> {
         suffixIcon: widget.suffixIcon,
         multiline: widget.linesNumber > 1,
         hasError: widget.hasError,
-        focusNode: widget.focusNode,
+        isFocused: widget.focusNode?.hasFocus ?? false,
       ),
     );
   }

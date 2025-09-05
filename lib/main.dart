@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
           primaryContainer: Color(0xFF4C4CBF), // xanh tím
           secondary: Color(0xFF7F4CBF), // tím
           secondaryContainer: Color(0xFFB04CBF), // tím hồng
-          surface: Colors.white, // card, dialog
+          surface: Colors.white,
           onPrimary: Colors.white,
           onSecondary: Colors.white,
           onSurface: Color(0xFF1E1E1E),

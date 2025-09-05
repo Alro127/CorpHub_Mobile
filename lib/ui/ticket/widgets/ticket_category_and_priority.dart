@@ -15,38 +15,47 @@ class TicketCategoryAndPriority extends StatelessWidget {
         Expanded(
           child: vm.loadingCategories
               ? const Center(child: CircularProgressIndicator())
-              : BasicDropdownField(
-                  label: "Ticket category",
-                  icon: Icons.category,
-                  value: vm.selectedCategoryId,
-                  items: vm.categories.map((category) {
-                    return DropdownMenuItem(
-                      value: category.id,
-                      child: Text(category.categoryName),
-                    );
-                  }).toList(),
-                  onChanged: (value) => vm.setCategory(value),
+              : Focus(
+                  focusNode: vm.focusNodeTicketCategory,
+                  child: BasicDropdownField(
+                    label: "Ticket category",
+                    icon: Icons.category,
+                    value: vm.selectedCategoryId,
+                    items: vm.categories.map((category) {
+                      return DropdownMenuItem(
+                        value: category.id,
+                        child: Text(category.categoryName),
+                      );
+                    }).toList(),
+                    onChanged: (value) => vm.setCategory(value),
+                  ),
                 ),
         ),
         const SizedBox(width: 16),
         Expanded(
-          child: BasicDropdownField<TicketPriority>(
-            label: "Priority",
-            icon: Icons.bar_chart,
-            value: vm.priority, // kiểu TicketPriority
-            items: const [
-              DropdownMenuItem(
-                value: TicketPriority.URGENT,
-                child: Text("Urgent"),
-              ),
-              DropdownMenuItem(value: TicketPriority.HIGH, child: Text("High")),
-              DropdownMenuItem(
-                value: TicketPriority.MEDIUM,
-                child: Text("Medium"),
-              ),
-              DropdownMenuItem(value: TicketPriority.LOW, child: Text("Low")),
-            ],
-            onChanged: (value) => vm.setPriority(value!),
+          child: Focus(
+            focusNode: vm.focusNodePriority,
+            child: BasicDropdownField<TicketPriority>(
+              label: "Priority",
+              icon: Icons.bar_chart,
+              value: vm.priority,
+              items: const [
+                DropdownMenuItem(
+                  value: TicketPriority.URGENT,
+                  child: Text("Urgent"),
+                ),
+                DropdownMenuItem(
+                  value: TicketPriority.HIGH,
+                  child: Text("High"),
+                ),
+                DropdownMenuItem(
+                  value: TicketPriority.MEDIUM,
+                  child: Text("Medium"),
+                ),
+                DropdownMenuItem(value: TicketPriority.LOW, child: Text("Low")),
+              ],
+              onChanged: (value) => vm.setPriority(value!),
+            ),
           ),
         ),
       ],

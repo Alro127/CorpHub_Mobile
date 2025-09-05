@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:ticket_helpdesk/data/dto/ticket_response.dart';
-import 'package:ticket_helpdesk/ui/core/widgets/ticket_item.dart';
+import 'package:ticket_helpdesk/ui/my_tickets/widgets/ticket_item.dart';
 
 class TicketList extends StatelessWidget {
   final List<TicketResponse> tickets;

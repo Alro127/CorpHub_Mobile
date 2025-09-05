@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:ticket_helpdesk/const/ticket_prioriry.dart';
 import 'package:ticket_helpdesk/const/ticket_status.dart';
 import 'package:ticket_helpdesk/data/dto/ticket_request.dart';
 import 'package:ticket_helpdesk/data/dto/department_dto.dart';
+import 'package:ticket_helpdesk/data/local/secure_storage_service.dart';
 import 'package:ticket_helpdesk/domain/models/ticket_category.dart';
 import 'package:ticket_helpdesk/domain/usecases/department_usecase.dart';
 import 'package:ticket_helpdesk/domain/usecases/ticket_usecases.dart';
@@ -23,6 +26,13 @@ class AddTicketViewModel extends ChangeNotifier {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController dateTimeController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
+
+  // Focused Node
+  FocusNode focusNodeTitle = FocusNode();
+  FocusNode focusNodeTicketCategory = FocusNode();
+  FocusNode focusNodeDepartment = FocusNode();
+  FocusNode focusNodePriority = FocusNode();
+  FocusNode focusNodeDescription = FocusNode();
 
   // Ticket properties
   TicketPriority priority = TicketPriority.MEDIUM;
@@ -87,8 +97,6 @@ class AddTicketViewModel extends ChangeNotifier {
       description: descriptionController.text,
       priority: priority.name,
       categoryId: selectedCategoryId ?? '',
-      requesterId: '71B24444-9F8E-433B-96D6-C84075DAE77A',
-      //      assignedToId: assignedToId,
       departmentId: departmentId ?? 'D7BD4065-165E-48D9-85D7-7E7EEC8BD820',
     );
 
@@ -121,6 +129,11 @@ class AddTicketViewModel extends ChangeNotifier {
     titleController.dispose();
     dateTimeController.dispose();
     descriptionController.dispose();
+    focusNodeDepartment.dispose();
+    focusNodeDescription.dispose();
+    focusNodePriority.dispose();
+    focusNodeTicketCategory.dispose();
+    focusNodeTitle.dispose();
     super.dispose();
   }
 }

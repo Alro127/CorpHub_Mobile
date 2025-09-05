@@ -8,7 +8,7 @@ class BasicInputDecorations {
     IconData? suffixIcon,
     bool multiline = false,
     bool hasError = false,
-    FocusNode? focusNode,
+    bool isFocused = false,
   }) {
     final borderRadius = BorderRadius.circular(12);
     final errorColor = Theme.of(context).colorScheme.error;
@@ -17,7 +17,7 @@ class BasicInputDecorations {
 
     Color getColor() {
       if (hasError) return errorColor;
-      if (focusNode != null && focusNode.hasFocus) return focusedColor;
+      if (isFocused) return focusedColor;
       return Colors.grey[500]!;
     }
 

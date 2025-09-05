@@ -13,6 +13,7 @@ import 'package:ticket_helpdesk/domain/usecases/user_usecases.dart';
 import 'package:ticket_helpdesk/ui/core/view_model/user_view_model.dart';
 import 'package:ticket_helpdesk/ui/my_tickets/view_model/my_tickets_view_model.dart';
 import 'package:ticket_helpdesk/ui/login/view_model/login_view_model.dart';
+import 'package:ticket_helpdesk/ui/profile/view_model/profile_view_model.dart';
 import 'package:ticket_helpdesk/ui/ticket/view_model/add_ticket_view_model.dart';
 
 final GetIt getIt = GetIt.instance;
@@ -55,6 +56,9 @@ void setupLocator() {
   getIt.registerLazySingleton<LoginUseCase>(
     () => LoginUseCase(getIt<AuthRepository>()),
   );
+  getIt.registerLazySingleton<UserUseCases>(
+    () => UserUseCases(getIt<UserRepository>()),
+  );
 
   // 4) ViewModels (factory: tạo mới mỗi lần lấy)
   getIt.registerFactory<AddTicketViewModel>(
@@ -77,5 +81,8 @@ void setupLocator() {
   );
   getIt.registerFactory<UserViewModel>(
     () => UserViewModel(storageService: getIt<SecureStorageService>()),
+  );
+  getIt.registerFactory<ProfileViewModel>(
+    () => ProfileViewModel(userUsecase: getIt<UserUseCases>()),
   );
 }

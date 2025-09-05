@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ticket_helpdesk/data/api_service.dart';
 import 'package:ticket_helpdesk/data/dto/login_request.dart';
 import 'package:ticket_helpdesk/data/dto/login_response.dart';
 import 'package:ticket_helpdesk/data/dto/user_dto.dart';
@@ -23,8 +22,6 @@ class LoginViewModel extends ChangeNotifier {
   UserDto? user;
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  FocusNode focusNodeEmail = FocusNode();
-  FocusNode focusNodePassword = FocusNode();
 
   bool rememberMe = false;
   String? error;
@@ -90,8 +87,6 @@ class LoginViewModel extends ChangeNotifier {
   void dispose() {
     emailController.dispose();
     passwordController.dispose();
-    focusNodeEmail.dispose();
-    focusNodePassword.dispose();
     super.dispose();
   }
 }

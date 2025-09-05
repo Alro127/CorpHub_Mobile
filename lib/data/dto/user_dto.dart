@@ -7,7 +7,7 @@ class UserDto {
   final String role;
   final String email;
   final String? phone;
-  final String status;
+  final DateTime dob;
 
   UserDto({
     required this.id,
@@ -16,7 +16,7 @@ class UserDto {
     required this.role,
     required this.email,
     this.phone,
-    required this.status,
+    required this.dob,
   });
 
   // fromJson: parse JSON thành object
@@ -28,7 +28,7 @@ class UserDto {
       role: json['role'],
       email: json['email'],
       phone: json['phone'],
-      status: json['status'],
+      dob: json['dob'],
     );
   }
 
@@ -41,7 +41,7 @@ class UserDto {
       'role': role,
       'email': email,
       'phone': phone,
-      'status': status,
+      'dob': dob,
     };
   }
 }

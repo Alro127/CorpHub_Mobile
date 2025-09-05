@@ -16,6 +16,27 @@ class AddNewTicket extends StatefulWidget {
 }
 
 class _AddNewTicketState extends State<AddNewTicket> {
+  // FocusNode nullable, tránh lỗi LateInitializationError
+  FocusNode? focusNodeTitle;
+  FocusNode? focusNodeDescription;
+  FocusNode? focusNodeDepartment;
+
+  @override
+  void initState() {
+    super.initState();
+    focusNodeTitle = FocusNode();
+    focusNodeDescription = FocusNode();
+    focusNodeDepartment = FocusNode();
+  }
+
+  @override
+  void dispose() {
+    focusNodeTitle?.dispose();
+    focusNodeDescription?.dispose();
+    focusNodeDepartment?.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -32,36 +53,50 @@ class _AddNewTicketState extends State<AddNewTicket> {
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
                   children: [
+                    // Tiêu đề ticket
                     BasicInput(
-                      hintText: "Ticket's name",
+                      hintText: "Ticket's title",
                       prefixIcon: Icons.title_outlined,
                       linesNumber: 1,
                       controller: vm.titleController,
+                      focusNode: focusNodeTitle,
                     ),
                     const SizedBox(height: 16),
+
+                    // Category & Priority
                     TicketCategoryAndPriority(vm: vm),
                     const SizedBox(height: 16),
+
+                    // Department dropdown
                     vm.loadingUsers
                         ? const Center(child: CircularProgressIndicator())
-                        : BasicDropdownField(
-                            label: "Department",
-                            icon: Icons.apartment,
-                            value: vm.departmentId,
-                            items: vm.departments.map((department) {
-                              return DropdownMenuItem(
-                                value: department.id,
-                                child: Text(department.name),
-                              );
-                            }).toList(),
-                            onChanged: (value) => vm.setAssignedTo(value),
+                        : Focus(
+                            focusNode: focusNodeDepartment,
+                            child: BasicDropdownField<String>(
+                              label: "Department",
+                              icon: Icons.apartment,
+                              value: vm.departmentId,
+                              items: vm.departments.map((department) {
+                                return DropdownMenuItem(
+                                  value: department.id,
+                                  child: Text(department.name),
+                                );
+                              }).toList(),
+                              onChanged: (value) => vm.setAssignedTo(value),
+                            ),
                           ),
                     const SizedBox(height: 16),
+
+                    // Mô tả ticket
                     BasicInput(
                       hintText: "Description",
                       linesNumber: 5,
                       controller: vm.descriptionController,
+                      focusNode: focusNodeDescription,
                     ),
                     const SizedBox(height: 16),
+
+                    // Buttons
                     TicketActionButtons(vm: vm),
                   ],
                 ),

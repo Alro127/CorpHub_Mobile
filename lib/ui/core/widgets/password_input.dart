@@ -4,7 +4,7 @@ class PasswordInput extends StatefulWidget {
   final TextEditingController controller;
   final String hintText;
   final bool hasError;
-  final FocusNode? focusNode; // thêm focusNode để biết trạng thái focus
+  final FocusNode? focusNode;
 
   const PasswordInput({
     super.key,
@@ -24,15 +24,19 @@ class _PasswordInputState extends State<PasswordInput> {
   @override
   void initState() {
     super.initState();
-    // listen focus để rebuild khi trạng thái focus thay đổi
-    widget.focusNode?.addListener(() {
-      setState(() {});
-    });
+    // add listener để rebuild khi focus thay đổi
+    widget.focusNode?.addListener(_onFocusChange);
+  }
+
+  void _onFocusChange() {
+    if (!mounted) return;
+    setState(() {}); // rebuild khi focus thay đổi
   }
 
   @override
   void dispose() {
-    widget.focusNode?.dispose();
+    // chỉ remove listener, không dispose nếu focusNode được truyền từ ngoài
+    widget.focusNode?.removeListener(_onFocusChange);
     super.dispose();
   }
 
@@ -43,7 +47,6 @@ class _PasswordInputState extends State<PasswordInput> {
     final normalBorderColor = Colors.grey;
     final focusedColor = Theme.of(context).colorScheme.primary;
 
-    // chọn màu label theo trạng thái
     Color getColor() {
       if (widget.hasError) return errorColor;
       if (widget.focusNode?.hasFocus ?? false) return focusedColor;
@@ -54,7 +57,7 @@ class _PasswordInputState extends State<PasswordInput> {
       controller: widget.controller,
       focusNode: widget.focusNode,
       obscureText: _obscureText,
-      style: TextStyle(color: Colors.black),
+      style: const TextStyle(color: Colors.black),
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.symmetric(
           vertical: 16,

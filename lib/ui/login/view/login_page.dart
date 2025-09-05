@@ -11,8 +11,30 @@ import 'package:ticket_helpdesk/ui/login/widgets/login_image.dart';
 import 'package:ticket_helpdesk/ui/login/widgets/sign_up_row.dart';
 import 'package:flutter/foundation.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
+
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  late FocusNode focusNodeEmail;
+  late FocusNode focusNodePassword;
+
+  @override
+  void initState() {
+    super.initState();
+    focusNodeEmail = FocusNode();
+    focusNodePassword = FocusNode();
+  }
+
+  @override
+  void dispose() {
+    focusNodeEmail.dispose();
+    focusNodePassword.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,14 +86,14 @@ class LoginPage extends StatelessWidget {
                               controller: vm.emailController,
                               hasError:
                                   vm.error != null && vm.error!.isNotEmpty,
-                              focusNode: vm.focusNodeEmail,
+                              focusNode: focusNodeEmail, // dùng ở đây
                             ),
                             const SizedBox(height: 16),
                             PasswordInput(
                               controller: vm.passwordController,
                               hasError:
                                   vm.error != null && vm.error!.isNotEmpty,
-                              focusNode: vm.focusNodePassword,
+                              focusNode: focusNodePassword, // dùng ở đây
                             ),
                             const SizedBox(height: 8),
                             Row(
@@ -85,8 +107,7 @@ class LoginPage extends StatelessWidget {
                                 Expanded(
                                   child: const Text(
                                     "Ghi nhớ đăng nhập",
-                                    overflow:
-                                        TextOverflow.ellipsis, // tránh tràn
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
                                 GestureDetector(
@@ -104,9 +125,7 @@ class LoginPage extends StatelessWidget {
                                 ),
                               ],
                             ),
-
                             const SizedBox(height: 8),
-
                             LoginButton(vm),
                             ErrorText(error: vm.error ?? ''),
                             const SizedBox(height: 16),

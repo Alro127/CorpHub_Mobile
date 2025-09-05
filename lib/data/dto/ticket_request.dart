@@ -4,7 +4,6 @@ class TicketRequest {
   final String description;
   final String priority;
   final String categoryId;
-  final String requesterId;
   final String? assigneeId;
   final String departmentId;
 
@@ -14,7 +13,6 @@ class TicketRequest {
     required this.description,
     required this.priority,
     required this.categoryId,
-    required this.requesterId,
     this.assigneeId,
     required this.departmentId,
   });
@@ -25,7 +23,6 @@ class TicketRequest {
       'description': description,
       'priority': priority,
       'categoryId': categoryId,
-      'requesterId': requesterId,
       'assigneeId': assigneeId,
       'departmentId': departmentId,
     };

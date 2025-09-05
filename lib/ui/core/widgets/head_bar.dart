@@ -28,11 +28,27 @@ class _HeadBarState extends State<HeadBar> with SingleTickerProviderStateMixin {
             borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
           ),
           leading: Builder(
-            builder: (context) => IconButton(
-              onPressed: () => Scaffold.of(context).openDrawer(),
-              icon: const Icon(Icons.menu, color: Colors.white),
-            ),
+            builder: (context) {
+              final scaffoldState = Scaffold.maybeOf(context);
+              final hasDrawer =
+                  scaffoldState != null && scaffoldState.hasDrawer;
+
+              return IconButton(
+                icon: Icon(
+                  hasDrawer ? Icons.menu : Icons.arrow_back,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  if (hasDrawer) {
+                    scaffoldState.openDrawer();
+                  } else {
+                    Navigator.of(context).maybePop();
+                  }
+                },
+              );
+            },
           ),
+
           title: Text(
             widget.title,
             style: const TextStyle(
