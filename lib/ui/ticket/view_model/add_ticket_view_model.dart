@@ -70,8 +70,8 @@ class AddTicketViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setAssignedTo(String? id) {
-    assignedToId = id;
+  void setDepartment(String? id) {
+    departmentId = id;
     notifyListeners();
   }
 

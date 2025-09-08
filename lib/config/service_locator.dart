@@ -56,9 +56,7 @@ void setupLocator() {
   getIt.registerLazySingleton<LoginUseCase>(
     () => LoginUseCase(getIt<AuthRepository>()),
   );
-  getIt.registerLazySingleton<UserUseCases>(
-    () => UserUseCases(getIt<UserRepository>()),
-  );
+
 
   // 4) ViewModels (factory: tạo mới mỗi lần lấy)
   getIt.registerFactory<AddTicketViewModel>(

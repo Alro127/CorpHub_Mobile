@@ -42,7 +42,7 @@ class ViewUpdateTicket extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "#Mã Ticket",
+                "# ${ticket.id.substring(0, 6)}" ,
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                   color: Colors.black87,
@@ -184,6 +184,53 @@ class ViewUpdateTicket extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text("File đính kèm sẽ hiển thị ở đây..."),
+          // ... sau phần Attachments
+          const SizedBox(height: 20),
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              // Nút Reject
+              ElevatedButton.icon(
+                onPressed: () {
+                  // TODO: gọi API từ chối ticket
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text("Ticket bị từ chối")),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.redAccent,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                icon: const Icon(Icons.close),
+                label: const Text("Reject"),
+              ),
+              const SizedBox(width: 12),
+
+              // Nút Accept
+              ElevatedButton.icon(
+                onPressed: () {
+                  // TODO: gọi API xác nhận ticket
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text("Ticket đã được xác nhận")),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  foregroundColor: Colors.green,
+
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                icon: const Icon(Icons.check),
+                label: const Text("Accept"),
+              ),
+            ],
+          ),
         ],
       ),
     );
