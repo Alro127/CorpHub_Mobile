@@ -36,7 +36,11 @@ class MyTicketsViewModel extends ChangeNotifier {
     try {
       print("Fetching tickets...");
       tickets = await _ticketUseCase.fetchTickets();
-      print(" Fetched ${tickets.length} tickets.");
+
+      // Sắp xếp theo thời gian tạo giảm dần (gần nhất trước)
+      tickets.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+
+      print("Fetched ${tickets.length} tickets.");
     } catch (e) {
       errorMessage = e.toString();
     } finally {

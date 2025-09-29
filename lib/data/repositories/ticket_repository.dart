@@ -1,9 +1,10 @@
 // lib/data/repositories/ticket_repository.dart
 
 import 'package:ticket_helpdesk/data/api_service.dart';
+import 'package:ticket_helpdesk/data/dto/ticket_rejection_dto.dart';
 import 'package:ticket_helpdesk/data/dto/ticket_request.dart';
 import 'package:ticket_helpdesk/data/dto/ticket_response.dart';
-import 'package:ticket_helpdesk/domain/models/ticket_category.dart';
+import 'package:ticket_helpdesk/data/dto/ticket_category.dart';
 
 class TicketRepository {
   final ApiService api;
@@ -12,17 +13,13 @@ class TicketRepository {
 
   Future<List<TicketResponse>> fetchTickets() async {
     try {
-      final jsonResponse = await api.get('/api/tickets/get-all');
+      final jsonResponse = await api.get('/api/tickets/my-tickets');
       final List<dynamic> data = (jsonResponse?['data'] ?? []) as List<dynamic>;
       final tickets = data.map((json) {
         try {
           final ticket = TicketResponse.fromJson(json);
-          print("Parsed ticket: $ticket");
           return ticket;
-        } catch (e, s) {
-          print("Error parsing ticket: $e");
-          print("JSON caused error: $json");
-          print(s);
+        } catch (e) {
           rethrow;
         }
       }).toList();
@@ -62,6 +59,38 @@ class TicketRepository {
     } catch (e) {
       // Log hoặc return list rỗng để tránh crash
       return [];
+    }
+  }
+
+  Future<bool> takeOver(String ticketId) async {
+    try {
+      await api.post('/api/tickets/take-over/$ticketId', null, true);
+
+      return true;
+    } catch (e) {
+      // Log hoặc return list rỗng để tránh crash
+      return false;
+    }
+  }
+
+  Future<bool> reject(TicketRejectionDto ticketRejectionDto) async {
+    try {
+      await api.post('/api/tickets/reject', ticketRejectionDto, true);
+      return true;
+    } catch (e) {
+      // Log hoặc return list rỗng để tránh crash
+      return false;
+    }
+  }
+
+  Future<bool> complete(String ticketId) async {
+    try {
+      await api.post('/api/tickets/complete/$ticketId', null, true);
+
+      return true;
+    } catch (e) {
+      // Log hoặc return list rỗng để tránh crash
+      return false;
     }
   }
 }

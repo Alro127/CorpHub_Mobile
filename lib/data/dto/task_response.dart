@@ -1,8 +1,8 @@
 import 'package:ticket_helpdesk/const/ticket_prioriry.dart';
 import 'package:ticket_helpdesk/const/ticket_status.dart';
 import 'package:ticket_helpdesk/data/dto/project_response.dart';
-import 'package:ticket_helpdesk/domain/models/name_info.dart';
-import 'package:ticket_helpdesk/domain/models/ticket_category.dart';
+import 'package:ticket_helpdesk/data/dto/name_info.dart';
+import 'package:ticket_helpdesk/data/dto/ticket_category.dart';
 
 class TaskResponse {
   final String id;

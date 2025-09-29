@@ -1,15 +1,15 @@
 import 'package:ticket_helpdesk/const/ticket_prioriry.dart';
 import 'package:ticket_helpdesk/const/ticket_status.dart';
 import 'package:ticket_helpdesk/data/dto/department_dto.dart';
-import 'package:ticket_helpdesk/domain/models/name_info.dart';
-import 'package:ticket_helpdesk/domain/models/ticket_category.dart';
+import 'package:ticket_helpdesk/data/dto/name_info.dart';
+import 'package:ticket_helpdesk/data/dto/ticket_category.dart';
 
 class TicketResponse {
   final String id;
   final String title;
-  final String description;
+  String description;
   final TicketPriority priority;
-  final TicketStatus status;
+  TicketStatus status;
   final TicketCategory category;
   final NameInfo requester;
   final NameInfo? assignee;
@@ -68,5 +68,9 @@ class TicketResponse {
           ? DateTime.tryParse(json['assignedAt'])
           : null,
     );
+  }
+
+  TicketResponse? copyWith({required String description}) {
+    return null;
   }
 }

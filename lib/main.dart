@@ -4,6 +4,8 @@ import 'package:ticket_helpdesk/config/service_locator.dart';
 import 'package:ticket_helpdesk/ui/core/view_model/user_view_model.dart';
 import 'package:ticket_helpdesk/ui/login/view/login_page.dart';
 
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 void main() {
   setupLocator();
   runApp(
@@ -23,6 +25,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navigatorKey,
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.light(

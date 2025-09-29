@@ -1,5 +1,5 @@
 import 'package:ticket_helpdesk/data/repositories/user_repository.dart';
-import 'package:ticket_helpdesk/domain/models/name_info.dart';
+import 'package:ticket_helpdesk/data/dto/name_info.dart';
 
 class UserUseCases {
   final UserRepository repository;

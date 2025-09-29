@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ticket_helpdesk/config/service_locator.dart';
 import 'package:ticket_helpdesk/ui/core/widgets/head_bar.dart';
-import 'package:ticket_helpdesk/ui/core/widgets/side_bar.dart';
 import 'package:ticket_helpdesk/ui/profile/view_model/profile_view_model.dart';
 import 'package:ticket_helpdesk/ui/profile/widgets/editable_field.dart';
 
