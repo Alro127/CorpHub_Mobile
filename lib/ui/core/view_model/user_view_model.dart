@@ -9,10 +9,12 @@ class UserViewModel extends ChangeNotifier {
   }
   String? fullname;
   String? email;
+  String? id;
 
   Future<void> _loadUserInfo() async {
     fullname = await _storageService.getFullName();
     email = await _storageService.getEmail();
+    id = await _storageService.getMyId();
     notifyListeners();
   }
 }

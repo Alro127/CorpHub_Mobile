@@ -1,7 +1,7 @@
 // lib/data/repositories/user_repository.dart
 import 'package:ticket_helpdesk/data/api_service.dart';
 import 'package:ticket_helpdesk/data/dto/user_dto.dart';
-import 'package:ticket_helpdesk/domain/models/name_info.dart';
+import 'package:ticket_helpdesk/data/dto/name_info.dart';
 
 class UserRepository {
   final ApiService api;

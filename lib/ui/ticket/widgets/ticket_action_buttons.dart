@@ -31,8 +31,8 @@ class TicketActionButtons extends StatelessWidget {
                 await myTicketsViewModel.fetchTickets();
 
                 if (!context.mounted) return;
-                Navigator.pop(context);
-                Navigator.pop(context);
+                Navigator.pop(context, true);
+                Navigator.pop(context, true);
               }
             },
             style: ElevatedButton.styleFrom(

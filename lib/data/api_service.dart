@@ -1,8 +1,11 @@
 // lib/data/services/api_service.dart
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:ticket_helpdesk/config/api_config.dart';
 import 'package:ticket_helpdesk/data/dto/api_response.dart';
+import 'package:ticket_helpdesk/main.dart';
+import 'package:ticket_helpdesk/ui/login/view/login_page.dart';
 
 class ApiService {
   final String baseUrl;
@@ -40,8 +43,14 @@ class ApiService {
   }
 
   dynamic _processResponse(http.Response response) {
+    if (response.statusCode == 401 || response.statusCode == 403) {
+      navigatorKey.currentState?.pushAndRemoveUntil(
+        MaterialPageRoute(builder: (_) => const LoginPage()),
+        (route) => false,
+      );
+    }
     if (response.statusCode >= 200 && response.statusCode < 300) {
-      return response.body.isNotEmpty ? json.decode(response.body) : null;
+      return response.body.isNotEmpty ? json.decode(response.body) : response;
     } else {
       final Map<String, dynamic> jsonBody = json.decode(response.body);
       final apiResponse = ApiResponse.fromJson(jsonBody);

@@ -27,7 +27,7 @@ class TicketCategoryAndPriority extends StatelessWidget {
                         child: Text(category.categoryName),
                       );
                     }).toList(),
-                    onChanged: (value) => vm.setCategory(value),
+                    onChanged: (value) => vm.setCategory(value!),
                   ),
                 ),
         ),

@@ -1,8 +1,10 @@
+import 'package:ticket_helpdesk/const/ticket_prioriry.dart';
+
 class TicketRequest {
   final String? id;
   final String title;
   final String description;
-  final String priority;
+  final TicketPriority priority;
   final String categoryId;
   final String? assigneeId;
   final String departmentId;
@@ -21,7 +23,7 @@ class TicketRequest {
     final data = {
       'title': title,
       'description': description,
-      'priority': priority,
+      'priority': priority.name,
       'categoryId': categoryId,
       'assigneeId': assigneeId,
       'departmentId': departmentId,

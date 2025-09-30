@@ -14,7 +14,9 @@ import 'package:ticket_helpdesk/ui/core/view_model/user_view_model.dart';
 import 'package:ticket_helpdesk/ui/my_tickets/view_model/my_tickets_view_model.dart';
 import 'package:ticket_helpdesk/ui/login/view_model/login_view_model.dart';
 import 'package:ticket_helpdesk/ui/profile/view_model/profile_view_model.dart';
+import 'package:ticket_helpdesk/ui/ticket/view/ticket_details_view.dart';
 import 'package:ticket_helpdesk/ui/ticket/view_model/add_ticket_view_model.dart';
+import 'package:ticket_helpdesk/ui/ticket/view_model/ticket_details_view_model.dart';
 
 final GetIt getIt = GetIt.instance;
 
@@ -82,5 +84,8 @@ void setupLocator() {
   );
   getIt.registerFactory<ProfileViewModel>(
     () => ProfileViewModel(userUsecase: getIt<UserUseCases>()),
+  );
+  getIt.registerFactory<TicketDetailsViewModel>(
+    () => TicketDetailsViewModel(ticketUseCase: getIt<TicketUseCase>(), storageService: getIt<SecureStorageService>()),
   );
 }

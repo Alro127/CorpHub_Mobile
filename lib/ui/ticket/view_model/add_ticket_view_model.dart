@@ -1,12 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:ticket_helpdesk/const/ticket_prioriry.dart';
-import 'package:ticket_helpdesk/const/ticket_status.dart';
 import 'package:ticket_helpdesk/data/dto/ticket_request.dart';
 import 'package:ticket_helpdesk/data/dto/department_dto.dart';
-import 'package:ticket_helpdesk/data/local/secure_storage_service.dart';
-import 'package:ticket_helpdesk/domain/models/ticket_category.dart';
+import 'package:ticket_helpdesk/data/dto/ticket_category.dart';
 import 'package:ticket_helpdesk/domain/usecases/department_usecase.dart';
 import 'package:ticket_helpdesk/domain/usecases/ticket_usecases.dart';
 
@@ -36,15 +32,12 @@ class AddTicketViewModel extends ChangeNotifier {
 
   // Ticket properties
   TicketPriority priority = TicketPriority.MEDIUM;
-  TicketStatus status = TicketStatus.WAITING;
-  String ticketType = "Request";
   DateTime deadline = DateTime.now();
 
   List<TicketCategory> categories = [];
   List<DepartmentDto> departments = [];
-  String? selectedCategoryId;
-  String? assignedToId;
-  String? departmentId;
+  late String selectedCategoryId;
+  late String departmentId;
 
   bool loadingCategories = true;
   bool loadingUsers = true;
@@ -55,6 +48,8 @@ class AddTicketViewModel extends ChangeNotifier {
     try {
       categories = await _ticketUseCase.fetchCategories();
       departments = await _departmentUsecase.fetchDepartment();
+      departmentId = departments.first.id;
+      selectedCategoryId = categories.first.id;
     } catch (e) {
       errorMessage = e.toString();
     } finally {
@@ -65,12 +60,12 @@ class AddTicketViewModel extends ChangeNotifier {
   }
 
   // Dropdown setters
-  void setCategory(String? id) {
+  void setCategory(String id) {
     selectedCategoryId = id;
     notifyListeners();
   }
 
-  void setDepartment(String? id) {
+  void setDepartment(String id) {
     departmentId = id;
     notifyListeners();
   }
@@ -80,24 +75,14 @@ class AddTicketViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setStatus(TicketStatus value) {
-    status = value;
-    notifyListeners();
-  }
-
-  void setTicketType(String value) {
-    ticketType = value;
-    notifyListeners();
-  }
-
   Future<bool> saveTicketAction(BuildContext context) async {
     final ticket = TicketRequest(
       id: null,
       title: titleController.text,
       description: descriptionController.text,
-      priority: priority.name,
-      categoryId: selectedCategoryId ?? '',
-      departmentId: departmentId ?? 'D7BD4065-165E-48D9-85D7-7E7EEC8BD820',
+      priority: priority,
+      categoryId: selectedCategoryId,
+      departmentId: departmentId,
     );
 
     bool success = await _saveTicket(ticket);

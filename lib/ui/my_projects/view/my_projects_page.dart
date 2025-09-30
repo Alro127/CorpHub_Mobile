@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ticket_helpdesk/domain/models/project.dart';
+import 'package:ticket_helpdesk/data/dto/project.dart';
 import 'package:ticket_helpdesk/ui/core/widgets/head_bar.dart';
 import 'package:ticket_helpdesk/ui/core/widgets/side_bar.dart';
 import 'package:ticket_helpdesk/ui/my_projects/widgets/project_item.dart';

@@ -82,7 +82,7 @@ class _AddNewTicketState extends State<AddNewTicket> {
                                   child: Text(department.name),
                                 );
                               }).toList(),
-                              onChanged: (value) => vm.setDepartment(value),
+                              onChanged: (value) => vm.setDepartment(value!),
                             ),
                           ),
                     const SizedBox(height: 16),
